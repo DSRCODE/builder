@@ -511,6 +511,98 @@
         "d5": "Payemnt log added successfully",
         "d6": "Paield to add the paymet log "
       }
+    },
+    "whatsapp_model": {
+      "wh_reminder": "Send WhatsApp Reminder - ",
+      "payment_reminder": "Send a payment reminder via WhatsApp with current payment status",
+      "owner_info": "Owner Information",
+      "name": "Name:",
+      "Site": "Site:",
+      "Phone": "Phone:",
+      "total_recived": "Total Received:",
+      "loading": "Loading...",
+      "wh_ohn_no": "WhatsApp Phone Number",
+      "cntry_cod": "Include country code (e.g., 91 for India)",
+      "reminder_msg": "Reminder Message",
+      "reset": "Reset",
+      "copy": "Copy",
+      "textarea_text": "Enter your reminder message...",
+      "send_via_wh": "Send via Whatsapp",
+      "cancel": "Cancel",
+      "no_payment_recorded": "No payments have been recorded yet.",
+      "have_received": "We have received ₹",
+      "so_far": "so far",
+      "hlo": "Hello",
+      "friendly_reminder": "This is a friendly reminder regarding your project at",
+      "msg": "The total amount received to date is ₹",
+      "msg1": "Please let us know if you have any questions. Thank you, D constructions.",
+      "er": "Error",
+      "suc": "Success",
+      "no_re": "Phone number is required",
+      "msg_empty": "Message cannot be empty",
+      "wh_open": "WhatsApp opened with reminder message",
+      "msg_copied": "Message copied to clipboard",
+      "msg_copy_fail": "Failed to copy message",
+      "preview": "Preview",
+      "edit": "Edit"
+    },
+    "add_owner_modal": {
+      "title": "Add New Owner",
+      "description": "Add a new owner and associate them with a construction site.",
+      "form_labels": {
+        "site": "Site *",
+        "owner_name": "Owner Name *",
+        "phone_number": "Phone Number *"
+      },
+      "placeholders": {
+        "select_site": "Select a site",
+        "owner_name": "e.g., Shivaji, Rajesh, Suresh",
+        "phone_number": "919876113200"
+      },
+      "phone_number_note": "Enter phone number with country code (e.g., 919876113200)",
+      "buttons": {
+        "cancel": "Cancel",
+        "add_owner": "Add Owner",
+        "adding": "Adding..."
+      },
+      "validation_messages": {
+        "required_fields": "Please fill in all required fields",
+        "invalid_phone": "Please enter a valid phone number"
+      },
+      "loading": "Loading...",
+      "failed_to_load_sites": "Failed to load sites:",
+      "er1": "Please enter a valid phone number",
+      "er2": "Please fill in all required fields"
+    },
+    "edit_owner_modal": {
+      "title": "Edit Owner",
+      "description": "Update the owner details for the selected record.",
+      "form_labels": {
+        "site": "Site *",
+        "owner_name": "Owner Name *",
+        "phone_number": "Phone Number *"
+      },
+      "placeholders": {
+        "select_site": "Select a site",
+        "owner_name": "e.g., Shivaji, Rajesh, Suresh",
+        "phone_number": "919876113200"
+      },
+      "phone_number_note": "Enter phone number with country code (e.g., 919876113200)",
+      "buttons": {
+        "cancel": "Cancel",
+        "update_owner": "Update Owner",
+        "updating": "Updating..."
+      },
+      "loading_owner_details": "Loading owner details...",
+      "loading_sites_skeleton": "Loading site options...",
+      "error_failed_load_sites": "Failed to load sites:",
+      "error_failed_load_owner": "Failed to load owner details.",
+      "validation": {
+        "no_owner_selected": "No owner selected for editing",
+        "required_fields": "Please fill in all required fields",
+        "invalid_phone_number": "Please enter a valid phone number"
+      },
+      "error_generic_update_fail": "Failed to update owner details:"
     }
   },
   "expens": {

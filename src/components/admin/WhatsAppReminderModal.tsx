@@ -20,6 +20,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { useOwnerPaymentLogs } from "@/hooks/useOwnerPaymentLogs";
+import { useTranslation } from "react-i18next";
 
 interface WhatsAppReminderModalProps {
   isOpen: boolean;
@@ -40,12 +41,14 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
   siteName,
 }) => {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [customMessage, setCustomMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isEditingMessage, setIsEditingMessage] = useState(false);
 
   // Fetch payment logs to calculate total received
-  const { data: paymentsResponse, isLoading: paymentsLoading } = useOwnerPaymentLogs(owner.id);
+  const { data: paymentsResponse, isLoading: paymentsLoading } =
+    useOwnerPaymentLogs(owner.id);
   const payments = paymentsResponse?.data || [];
 
   // Calculate total received amount
@@ -55,22 +58,33 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
 
   // Format phone number
   const formatPhoneNumber = (phone_number: string) => {
-    let formatted = phone_number?.replace(/\D/g, '') || '';
-    if (formatted.startsWith('0')) {
-      formatted = '91' + formatted.substring(1);
-    } else if (!formatted.startsWith('91') && formatted.length === 10) {
-      formatted = '91' + formatted;
+    let formatted = phone_number?.replace(/\D/g, "") || "";
+    if (formatted.startsWith("0")) {
+      formatted = "91" + formatted.substring(1);
+    } else if (!formatted.startsWith("91") && formatted.length === 10) {
+      formatted = "91" + formatted;
     }
     return formatted;
   };
 
   // Generate default message
   const generateDefaultMessage = () => {
-    const paymentStatus = totalReceived === 0 
-      ? 'No payments have been recorded yet.' 
-      : `We have received ₹${totalReceived.toLocaleString('en-IN')} so far.`;
+    const paymentStatus =
+      totalReceived === 0
+        ? `${t("owner.whatsapp_model.no_payment_recorded")}`
+        : `${t(
+            "owner.whatsapp_model.have_received"
+          )}${totalReceived.toLocaleString("en-IN")}${t(
+            "owner.whatsapp_model.so_far"
+          )}`;
 
-    return `Hello ${owner.name}. This is a friendly reminder regarding your project at ${siteName}. ${paymentStatus} The total amount received to date is ₹${totalReceived.toLocaleString('en-IN')}. Please let us know if you have any questions. Thank you, D constructions.`;
+    return `${t("owner.whatsapp_model.hlo")} ${owner.name}. ${t(
+      "owner.whatsapp_model.friendly_reminder"
+    )} ${siteName}. ${paymentStatus} ${t(
+      "owner.whatsapp_model.msg"
+    )}${totalReceived.toLocaleString("en-IN")}. ${t(
+      "owner.whatsapp_model.msg1"
+    )}`;
   };
 
   // Initialize form data when modal opens
@@ -86,8 +100,8 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
   const handleSendWhatsApp = () => {
     if (!phoneNumber) {
       toast({
-        title: "Error",
-        description: "Phone number is required",
+        title: `${t("owner.whatsapp_model.er")}`,
+        description: `${t("owner.whatsapp_model.no.re")}`,
         variant: "destructive",
       });
       return;
@@ -95,8 +109,8 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
 
     if (!customMessage.trim()) {
       toast({
-        title: "Error",
-        description: "Message cannot be empty",
+        title: `${t("owner.whatsapp_model.er")}`,
+        description: `${t("owner.whatsapp_model.msg_empty")}`,
         variant: "destructive",
       });
       return;
@@ -104,16 +118,16 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
 
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(customMessage);
-    
+
     // Create WhatsApp URL
     const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodedMessage}&type=phone_number&app_absent=0`;
-    
+
     // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, "_blank");
 
     toast({
-      title: "Success",
-      description: "WhatsApp opened with reminder message",
+      title: `${t("owner.whatsapp_model.suc")}`,
+      description: `${t("owner.whatsapp_model.wh_open")}`,
     });
 
     onClose();
@@ -124,13 +138,13 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
     try {
       await navigator.clipboard.writeText(customMessage);
       toast({
-        title: "Success",
-        description: "Message copied to clipboard",
+        title: `${t("owner.whatsapp_model.suc")}`,
+        description: `${t("owner.whatsapp_model.msg_copied")}`,
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to copy message",
+        title: `${t("owner.whatsapp_model.er")}`,
+        description: `${t("owner.whatsapp_model.msg_copy_fail")}`,
         variant: "destructive",
       });
     }
@@ -148,34 +162,56 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <MessageSquare className="h-5 w-5" />
-            Send WhatsApp Reminder - {owner.name}
+            {t("owner.whatsapp_model.wh_reminder")}
+            {owner.name}
           </DialogTitle>
           <DialogDescription>
-            Send a payment reminder via WhatsApp with current payment status
+            {t("owner.whatsapp_model.payment_reminder")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Owner and Payment Info */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="font-semibold mb-2">Owner Information</h3>
+            <h3 className="font-semibold mb-2">
+              {" "}
+              {t("owner.whatsapp_model.owner_info")}
+            </h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium">Name:</span> {owner.name}
+                <span className="font-medium">
+                  {" "}
+                  {t("owner.whatsapp_model.name")}
+                </span>{" "}
+                {owner.name}
               </div>
               <div>
-                <span className="font-medium">Site:</span> {siteName}
+                <span className="font-medium">
+                  {" "}
+                  {t("owner.whatsapp_model.Site")}
+                </span>{" "}
+                {siteName}
               </div>
               <div>
-                <span className="font-medium">Phone:</span> {owner.phone_number}
+                <span className="font-medium">
+                  {" "}
+                  {t("owner.whatsapp_model.Phone")}
+                </span>{" "}
+                {owner.phone_number}
               </div>
               <div>
-                <span className="font-medium">Total Received:</span>{" "}
+                <span className="font-medium">
+                  {" "}
+                  {t("owner.whatsapp_model.total_recived")}
+                </span>{" "}
                 {paymentsLoading ? (
-                  <span className="text-gray-500">Loading...</span>
+                  <span className="text-gray-500">
+                    {" "}
+                    {t("owner.whatsapp_model.loading")}
+                  </span>
                 ) : (
                   <span className="font-semibold text-green-600">
-                    ₹{totalReceived.toLocaleString('en-IN')}
+                    ₹{totalReceived.toLocaleString("en-IN")}
                   </span>
                 )}
               </div>
@@ -184,7 +220,10 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
 
           {/* Phone Number */}
           <div>
-            <Label htmlFor="phone">WhatsApp Phone Number</Label>
+            <Label htmlFor="phone">
+              {" "}
+              {t("owner.whatsapp_model.wh_ohn_no")}
+            </Label>
             <div className="flex gap-2 mt-1">
               <Input
                 id="phone"
@@ -196,20 +235,24 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setPhoneNumber(formatPhoneNumber(owner.phone_number))}
+                onClick={() =>
+                  setPhoneNumber(formatPhoneNumber(owner.phone_number))
+                }
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              Include country code (e.g., 91 for India)
+              {t("owner.whatsapp_model.cntry_cod")}
             </p>
           </div>
 
           {/* Message */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <Label htmlFor="message">Reminder Message</Label>
+              <Label htmlFor="message">
+                {t("owner.whatsapp_model.reminder_msg")}
+              </Label>
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -217,7 +260,9 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
                   onClick={() => setIsEditingMessage(!isEditingMessage)}
                 >
                   <Edit className="h-4 w-4 mr-1" />
-                  {isEditingMessage ? "Preview" : "Edit"}
+                  {isEditingMessage
+                    ? `${t("owner.whatsapp_model.preview")}`
+                    : `${t("owner.whatsapp_model.edit")}`}
                 </Button>
                 <Button
                   variant="outline"
@@ -225,15 +270,11 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
                   onClick={handleResetMessage}
                 >
                   <RefreshCw className="h-4 w-4 mr-1" />
-                  Reset
+                  {t("owner.whatsapp_model.reset")}
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCopyMessage}
-                >
+                <Button variant="outline" size="sm" onClick={handleCopyMessage}>
                   <Copy className="h-4 w-4 mr-1" />
-                  Copy
+                  {t("owner.whatsapp_model.copy")}
                 </Button>
               </div>
             </div>
@@ -244,7 +285,7 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
                 rows={6}
-                placeholder="Enter your reminder message..."
+                placeholder={t("owner.whatsapp_model.textarea_text")}
               />
             ) : (
               <div className="border rounded-md p-3 bg-gray-50 min-h-[120px] whitespace-pre-wrap">
@@ -261,10 +302,10 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
               disabled={!phoneNumber || !customMessage.trim()}
             >
               <Phone className="h-4 w-4 mr-2" />
-              Send via WhatsApp
+              {t("owner.whatsapp_model.send_via_wh")}
             </Button>
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              {t("owner.whatsapp_model.cancel")}
             </Button>
           </div>
 

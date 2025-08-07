@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,6 +24,7 @@ import { useCreateOwner } from "@/hooks/useOwners";
 import { useConstructionSites } from "@/hooks/useConstructionSites";
 import { OwnerFormData } from "@/types/owner";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 interface AddOwnerModalProps {
   open: boolean;
@@ -32,50 +33,54 @@ interface AddOwnerModalProps {
 
 export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
   const createOwner = useCreateOwner();
-  const { data: sitesResponse, isLoading: sitesLoading, error: sitesError } = useConstructionSites();
-  
+  const {
+    data: sitesResponse,
+    isLoading: sitesLoading,
+    error: sitesError,
+  } = useConstructionSites();
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState<OwnerFormData>({
     site_id: "",
     name: "",
-    phone_number: ""
+    phone_number: "",
   });
 
   const handleInputChange = (field: keyof OwnerFormData, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.site_id || !formData.name || !formData.phone_number) {
-      toast.error("Please fill in all required fields");
+      toast.error(`${t("owner.add_owner_modal.er2")}`);
       return;
     }
 
     // Validate phone number (basic validation)
     const phoneRegex = /^[0-9]{10,15}$/;
-    if (!phoneRegex.test(formData.phone_number.replace(/\D/g, ''))) {
-      toast.error("Please enter a valid phone number");
+    if (!phoneRegex.test(formData.phone_number.replace(/\D/g, ""))) {
+      toast.error(`${t("owner.add_owner_modal.er1")}`);
       return;
     }
 
     try {
       await createOwner.mutateAsync(formData);
-      
+
       // Reset form and close modal on success
       setFormData({
         site_id: "",
         name: "",
-        phone_number: ""
+        phone_number: "",
       });
       onOpenChange(false);
-      
     } catch (error) {
-      console.error('Failed to create owner:', error);
+      console.error("Failed to create owner:", error);
     }
   };
 
@@ -84,7 +89,7 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
     setFormData({
       site_id: "",
       name: "",
-      phone_number: ""
+      phone_number: "",
     });
     onOpenChange(false);
   };
@@ -95,23 +100,26 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Owner</DialogTitle>
+          <DialogTitle>{t("owner.add_owner_modal.title")}</DialogTitle>
           <DialogDescription>
-            Add a new owner and associate them with a construction site.
+            {t("owner.add_owner_modal.description")}
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Site Selection */}
           <div className="space-y-2">
-            <Label htmlFor="site_id">Site *</Label>
+            <Label htmlFor="site_id">
+              {t("owner.add_owner_modal.form_labels.site")}
+            </Label>
             {sitesLoading ? (
               <Skeleton className="h-10 w-full" />
             ) : sitesError ? (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
-                  Failed to load sites: {sitesError.message}
+                  {t("owner.add_owner_modal.failed_to_load_sites")}
+                  {sitesError.message}
                 </AlertDescription>
               </Alert>
             ) : (
@@ -120,14 +128,20 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
                 onValueChange={(value) => handleInputChange("site_id", value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a site" />
+                  <SelectValue
+                    placeholder={t(
+                      "owner.add_owner_modal.placeholders.select_site"
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {sites.map((site) => (
                     <SelectItem key={site.id} value={site.id.toString()}>
                       <div>
                         <div className="font-medium">{site.site_name}</div>
-                        <div className="text-xs text-muted-foreground">{site.address}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {site.address}
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           {site.business.name} • {site.currency}
                         </div>
@@ -141,27 +155,34 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
 
           {/* Owner Name */}
           <div className="space-y-2">
-            <Label htmlFor="name">Owner Name *</Label>
+            <Label htmlFor="name">
+              {t("owner.add_owner_modal.form_labels.owner_name")}
+            </Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
-              placeholder="e.g., Shivaji, Rajesh, Suresh"
+              placeholder={t("owner.add_owner_modal.placeholders.owner_name")}
             />
           </div>
 
           {/* Phone Number */}
           <div className="space-y-2">
-            <Label htmlFor="phone_number">Phone Number *</Label>
+            <Label htmlFor="phone_number">
+              {" "}
+              {t("owner.add_owner_modal.form_labels.phone_number")}
+            </Label>
             <Input
               id="phone_number"
               type="tel"
               value={formData.phone_number}
-              onChange={(e) => handleInputChange("phone_number", e.target.value)}
+              onChange={(e) =>
+                handleInputChange("phone_number", e.target.value)
+              }
               placeholder="919876113200"
             />
             <p className="text-xs text-muted-foreground">
-              Enter phone number with country code (e.g., 919876113200)
+              {t("owner.add_owner_modal.phone_number_note")}
             </p>
           </div>
 
@@ -172,7 +193,7 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
               onClick={handleCancel}
               disabled={createOwner.isPending}
             >
-              Cancel
+              {t("owner.add_owner_modal.buttons.cancel")}
             </Button>
             <Button
               type="submit"
@@ -181,7 +202,10 @@ export function AddOwnerModal({ open, onOpenChange }: AddOwnerModalProps) {
               {createOwner.isPending && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {createOwner.isPending ? 'Adding...' : 'Add Owner'}
+
+              {createOwner.isPending
+                ? `${t("owner.add_owner_modal.buttons.adding")}`
+                : `${t("owner.add_owner_modal.buttons.add_owner")}`}
             </Button>
           </DialogFooter>
         </form>

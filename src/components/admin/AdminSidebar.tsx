@@ -35,7 +35,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/authContext";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { getSelectedSiteId, setSelectedSiteId as saveSelectedSiteId } from "@/utils/siteUtils";
+import {
+  getSelectedSiteId,
+  setSelectedSiteId as saveSelectedSiteId,
+} from "@/utils/siteUtils";
 import api from "@/lib/api";
 
 interface Site {
@@ -70,31 +73,32 @@ export function AdminSidebar() {
   const fetchSites = async () => {
     setLoading(true);
     try {
-      const {data} = await api('/construction-sites');
-     
-        setSites(data.data);
-      
+      const { data } = await api("/construction-sites");
+
+      setSites(data.data);
     } catch (error) {
-      console.error('Error fetching sites:', error);
+      console.error("Error fetching sites:", error);
     } finally {
       setLoading(false);
     }
   };
 
   // Load sites on component mount
-  useEffect(() => {
-    fetchSites();
-  }, []);
+  // useEffect(() => {
+  //   fetchSites();
+  // }, []);
 
   // Handle site selection
   const handleSiteChange = (siteId: string) => {
     setSelectedSiteId(siteId);
     saveSelectedSiteId(siteId);
-    
+
     // Dispatch custom event for other components to listen to
-    window.dispatchEvent(new CustomEvent('siteChanged', { 
-      detail: { siteId } 
-    }));
+    window.dispatchEvent(
+      new CustomEvent("siteChanged", {
+        detail: { siteId },
+      })
+    );
   };
   const menuItems = [
     {
@@ -193,7 +197,7 @@ export function AdminSidebar() {
 
       <SidebarFooter className="p-4 bg-foreground">
         {/* Site Selection Dropdown */}
-        {!collapsed && (
+        {/* {!collapsed && (
           <div className="mb-3">
             <label className="text-xs text-muted-foreground mb-2 block">
               Select Site
@@ -212,23 +216,23 @@ export function AdminSidebar() {
                   <SelectItem key={site.id} value={site.id.toString()}>
                     <div className="flex flex-col">
                       <span className="font-medium">{site.site_name}</span>
-                     
                     </div>
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-        )}
-        
+        )} */}
+
         {/* Collapsed state site indicator */}
-        {collapsed && (
+        {/* {collapsed && (
           <div className="mb-3 flex justify-center">
             <div className="w-8 h-8 rounded bg-background/10 flex items-center justify-center">
               <Building className="h-4 w-4 text-muted-foreground" />
             </div>
           </div>
-        )}        <Button
+        )} */}
+        <Button
           onClick={logout}
           variant="ghost"
           className="w-full justify-start text-muted-foreground hover:text-foreground"
