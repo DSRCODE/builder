@@ -1193,14 +1193,14 @@ function AdminContent() {
     e.preventDefault();
 
     // Check if maximum plans reached
-    if (pricingPlans.length >= 3) {
-      toast({
-        title: "Maximum Plans Reached",
-        description: "You can only have a maximum of 3 pricing plans",
-        variant: "destructive",
-      });
-      return;
-    }
+    // if (pricingPlans.length >= 3) {
+    //   toast({
+    //     title: "Maximum Plans Reached",
+    //     description: "You can only have a maximum of 3 pricing plans",
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
 
     // Validation
     if (

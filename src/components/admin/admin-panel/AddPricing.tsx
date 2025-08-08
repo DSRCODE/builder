@@ -27,7 +27,6 @@ const AddPricing = ({
   pricingFormData,
   handlePricingInputChange,
 }) => {
-  console.log(pricingPlans)
   return (
     <Dialog
       open={isAddPricingModalOpen}

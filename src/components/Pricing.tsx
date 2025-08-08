@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { Check, Star, Loader2, Users, Building2, AlertCircle } from "lucide-react";
+import {
+  Check,
+  Star,
+  Loader2,
+  Users,
+  Building2,
+  AlertCircle,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useState } from "react";
+import { useAuth } from "@/contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 interface Package {
   id: number;
@@ -35,11 +44,27 @@ interface PackagesResponse {
 }
 
 const Pricing = () => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+    "monthly"
+  );
   const { t } = useTranslation();
+  const { user } = useAuth();
+  console.log(user);
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    if (user === null) {
+      navigate("/login");
+    }
+  };
 
   // Fetch packages from API
-  const { data: packagesData, isLoading, isError, error } = useQuery<PackagesResponse>({
+  const {
+    data: packagesData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<PackagesResponse>({
     queryKey: ["packages"],
     queryFn: async () => {
       const response = await api.get("/package-list");
@@ -54,7 +79,10 @@ const Pricing = () => {
     return parseFloat(price).toLocaleString();
   };
 
-  const calculateYearlySavings = (monthlyPrice: string, yearlyPrice: string) => {
+  const calculateYearlySavings = (
+    monthlyPrice: string,
+    yearlyPrice: string
+  ) => {
     const monthly = parseFloat(monthlyPrice) * 12;
     const yearly = parseFloat(yearlyPrice);
     const savings = monthly - yearly;
@@ -73,14 +101,18 @@ const Pricing = () => {
 
   if (isLoading) {
     return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-background to-muted/20">
+      <section
+        id="pricing"
+        className="py-20 bg-gradient-to-b from-background to-muted/20"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Choose Your Plan
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams of all sizes
+              Scale your construction management with plans designed for teams
+              of all sizes
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
@@ -96,14 +128,18 @@ const Pricing = () => {
 
   if (isError) {
     return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-background to-muted/20">
+      <section
+        id="pricing"
+        className="py-20 bg-gradient-to-b from-background to-muted/20"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Choose Your Plan
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams of all sizes
+              Scale your construction management with plans designed for teams
+              of all sizes
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
@@ -111,7 +147,9 @@ const Pricing = () => {
               <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
               <p className="text-red-600 mb-2">Error loading pricing plans</p>
               <p className="text-sm text-muted-foreground">
-                {error instanceof Error ? error.message : 'Please try again later'}
+                {error instanceof Error
+                  ? error.message
+                  : "Please try again later"}
               </p>
             </div>
           </div>
@@ -122,14 +160,18 @@ const Pricing = () => {
 
   if (packages.length === 0) {
     return (
-      <section id="pricing" className="py-20 bg-gradient-to-b from-background to-muted/20">
+      <section
+        id="pricing"
+        className="py-20 bg-gradient-to-b from-background to-muted/20"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Choose Your Plan
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams of all sizes
+              Scale your construction management with plans designed for teams
+              of all sizes
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
@@ -147,7 +189,10 @@ const Pricing = () => {
   }
 
   return (
-    <section id="pricing" className="py-20 bg-gradient-to-b from-background to-muted/20">
+    <section
+      id="pricing"
+      className="py-20 bg-gradient-to-b from-background to-muted/20"
+    >
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -160,30 +205,47 @@ const Pricing = () => {
             Choose Your Plan
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Scale your construction management with plans designed for teams of all sizes
+            Scale your construction management with plans designed for teams of
+            all sizes
           </p>
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className={`text-sm ${billingCycle === 'monthly' ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
+            <span
+              className={`text-sm ${
+                billingCycle === "monthly"
+                  ? "text-primary font-medium"
+                  : "text-muted-foreground"
+              }`}
+            >
               Monthly
             </span>
             <button
-              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              onClick={() =>
+                setBillingCycle(
+                  billingCycle === "monthly" ? "yearly" : "monthly"
+                )
+              }
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                billingCycle === 'yearly' ? 'bg-primary' : 'bg-gray-200'
+                billingCycle === "yearly" ? "bg-primary" : "bg-gray-200"
               }`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
+                  billingCycle === "yearly" ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
-            <span className={`text-sm ${billingCycle === 'yearly' ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
+            <span
+              className={`text-sm ${
+                billingCycle === "yearly"
+                  ? "text-primary font-medium"
+                  : "text-muted-foreground"
+              }`}
+            >
               Yearly
             </span>
-            {billingCycle === 'yearly' && (
+            {billingCycle === "yearly" && (
               <Badge variant="secondary" className="ml-2">
                 Save up to 20%
               </Badge>
@@ -191,17 +253,25 @@ const Pricing = () => {
           </div>
         </motion.div>
 
-        <div className={`grid gap-8 max-w-7xl mx-auto ${
-          packages.length === 1 ? 'md:grid-cols-1 max-w-md' :
-          packages.length === 2 ? 'md:grid-cols-2 max-w-4xl' :
-          'md:grid-cols-3'
-        }`}>
+        <div
+          className={`grid gap-8 max-w-7xl mx-auto ${
+            packages.length === 1
+              ? "md:grid-cols-1 max-w-md"
+              : packages.length === 2
+              ? "md:grid-cols-2 max-w-4xl"
+              : "md:grid-cols-3"
+          }`}
+        >
           {packages.map((pkg, index) => {
             const isPopular = popularPackage?.id === pkg.id;
-            const { savings, percentage } = calculateYearlySavings(pkg.monthly_price, pkg.yearly_price);
-            const currentPrice = billingCycle === 'monthly' ? pkg.monthly_price : pkg.yearly_price;
-            const priceLabel = billingCycle === 'monthly' ? '/month' : '/year';
-console.log(isPopular)
+            const { savings, percentage } = calculateYearlySavings(
+              pkg.monthly_price,
+              pkg.yearly_price
+            );
+            const currentPrice =
+              billingCycle === "monthly" ? pkg.monthly_price : pkg.yearly_price;
+            const priceLabel = billingCycle === "monthly" ? "/month" : "/year";
+            console.log(isPopular);
             return (
               <motion.div
                 key={pkg.id}
@@ -357,6 +427,7 @@ console.log(isPopular)
                           ? "bg-primary hover:bg-primary-glow"
                           : "bg-primary/70 hover:bg-primary-glow"
                       }`}
+                      onClick={() => handleNavigation()}
                     >
                       Get Started
                     </Button>
@@ -375,7 +446,10 @@ console.log(isPopular)
           className="text-center mt-12"
         >
           <p className="text-muted-foreground">
-            Need a custom solution? <span className="text-primary font-medium cursor-pointer hover:underline">Contact our sales team</span>
+            Need a custom solution?{" "}
+            <span className="text-primary font-medium cursor-pointer hover:underline">
+              Contact our sales team
+            </span>
           </p>
         </motion.div>
       </div>
