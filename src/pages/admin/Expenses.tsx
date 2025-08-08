@@ -462,7 +462,7 @@ export function Expenses() {
     const supervisor = membersData.data.find(
       (member) => member.id.toString() === cashLogFormData.user_id
     );
-    return supervisor ? supervisor.name : "";
+    return supervisor ? supervisor?.name : "";
   };
 
   const handleEditSubmit = (e: React.FormEvent) => {
@@ -600,16 +600,16 @@ export function Expenses() {
                               <div className="flex items-center space-x-2">
                                 <img
                                   src={member.image}
-                                  alt={member.name}
+                                  alt={member?.name}
                                   className="w-6 h-6 rounded-full"
                                 />
                                 <div>
                                   <span className="font-medium">
-                                    {member.name}
+                                    {member?.name}
                                   </span>
-                                  {member.phone_number && (
+                                  {member?.phone_number && (
                                     <span className="text-sm text-muted-foreground ml-2">
-                                      ({member.phone_number})
+                                      ({member?.phone_number})
                                     </span>
                                   )}
                                 </div>
@@ -650,7 +650,7 @@ export function Expenses() {
                       ) : constructionSitesData?.data?.length > 0 ? (
                         constructionSitesData.data.map((site) => (
                           <SelectItem key={site.id} value={site.id.toString()}>
-                            {site.site_name} - {site.location}
+                            {site?.site_name} - {site?.location}
                           </SelectItem>
                         ))
                       ) : (
@@ -786,7 +786,7 @@ export function Expenses() {
                           key={category.id}
                           value={category.id.toString()}
                         >
-                          {category.name}
+                          {category?.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -959,10 +959,10 @@ export function Expenses() {
                             <Badge
                               variant="secondary"
                               className={getCategoryColor(
-                                expense.category.name
+                                expense?.category?.name
                               )}
                             >
-                              {expense.category.name}
+                              {expense?.category?.name}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -982,11 +982,11 @@ export function Expenses() {
                             <div className="flex items-center gap-2">
                               <img
                                 src={expense.creator.image}
-                                alt={expense.creator.name}
+                                alt={expense?.creator?.name}
                                 className="w-6 h-6 rounded-full"
                               />
                               <span className="text-sm">
-                                {expense.creator.name}
+                                {expense?.creator?.name}
                               </span>
                             </div>
                           </TableCell>
@@ -1097,7 +1097,7 @@ export function Expenses() {
                                               key={category.id}
                                               value={category.id.toString()}
                                             >
-                                              {category.name}
+                                              {category?.name}
                                             </SelectItem>
                                           ))}
                                         </SelectContent>
@@ -1316,9 +1316,9 @@ export function Expenses() {
                       </div>
                       <Badge
                         variant="secondary"
-                        className={getCategoryColor(expense.category.name)}
+                        className={getCategoryColor(expense?.category?.name)}
                       >
-                        {expense.category.name}
+                        {expense?.category?.name}
                       </Badge>
                     </div>
 
@@ -1337,10 +1337,10 @@ export function Expenses() {
                     <div className="mt-3 flex items-center gap-2 text-sm">
                       <img
                         src={expense.creator.image}
-                        alt={expense.creator.name}
+                        alt={expense?.creator?.name}
                         className="w-6 h-6 rounded-full"
                       />
-                      <span>{expense.creator.name}</span>
+                      <span>{expense?.creator?.name}</span>
                     </div>
 
                     <div className="mt-3 flex justify-between items-center font-bold">
