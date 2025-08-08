@@ -294,6 +294,9 @@ export function Expenses() {
   };
 
   const getCategoryColor = (category: string) => {
+    if (!category || typeof category !== "string") {
+      return "bg-gray-100 text-gray-800";
+    }
     switch (category.toLowerCase()) {
       case "utilities":
         return "bg-blue-100 text-blue-800";
@@ -759,7 +762,7 @@ export function Expenses() {
                     <SelectContent>
                       {sites.map((site) => (
                         <SelectItem key={site.id} value={site.id.toString()}>
-                          {site.site_name} - {site.address}
+                          {site?.site_name} - {site?.address}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -1063,7 +1066,8 @@ export function Expenses() {
                                               key={site.id}
                                               value={site.id.toString()}
                                             >
-                                              {site?.site_name} - {site?.address}
+                                              {site?.site_name} -{" "}
+                                              {site?.address}
                                             </SelectItem>
                                           ))}
                                         </SelectContent>
