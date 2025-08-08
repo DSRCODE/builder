@@ -600,12 +600,12 @@ export function Expenses() {
                               <div className="flex items-center space-x-2">
                                 <img
                                   src={member.image}
-                                  alt={member?.name}
+                                  alt={member?.name ?? ""}
                                   className="w-6 h-6 rounded-full"
                                 />
                                 <div>
                                   <span className="font-medium">
-                                    {member?.name}
+                                    {member?.name ?? ""}
                                   </span>
                                   {member?.phone_number && (
                                     <span className="text-sm text-muted-foreground ml-2">
@@ -786,7 +786,7 @@ export function Expenses() {
                           key={category.id}
                           value={category.id.toString()}
                         >
-                          {category?.name}
+                          {category?.name ?? ""}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -943,7 +943,7 @@ export function Expenses() {
                             {expense.site ? (
                               <div>
                                 <span className="text-blue-600 font-medium">
-                                  {expense.site.site_name}
+                                  {expense?.site?.site_name}
                                 </span>
                                 <p className="text-xs text-gray-500">
                                   {expense.site.address}
@@ -962,7 +962,7 @@ export function Expenses() {
                                 expense?.category?.name
                               )}
                             >
-                              {expense?.category?.name}
+                              {expense?.category?.name ?? ""}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -982,11 +982,11 @@ export function Expenses() {
                             <div className="flex items-center gap-2">
                               <img
                                 src={expense.creator.image}
-                                alt={expense?.creator?.name}
+                                alt={expense?.creator?.name ?? ""}
                                 className="w-6 h-6 rounded-full"
                               />
                               <span className="text-sm">
-                                {expense?.creator?.name}
+                                {expense?.creator?.name ?? ""}
                               </span>
                             </div>
                           </TableCell>
@@ -1028,7 +1028,7 @@ export function Expenses() {
                                     </DialogTitle>
                                     <DialogDescription>
                                       {t("expens.buttons.edit_exp_details")}{" "}
-                                      {expense.description}
+                                      {expense?.description}
                                     </DialogDescription>
                                   </DialogHeader>
 
@@ -1063,7 +1063,7 @@ export function Expenses() {
                                               key={site.id}
                                               value={site.id.toString()}
                                             >
-                                              {site.site_name} - {site.address}
+                                              {site?.site_name} - {site?.address}
                                             </SelectItem>
                                           ))}
                                         </SelectContent>
@@ -1097,7 +1097,7 @@ export function Expenses() {
                                               key={category.id}
                                               value={category.id.toString()}
                                             >
-                                              {category?.name}
+                                              {category?.name ?? ""}
                                             </SelectItem>
                                           ))}
                                         </SelectContent>
@@ -1307,18 +1307,18 @@ export function Expenses() {
                           {formatDate(expense.date)}
                         </p>
                         <h2 className="text-lg font-semibold">
-                          {expense.site?.site_name ||
+                          {expense?.site?.site_name ||
                             t("expens.status.no_site_assigned")}
                         </h2>
                         <p className="text-sm text-gray-500">
-                          {expense.site?.address}
+                          {expense?.site?.address}
                         </p>
                       </div>
                       <Badge
                         variant="secondary"
                         className={getCategoryColor(expense?.category?.name)}
                       >
-                        {expense?.category?.name}
+                        {expense?.category?.name ?? ""}
                       </Badge>
                     </div>
 
