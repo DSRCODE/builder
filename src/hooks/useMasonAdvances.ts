@@ -1,13 +1,17 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { masonAdvanceService } from '@/services/masonAdvanceService';
-import { MasonAdvanceFormData, MasonAdvancesResponse, MasonAdvance } from '@/types/masonAdvance';
-import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { masonAdvanceService } from "@/services/masonAdvanceService";
+import {
+  MasonAdvanceFormData,
+  MasonAdvancesResponse,
+  MasonAdvance,
+} from "@/types/masonAdvance";
+import { toast } from "sonner";
 
 // Query keys for consistent caching
 export const MASON_ADVANCES_QUERY_KEYS = {
-  all: ['masonAdvances'] as const,
-  lists: () => [...MASON_ADVANCES_QUERY_KEYS.all, 'list'] as const,
-  details: () => [...MASON_ADVANCES_QUERY_KEYS.all, 'detail'] as const,
+  all: ["masonAdvances"] as const,
+  lists: () => [...MASON_ADVANCES_QUERY_KEYS.all, "list"] as const,
+  details: () => [...MASON_ADVANCES_QUERY_KEYS.all, "detail"] as const,
   detail: (id: number) => [...MASON_ADVANCES_QUERY_KEYS.details(), id] as const,
 };
 
@@ -42,17 +46,19 @@ export const useCreateMasonAdvance = () => {
     mutationFn: masonAdvanceService.createMasonAdvance,
     onSuccess: (response) => {
       // Invalidate and refetch mason advances list
-      queryClient.invalidateQueries({ queryKey: MASON_ADVANCES_QUERY_KEYS.lists() });
-      
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.lists(),
+      });
+
       // Show success/error message based on API response
       if (response.status) {
-        toast.success(response.message || 'Mason advance created successfully');
+        toast.success(response.message || "Mason advance created successfully");
       } else {
-        toast.error(response.message || 'Failed to create mason advance');
+        toast.error(response.message || "Failed to create mason advance");
       }
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to create mason advance');
+      toast.error(error.message || "Failed to create mason advance");
     },
   });
 };
@@ -66,20 +72,24 @@ export const useUpdateMasonAdvance = () => {
       masonAdvanceService.updateMasonAdvance(id, data),
     onSuccess: (response, { id }) => {
       // Invalidate the specific mason advance in cache
-      queryClient.invalidateQueries({ queryKey: MASON_ADVANCES_QUERY_KEYS.detail(id) });
-      
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.detail(id),
+      });
+
       // Invalidate and refetch mason advances list
-      queryClient.invalidateQueries({ queryKey: MASON_ADVANCES_QUERY_KEYS.lists() });
-      
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.lists(),
+      });
+
       // Show success/error message based on API response
       if (response.status) {
-        toast.success(response.message || 'Mason advance updated successfully');
+        toast.success(response.message || "Mason advance updated successfully");
       } else {
-        toast.error(response.message || 'Failed to update mason advance');
+        toast.error(response.message || "Failed to update mason advance");
       }
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to update mason advance');
+      toast.error(error.message || "Failed to update mason advance");
     },
   });
 };
@@ -104,15 +114,47 @@ export const useDeleteMasonAdvance = () => {
       );
 
       // Remove the specific mason advance from cache
-      queryClient.removeQueries({ queryKey: MASON_ADVANCES_QUERY_KEYS.detail(deletedId) });
+      queryClient.removeQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.detail(deletedId),
+      });
 
       // Invalidate queries to ensure consistency
-      queryClient.invalidateQueries({ queryKey: MASON_ADVANCES_QUERY_KEYS.lists() });
-      
-      toast.success('Mason advance deleted successfully');
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.lists(),
+      });
+
+      toast.success("Mason advance deleted successfully");
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to delete mason advance');
+      toast.error(error.message || "Failed to delete mason advance");
+    },
+  });
+};
+
+// Hook to toggle mason advance status
+export const useToggleMasonAdvanceStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id }: { id: number }) =>
+      masonAdvanceService.toggleStatus(id), // You’ll add this API in service
+    onSuccess: (response, { id }) => {
+      // Update cache directly (optional)
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.lists(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: MASON_ADVANCES_QUERY_KEYS.detail(id),
+      });
+
+      if (response.success) {
+        toast.success(response.message || "Status updated successfully");
+      } else {
+        toast.error(response.message || "Failed to update status");
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Failed to update status");
     },
   });
 };

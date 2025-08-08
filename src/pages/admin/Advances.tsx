@@ -30,6 +30,7 @@ import {
 import {
   useMasonAdvances,
   useDeleteMasonAdvance,
+  useToggleMasonAdvanceStatus,
 } from "@/hooks/useMasonAdvances";
 import { useConstructionSites } from "@/hooks/useConstructionSites";
 import { MasonAdvance } from "@/types/masonAdvance";
@@ -79,6 +80,7 @@ export function Advances() {
   } = useMasonAdvances();
   const { data: sitesResponse } = useConstructionSites();
   const deleteAdvance = useDeleteMasonAdvance();
+  const toggleStatusMutation = useToggleMasonAdvanceStatus();
   const { t } = useTranslation();
 
   const handleEdit = (id: number) => {
@@ -125,13 +127,15 @@ export function Advances() {
     if (!sitesResponse?.data) return null;
     return sitesResponse.data.find((site) => site.id === siteId);
   };
+
   // Toggel
-  const handleToggleChange = (id: number, checked: boolean) => {
-    setToggleStates((prev) => ({
-      ...prev,
-      [id]: checked,
-    }));
-    console.log(checked); // Logs true or false
+  const handleToggleChange = (id: number) => {
+    // setToggleStates((prev) => ({
+    //   ...prev,
+    //   [id]: checked,
+    // }));
+
+    toggleStatusMutation.mutate({ id });
   };
 
   // Loading skeleton
@@ -388,7 +392,7 @@ export function Advances() {
                               <Switch
                                 checked={toggleStates[advance.id] || false}
                                 onCheckedChange={(checked) =>
-                                  handleToggleChange(advance.id, checked)
+                                  handleToggleChange(advance.id)
                                 }
                               />
                             </div>
@@ -431,7 +435,7 @@ export function Advances() {
                         <Switch
                           checked={toggleStates[advance.id] || false}
                           onCheckedChange={(checked) =>
-                            handleToggleChange(advance.id, checked)
+                            handleToggleChange(advance.id )
                           }
                         />
                       </div>
