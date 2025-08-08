@@ -201,7 +201,7 @@ const Pricing = () => {
             const { savings, percentage } = calculateYearlySavings(pkg.monthly_price, pkg.yearly_price);
             const currentPrice = billingCycle === 'monthly' ? pkg.monthly_price : pkg.yearly_price;
             const priceLabel = billingCycle === 'monthly' ? '/month' : '/year';
-
+console.log(isPopular)
             return (
               <motion.div
                 key={pkg.id}
@@ -211,9 +211,13 @@ const Pricing = () => {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <Card className={`h-full transition-all duration-300 hover:shadow-xl ${
-                  isPopular ? 'ring-2 ring-primary shadow-lg scale-105' : 'hover:scale-105'
-                }`}>
+                <Card
+                  className={`h-full transition-all duration-300 hover:shadow-xl ${
+                    isPopular
+                      ? "ring-2 ring-primary shadow-lg scale-105"
+                      : "hover:scale-105"
+                  }`}
+                >
                   {isPopular && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-primary text-primary-foreground px-4 py-1 flex items-center gap-1">
@@ -222,38 +226,54 @@ const Pricing = () => {
                       </Badge>
                     </div>
                   )}
-                  
+
                   <CardHeader className="text-center pb-8 pt-8">
-                    <CardTitle className="text-2xl font-bold">{pkg.name}</CardTitle>
+                    <CardTitle className="text-2xl font-bold">
+                      {pkg.name}
+                    </CardTitle>
                     <div className="mt-4">
                       <div className="flex items-baseline justify-center gap-1">
-                        <span className="text-4xl font-bold">${formatPrice(currentPrice)}</span>
-                        <span className="text-muted-foreground">{priceLabel}</span>
+                        <span className="text-4xl font-bold">
+                          ${formatPrice(currentPrice)}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {priceLabel}
+                        </span>
                       </div>
-                      {billingCycle === 'yearly' && savings > 0 && (
+                      {billingCycle === "yearly" && savings > 0 && (
                         <div className="text-sm text-green-600 mt-1">
-                          Save ${formatPrice(savings.toString())} ({percentage.toFixed(0)}% off)
+                          Save ${formatPrice(savings.toString())} (
+                          {percentage.toFixed(0)}% off)
                         </div>
                       )}
-                      {billingCycle === 'monthly' && (
+                      {billingCycle === "monthly" && (
                         <div className="text-sm text-muted-foreground mt-1">
-                          ${formatPrice(pkg.yearly_price)}/year (save {calculateYearlySavings(pkg.monthly_price, pkg.yearly_price).percentage.toFixed(0)}%)
+                          ${formatPrice(pkg.yearly_price)}/year (save{" "}
+                          {calculateYearlySavings(
+                            pkg.monthly_price,
+                            pkg.yearly_price
+                          ).percentage.toFixed(0)}
+                          %)
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4 mt-6 text-sm">
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-1 mb-1">
                           <Users className="w-4 h-4 text-primary" />
-                          <div className="font-semibold text-lg">{pkg.users_limit}</div>
+                          <div className="font-semibold text-lg">
+                            {pkg.users_limit}
+                          </div>
                         </div>
                         <div className="text-muted-foreground">Users</div>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-1 mb-1">
                           <Building2 className="w-4 h-4 text-primary" />
-                          <div className="font-semibold text-lg">{pkg.sites_limit}</div>
+                          <div className="font-semibold text-lg">
+                            {pkg.sites_limit}
+                          </div>
                         </div>
                         <div className="text-muted-foreground">Sites</div>
                       </div>
@@ -273,15 +293,21 @@ const Pricing = () => {
                     <ul className="space-y-3 mb-8">
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-sm">Up to {pkg.users_limit} team members</span>
+                        <span className="text-sm">
+                          Up to {pkg.users_limit} team members
+                        </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-sm">{pkg.sites_limit} active construction sites</span>
+                        <span className="text-sm">
+                          {pkg.sites_limit} active construction sites
+                        </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-sm">Project management tools</span>
+                        <span className="text-sm">
+                          Project management tools
+                        </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
@@ -299,7 +325,9 @@ const Pricing = () => {
                           </li>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm">Analytics & reporting</span>
+                            <span className="text-sm">
+                              Analytics & reporting
+                            </span>
                           </li>
                         </>
                       )}
@@ -307,7 +335,9 @@ const Pricing = () => {
                         <>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm">24/7 dedicated support</span>
+                            <span className="text-sm">
+                              24/7 dedicated support
+                            </span>
                           </li>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
@@ -320,12 +350,12 @@ const Pricing = () => {
                         </>
                       )}
                     </ul>
-                    
-                    <Button 
+
+                    <Button
                       className={`w-full transition-all duration-300 ${
-                        isPopular 
-                          ? 'bg-primary hover:bg-primary-glow' 
-                          : 'bg-secondary hover:bg-secondary/80'
+                        isPopular
+                          ? "bg-primary hover:bg-primary-glow"
+                          : "bg-primary/70 hover:bg-primary-glow"
                       }`}
                     >
                       Get Started

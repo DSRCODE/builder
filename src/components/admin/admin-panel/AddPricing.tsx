@@ -27,6 +27,7 @@ const AddPricing = ({
   pricingFormData,
   handlePricingInputChange,
 }) => {
+  console.log(pricingPlans)
   return (
     <Dialog
       open={isAddPricingModalOpen}
@@ -35,7 +36,7 @@ const AddPricing = ({
       <DialogTrigger asChild>
         <Button
           className="bg-orange-500 hover:bg-orange-600"
-          disabled={pricingPlans.length >= 3}
+          // disabled={pricingPlans.length >= 3}
         >
           <Plus className="mr-2 h-4 w-4" />
           Add New Plan {pricingPlans.length >= 3 && "(Max 3)"}
