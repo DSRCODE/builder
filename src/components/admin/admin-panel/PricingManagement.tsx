@@ -17,95 +17,175 @@ const PricingManagement = ({
   handleDeletePricing,
 }) => {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Plan Details</TableHead>
-          <TableHead>Monthly Price</TableHead>
-          <TableHead>Yearly Price</TableHead>
-          <TableHead>Max Users</TableHead>
-          <TableHead>Max Sites</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-center">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((plan: PricingPlan) => (
-          <TableRow key={plan.id}>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <DollarSign className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <div className="font-medium">{plan.plan}</div>
-                  <div className="text-sm text-muted-foreground">
-                    Pricing Plan
+    <div className="overflow-x-auto">
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Plan Details</TableHead>
+              <TableHead>Monthly Price</TableHead>
+              <TableHead>Yearly Price</TableHead>
+              <TableHead>Max Users</TableHead>
+              <TableHead>Max Sites</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((plan: PricingPlan) => (
+              <TableRow key={plan.id}>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <DollarSign className="h-5 w-5 text-green-600" />
+                    </div>
+                    <div>
+                      <div className="font-medium">{plan.plan}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Pricing Plan
+                      </div>
+                    </div>
                   </div>
+                </TableCell>
+                <TableCell>
+                  <div className="font-medium text-green-600">
+                    ${plan.monthlyPrice.toFixed(2)}/month
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="font-medium text-blue-600">
+                    ${plan.yearlyPrice.toFixed(2)}/year
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Save $
+                    {(plan.monthlyPrice * 12 - plan.yearlyPrice).toFixed(2)}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className="flex items-center gap-1 w-fit"
+                  >
+                    <Users className="h-3 w-3" />
+                    {plan.users} users
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className="flex items-center gap-1 w-fit"
+                  >
+                    <Building2 className="h-3 w-3" />
+                    {plan.sites} sites
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant={plan.status === "Active" ? "default" : "secondary"}
+                  >
+                    {plan.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-center">
+                  <div className="flex justify-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openEditPricingModal(plan)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive"
+                      onClick={() => handleDeletePricing(plan.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Mobile View - Card Layout */}
+      <div className="space-y-4 md:hidden">
+        {data.map((plan: PricingPlan) => (
+          <div
+            key={plan.id}
+            className="relative border rounded-lg p-4 shadow-sm bg-white flex flex-col space-y-3"
+          >
+            {/* Status Badge - Top Right */}
+            <Badge
+              variant={plan.status === "Active" ? "default" : "secondary"}
+              className="absolute top-3 right-3"
+            >
+              {plan.status}
+            </Badge>
+
+            {/* Plan Info */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <DollarSign className="h-5 w-5 text-green-600" />
+              </div>
+              <div>
+                <div className="font-medium">{plan.plan}</div>
+                <div className="text-sm text-muted-foreground">
+                  Pricing Plan
                 </div>
               </div>
-            </TableCell>
-            <TableCell>
-              <div className="font-medium text-green-600">
-                ${plan.monthlyPrice.toFixed(2)}/month
-              </div>
-            </TableCell>
-            <TableCell>
-              <div className="font-medium text-blue-600">
-                ${plan.yearlyPrice.toFixed(2)}/year
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Save ${(plan.monthlyPrice * 12 - plan.yearlyPrice).toFixed(2)}
-              </div>
-            </TableCell>
-            <TableCell>
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1 w-fit"
-              >
+            </div>
+
+            {/* Pricing */}
+            <div className="text-green-600 font-medium">
+              Monthly: ${plan.monthlyPrice.toFixed(2)}
+            </div>
+            <div className="text-blue-600 font-medium">
+              Yearly: ${plan.yearlyPrice.toFixed(2)}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Save ${(plan.monthlyPrice * 12 - plan.yearlyPrice).toFixed(2)}
+            </div>
+
+            {/* Users & Sites badges in one row */}
+            <div className="flex gap-2">
+              <Badge variant="outline" className="flex items-center gap-1">
                 <Users className="h-3 w-3" />
                 {plan.users} users
               </Badge>
-            </TableCell>
-            <TableCell>
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1 w-fit"
-              >
+
+              <Badge variant="outline" className="flex items-center gap-1">
                 <Building2 className="h-3 w-3" />
                 {plan.sites} sites
               </Badge>
-            </TableCell>
-            <TableCell>
-              <Badge
-                variant={plan.status === "Active" ? "default" : "secondary"}
+            </div>
+
+            {/* Action Buttons - Bottom Right */}
+            <div className="flex justify-end gap-2 mt-auto pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => openEditPricingModal(plan)}
               >
-                {plan.status}
-              </Badge>
-            </TableCell>
-            <TableCell className="text-center">
-              <div className="flex justify-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openEditPricingModal(plan)}
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-destructive"
-                  onClick={() => handleDeletePricing(plan.id)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-destructive"
+                onClick={() => handleDeletePricing(plan.id)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         ))}
-      </TableBody>
-    </Table>
+      </div>
+    </div>
   );
 };
 

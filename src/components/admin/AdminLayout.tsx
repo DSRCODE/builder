@@ -126,14 +126,18 @@ export function AdminLayout() {
 
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="h-14 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4">
+          <header className="h-14 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-2 sm:px-4">
+            {/* Left side */}
             <div className="flex items-center gap-2">
               <SidebarTrigger />
 
-              <div className="flex flex-col leading-tight max-w-[150px]">
-                <span className="text-xs text-muted-foreground">Company</span>
+              {/* Company Name */}
+              <div className="flex flex-col leading-tight max-w-[90px] sm:max-w-[150px]">
+                <span className="text-[10px] sm:text-xs text-muted-foreground">
+                  Company
+                </span>
                 <span
-                  className="text-sm font-medium truncate"
+                  className="text-xs sm:text-sm font-medium truncate"
                   title={user?.business_name || "No Company found"}
                 >
                   {user?.business_name || "No Company found"}
@@ -141,42 +145,38 @@ export function AdminLayout() {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-4">
-              {/* Site Selection Dropdown */}
-              <div className="flex flex-col">
-                {/* <label className="text-xs text-muted-foreground mb-1">
-                  Select Site
-                </label> */}
-                <Select
-                  value={selectedSiteId}
-                  onValueChange={handleSiteChange}
-                  disabled={loading}
-                >
-                  <SelectTrigger className="w-40 bg-background/10 border border-muted-foreground/20 text-muted-foreground hover:bg-background/20">
-                    <SelectValue placeholder="Select a site..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Sites</SelectItem>
-                    {sites.map((site) => (
-                      <SelectItem key={site.id} value={site.id.toString()}>
-                        <div className="flex flex-col">
-                          <span className="font-medium">{site.site_name}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            {/* Right side */}
+            <div className="flex items-center justify-end gap-2 sm:gap-4">
+              {/* Site Selection Dropdown (always visible) */}
+              <Select
+                value={selectedSiteId}
+                onValueChange={handleSiteChange}
+                disabled={loading}
+              >
+                <SelectTrigger className="w-28 sm:w-40 bg-background/10 border border-muted-foreground/20 text-muted-foreground hover:bg-background/20 text-xs sm:text-sm">
+                  <SelectValue placeholder="Select a site..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Sites</SelectItem>
+                  {sites.map((site) => (
+                    <SelectItem key={site.id} value={site.id.toString()}>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{site.site_name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
               {/* Language Switcher */}
               <LanguageDropdown isScrolled={isScrolled} />
 
               {/* Notification Icon */}
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="icon" className="w-8 h-8 p-0">
                 <Bell className="h-4 w-4" />
               </Button>
 
-              {/* User Initial Avatar */}
+              {/* User Avatar */}
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-primary-foreground text-sm font-medium">
                   {user.name.charAt(0)}
@@ -186,7 +186,7 @@ export function AdminLayout() {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 p-6 overflow-auto">
+          <main className="flex-1 p-4 sm:p-6 overflow-auto">
             <Outlet />
           </main>
         </div>
