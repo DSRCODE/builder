@@ -90,7 +90,11 @@ import UserLoading from "@/components/admin/admin-panel/UserLoading";
 import UserError from "@/components/admin/admin-panel/UserError";
 import MaterialCategoryLoading from "@/components/admin/admin-panel/MaterialCategoryLoading";
 import MaterialCategoryError from "@/components/admin/admin-panel/MaterialCategoryError";
-import { useCreatePricingPlan, usePricingPlans } from "@/hooks/usePricingPlan";
+import {
+  useCreatePricingPlan,
+  useDeletePricingPlan,
+  usePricingPlans,
+} from "@/hooks/usePricingPlan";
 import { PricingPlanFormData } from "@/types/pricingPlan";
 
 export interface ConstructionSite {
@@ -551,6 +555,7 @@ function AdminContent() {
   ];
   const { data, isLoading, isError } = usePricingPlans();
   const createPricingPlan = useCreatePricingPlan();
+  const deletePricingPlan = useDeletePricingPlan();
   console.log(data);
   const tabFromUrl = searchParams.get("tab");
   const initialTab =
@@ -1323,11 +1328,7 @@ function AdminContent() {
   };
 
   const handleDeletePricing = (id: number) => {
-    setPricingPlans((prev) => prev.filter((plan) => plan.id !== id));
-    toast({
-      title: "Success",
-      description: "Pricing plan deleted successfully",
-    });
+    deletePricingPlan.mutate(id);
   };
   // luther
 

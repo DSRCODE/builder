@@ -115,7 +115,7 @@ export const pricingPlanService = {
   // Delete pricing plan
   deletePricingPlan: async (id: number): Promise<void> => {
     try {
-      await api.delete(`/package/${id}`);
+      await api.post(`/package/delete/${id}`);
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message ||
