@@ -18,20 +18,17 @@ const Navigation = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
     { name: t("navigation.home"), href: "#home" },
-    // { name: t('navigation.services'), href: "#services" },
-    // { name: t('navigation.projects'), href: "#projects" },
     { name: t("navigation.about"), href: "#about" },
     { name: t("navigation.contact"), href: "#contact" },
   ];
 
-  const scrollToSection = (href: string) => {
+  const scrollToSection = (href) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -43,97 +40,80 @@ const Navigation = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-lg border-b border-border elegant-shadow"
-          : "bg-transparent text-white"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-smooth 
+    ${
+      isScrolled
+        ? "bg-background/95 backdrop-blur-lg border-b border-border md:text-black elegant-shadow"
+        : "md:bg-transparent md:text-white"
+    } 
+    bg-white text-black md:text-white`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      {/* Full-width wrapper */}
+      <div className="w-full px-4 lg:px-8">
+        {/* Desktop Navbar */}
+        <div className="hidden lg:flex items-center justify-between h-20">
           {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex items-center space-x-2"
-          >
-            <img src="/logo.png" className="w-16" alt="" />
-            <span
-              className={`text-xl font-bold ${
-                isScrolled ? "text-foreground" : "text-white"
-              }`}
-            >
-              D Buildz
-            </span>
-          </motion.div>
+          <div className="flex items-center space-x-2">
+            <img src="/logo.png" className="w-16" alt="logo" />
+            <span className="text-xl font-bold">D Buildz</span>
+          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          {/* Links */}
+          <div className="flex items-center space-x-8">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
+                transition={{ delay: 0.2 + index * 0.1 }}
                 onClick={() => scrollToSection(item.href)}
-                className={`${
-                  isScrolled ? "text-foreground" : "text-background"
-                }  hover:text-primary transition-smooth font-medium`}
+                className="hover:text-primary font-medium transition-smooth"
               >
                 {item.name}
               </motion.button>
             ))}
+            <LanguageDropdown isScrolled={isScrolled} />
+            {user ? (
+              <Link
+                to="/dashboard"
+                className={cn(
+                  buttonVariants(),
+                  "bg-primary hover:bg-primary-glow transition-smooth"
+                )}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className={cn(
+                  buttonVariants(),
+                  "bg-primary hover:bg-primary-glow transition-smooth"
+                )}
+              >
+                {t("navigation.login")}
+              </Link>
+            )}
+          </div>
+        </div>
 
-            {/* Language Dropdown */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <LanguageDropdown isScrolled={isScrolled} />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              {user ? (
-                <Link
-                  to="/dashboard"
-                  className={cn(
-                    buttonVariants(),
-                    "bg-primary hover:bg-primary-glow transition-smooth"
-                  )}
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className={cn(
-                    buttonVariants(),
-                    "bg-primary hover:bg-primary-glow transition-smooth"
-                  )}
-                >
-                  {t("navigation.login")}
-                </Link>
-              )}
-            </motion.div>
+        {/* Mobile Navbar */}
+        <div className="flex lg:hidden items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <img src="/logo.png" className="w-14" alt="logo" />
+            <span className="text-lg font-bold">D Buildz</span>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-foreground"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </Button>
-          </div>
+          {/* Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-black"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </Button>
         </div>
 
         {/* Mobile Menu */}
@@ -142,24 +122,21 @@ const Navigation = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-background border-t border-border"
+            className="lg:hidden bg-white border-t border-border"
           >
             <div className="py-4 space-y-2">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left px-4 py-2 text-foreground hover:text-primary hover:bg-secondary/50 transition-smooth"
+                  className="block w-full text-left px-4 py-2 hover:text-primary hover:bg-secondary/50 transition-smooth"
                 >
                   {item.name}
                 </button>
               ))}
-
-              {/* Mobile Language Dropdown */}
               <div className="px-4 py-2">
                 <LanguageDropdown isScrolled={true} />
               </div>
-
               <div className="px-4 pt-2">
                 {user ? (
                   <Link

@@ -37,6 +37,7 @@ import { DeleteConfirmationDialog } from "@/components/admin/DeleteConfirmationD
 import { AddMasonAdvanceModal } from "@/components/admin/AddMasonAdvanceModal";
 import { EditMasonAdvanceModal } from "@/components/admin/EditMasonAdvanceModal";
 import { useTranslation } from "react-i18next";
+import { Switch } from "@/components/ui/switch";
 
 // Helper function to format currency
 const formatCurrency = (amount: string, currency: string = "INR") => {
@@ -64,6 +65,9 @@ export function Advances() {
   const [editingAdvanceId, setEditingAdvanceId] = useState<number | null>(null);
   const [deletingAdvanceId, setDeletingAdvanceId] = useState<number | null>(
     null
+  );
+  const [toggleStates, setToggleStates] = useState<{ [key: number]: boolean }>(
+    {}
   );
 
   const {
@@ -120,6 +124,14 @@ export function Advances() {
   const getSiteInfo = (siteId: number) => {
     if (!sitesResponse?.data) return null;
     return sitesResponse.data.find((site) => site.id === siteId);
+  };
+  // Toggel
+  const handleToggleChange = (id: number, checked: boolean) => {
+    setToggleStates((prev) => ({
+      ...prev,
+      [id]: checked,
+    }));
+    console.log(checked); // Logs true or false
   };
 
   // Loading skeleton
@@ -373,6 +385,12 @@ export function Advances() {
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
+                              <Switch
+                                checked={toggleStates[advance.id] || false}
+                                onCheckedChange={(checked) =>
+                                  handleToggleChange(advance.id, checked)
+                                }
+                              />
                             </div>
                           </TableCell>
                         </TableRow>
@@ -410,6 +428,12 @@ export function Advances() {
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
+                        <Switch
+                          checked={toggleStates[advance.id] || false}
+                          onCheckedChange={(checked) =>
+                            handleToggleChange(advance.id, checked)
+                          }
+                        />
                       </div>
 
                       {/* Date */}

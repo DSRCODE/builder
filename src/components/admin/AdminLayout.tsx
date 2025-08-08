@@ -11,7 +11,14 @@ import {
   setSelectedSiteId as saveSelectedSiteId,
 } from "@/utils/siteUtils";
 import api from "@/lib/api";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 interface Site {
   id: number;
@@ -26,6 +33,7 @@ interface Site {
 export function AdminLayout() {
   const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(true);
+  const { toast } = useToast();
 
   // Site selection state
   //  const collapsed = state === "collapsed";
@@ -58,7 +66,7 @@ export function AdminLayout() {
   }, []);
 
   // Handle site selection
-  const handleSiteChange = (siteId: string) => {
+  const handleSiteChange = async (siteId: string) => {
     setSelectedSiteId(siteId);
     saveSelectedSiteId(siteId);
 
@@ -68,8 +76,38 @@ export function AdminLayout() {
         detail: { siteId },
       })
     );
+    if (siteId === "all") {
+      return null;
+    } else {
+      await postSites(siteId);
+    }
   };
 
+  const postSites = async (siteId: string) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("site_id", siteId);
+
+      const { data } = await api.post("/site-change", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (data?.success) {
+        toast({
+          title: "Success",
+          description: `${data?.message || "Site set successfully."}`,
+        });
+      }
+
+      // Refresh site list after change
+      await fetchSites();
+    } catch (error) {
+      console.error("Error posting site:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -80,6 +118,16 @@ export function AdminLayout() {
           <header className="h-14 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger />
+
+              <div className="flex flex-col leading-tight max-w-[150px]">
+                <span className="text-xs text-muted-foreground">Company</span>
+                <span
+                  className="text-sm font-medium truncate"
+                  title={user?.business_name || "No Company found"}
+                >
+                  {user?.business_name || "No Company found"}
+                </span>
+              </div>
             </div>
 
             <div className="flex items-center justify-end gap-4">

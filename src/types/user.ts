@@ -40,6 +40,7 @@ export interface User {
   documents_back: string | null;
   created_at: string;
   updated_at: string;
+  business_name:string;
 }
 
 // Role hierarchy and permissions
