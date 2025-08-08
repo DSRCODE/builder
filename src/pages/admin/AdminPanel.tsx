@@ -90,6 +90,8 @@ import UserLoading from "@/components/admin/admin-panel/UserLoading";
 import UserError from "@/components/admin/admin-panel/UserError";
 import MaterialCategoryLoading from "@/components/admin/admin-panel/MaterialCategoryLoading";
 import MaterialCategoryError from "@/components/admin/admin-panel/MaterialCategoryError";
+import { useCreatePricingPlan, usePricingPlans } from "@/hooks/usePricingPlan";
+import { PricingPlanFormData } from "@/types/pricingPlan";
 
 export interface ConstructionSite {
   id: number;
@@ -208,20 +210,21 @@ interface UserFormData {
 export interface PricingPlan {
   id: number;
   plan: string;
-  monthlyPrice: number;
-  yearlyPrice: number;
+  monthly_price: number;
+  yearly_price: number;
   users: number;
   sites: number;
   status: string;
 }
 
 interface PricingFormData {
-  plan: string;
-  monthlyPrice: string;
-  yearlyPrice: string;
-  users: string;
-  sites: string;
-  status: string;
+  name: string;
+  monthly_price: number;
+  yearly_price: number;
+  users_limit: number;
+  sites_limit: number;
+  description: string;
+  status?: string;
 }
 
 interface MaterialCategoryFormData {
@@ -546,7 +549,9 @@ function AdminContent() {
     "data-management",
     "razorpay-management",
   ];
-
+  const { data, isLoading, isError } = usePricingPlans();
+  const createPricingPlan = useCreatePricingPlan();
+  console.log(data);
   const tabFromUrl = searchParams.get("tab");
   const initialTab =
     tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "manage-sites";
@@ -605,7 +610,7 @@ function AdminContent() {
     phone_number: "",
     password: "",
   });
-  const [pricingFormData, setPricingFormData] = useState<PricingFormData>({
+  const [pricingFormData, setPricingFormData] = useState({
     plan: "",
     monthlyPrice: "",
     yearlyPrice: "",
@@ -1092,35 +1097,13 @@ function AdminContent() {
   const members = membersData?.data || [];
 
   // Pricing plans state (dynamic with max 3 plans)
-  const [pricingPlans, setPricingPlans] = useState<PricingPlan[]>([
-    {
-      id: 1,
-      plan: "Starter",
-      monthlyPrice: 49,
-      yearlyPrice: 490,
-      users: 5,
-      sites: 3,
-      status: "Active",
-    },
-    {
-      id: 2,
-      plan: "Professional",
-      monthlyPrice: 149,
-      yearlyPrice: 1490,
-      users: 25,
-      sites: 15,
-      status: "Active",
-    },
-    {
-      id: 3,
-      plan: "Enterprise",
-      monthlyPrice: 399,
-      yearlyPrice: 3990,
-      users: 100,
-      sites: 50,
-      status: "Active",
-    },
-  ]);
+  const [pricingPlans, setPricingPlans] = useState([]);
+  console.log(pricingPlans);
+  useEffect(() => {
+    if (data?.data) {
+      setPricingPlans(data.data);
+    }
+  }, [data]);
 
   // Populate labor wage form when data is loaded
   useEffect(() => {
@@ -1188,19 +1171,9 @@ function AdminContent() {
       [field]: value,
     }));
   };
-
+  // luther
   const handleAddPricingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Check if maximum plans reached
-    // if (pricingPlans.length >= 3) {
-    //   toast({
-    //     title: "Maximum Plans Reached",
-    //     description: "You can only have a maximum of 3 pricing plans",
-    //     variant: "destructive",
-    //   });
-    //   return;
-    // }
 
     // Validation
     if (
@@ -1218,22 +1191,7 @@ function AdminContent() {
       return;
     }
 
-    // Check for duplicate plan names
-    if (
-      pricingPlans.some(
-        (plan) =>
-          plan.plan.toLowerCase() === pricingFormData.plan.trim().toLowerCase()
-      )
-    ) {
-      toast({
-        title: "Validation Error",
-        description: "A plan with this name already exists",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate positive numbers
+    // Convert and validate numbers
     const monthlyPrice = parseFloat(pricingFormData.monthlyPrice);
     const yearlyPrice = parseFloat(pricingFormData.yearlyPrice);
     const users = parseInt(pricingFormData.users);
@@ -1257,24 +1215,22 @@ function AdminContent() {
       return;
     }
 
-    // Create new plan
-    const newPlan: PricingPlan = {
-      id: Math.max(...pricingPlans.map((p) => p.id), 0) + 1,
-      plan: pricingFormData.plan.trim(),
-      monthlyPrice,
-      yearlyPrice,
-      users,
-      sites,
-      status: pricingFormData.status,
+    // Map to API type
+    const apiPayload: PricingPlanFormData = {
+      name: pricingFormData.plan,
+      monthly_price: monthlyPrice,
+      yearly_price: yearlyPrice,
+      users_limit: users,
+      sites_limit: sites,
+      description: pricingFormData.status, // or another description field
     };
 
-    setPricingPlans((prev) => [...prev, newPlan]);
-    setIsAddPricingModalOpen(false);
-    resetPricingForm();
-
-    toast({
-      title: "Success",
-      description: "Pricing plan added successfully",
+    // Call mutation
+    createPricingPlan.mutate(apiPayload, {
+      onSuccess: () => {
+        setIsAddPricingModalOpen(false);
+        resetPricingForm();
+      },
     });
   };
 
@@ -1302,7 +1258,7 @@ function AdminContent() {
     // Check for duplicate plan names (excluding current plan)
     if (
       pricingPlans.some(
-        (plan) =>
+        (plan: any) =>
           plan.id !== editingPricing.id &&
           plan.plan.toLowerCase() === pricingFormData.plan.trim().toLowerCase()
       )
@@ -1316,7 +1272,7 @@ function AdminContent() {
     }
 
     // Validate positive numbers
-    const monthlyPrice = parseFloat(pricingFormData.monthlyPrice);
+    const monthlyPrice = parseFloat(pricingFormData.monthly_price);
     const yearlyPrice = parseFloat(pricingFormData.yearlyPrice);
     const users = parseInt(pricingFormData.users);
     const sites = parseInt(pricingFormData.sites);
@@ -1341,7 +1297,7 @@ function AdminContent() {
 
     // Update plan
     setPricingPlans((prev) =>
-      prev.map((plan) =>
+      prev.map((plan: any) =>
         plan.id === editingPricing.id
           ? {
               ...plan,
@@ -1373,6 +1329,7 @@ function AdminContent() {
       description: "Pricing plan deleted successfully",
     });
   };
+  // luther
 
   const resetUserForm = () => {
     setUserFormData({
@@ -2017,8 +1974,7 @@ function AdminContent() {
     }
     // Handle loading and error states for material-categories
     if (selectedOption === "material-categories") {
-      if (materialCategoriesLoading)
-        return <MaterialCategoryLoading />;
+      if (materialCategoriesLoading) return <MaterialCategoryLoading />;
 
       if (materialCategoriesError)
         return (
@@ -2040,6 +1996,8 @@ function AdminContent() {
         : selectedOption === "pricing-management"
         ? pricingPlans
         : mockData[selectedOption as keyof typeof mockData] || [];
+
+    console.log(data);
 
     return (
       <Card>
@@ -2148,7 +2106,7 @@ function AdminContent() {
                 </p>
               </div>{" "}
             </div>
-          ) : data.length === 0 && selectedOption === "pricing-management" ? (
+          ) : data?.length === 0 && selectedOption === "pricing-management" ? (
             <div className="text-center py-8">
               <DollarSign className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">No pricing plans found</p>

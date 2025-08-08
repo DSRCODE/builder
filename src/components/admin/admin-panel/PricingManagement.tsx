@@ -16,6 +16,7 @@ const PricingManagement = ({
   openEditPricingModal,
   handleDeletePricing,
 }) => {
+  console.log(data)
   return (
     <div className="overflow-x-auto">
       {/* Desktop View */}
@@ -33,15 +34,15 @@ const PricingManagement = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((plan: PricingPlan) => (
-              <TableRow key={plan.id}>
+            {data?.map((plan: any) => (
+              <TableRow key={plan?.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                       <DollarSign className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <div className="font-medium">{plan.plan}</div>
+                      <div className="font-medium">{plan?.name}</div>
                       <div className="text-sm text-muted-foreground">
                         Pricing Plan
                       </div>
@@ -50,16 +51,15 @@ const PricingManagement = ({
                 </TableCell>
                 <TableCell>
                   <div className="font-medium text-green-600">
-                    ${plan.monthlyPrice.toFixed(2)}/month
+                    ${plan?.monthly_price}/month
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="font-medium text-blue-600">
-                    ${plan.yearlyPrice.toFixed(2)}/year
+                    ${plan?.yearly_price}/year
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Save $
-                    {(plan.monthlyPrice * 12 - plan.yearlyPrice).toFixed(2)}
+                    Save ${plan?.monthly_price * 12 - plan?.yearly_price}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -68,7 +68,7 @@ const PricingManagement = ({
                     className="flex items-center gap-1 w-fit"
                   >
                     <Users className="h-3 w-3" />
-                    {plan.users} users
+                    {plan?.users_limit} users
                   </Badge>
                 </TableCell>
                 <TableCell>
@@ -77,14 +77,14 @@ const PricingManagement = ({
                     className="flex items-center gap-1 w-fit"
                   >
                     <Building2 className="h-3 w-3" />
-                    {plan.sites} sites
+                    {plan?.sites_limit} sites
                   </Badge>
                 </TableCell>
                 <TableCell>
                   <Badge
-                    variant={plan.status === "Active" ? "default" : "secondary"}
+                    variant={plan?.status === "Active" ? "default" : "secondary"}
                   >
-                    {plan.status}
+                    {plan?.status || "NA"}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-center">
@@ -100,7 +100,7 @@ const PricingManagement = ({
                       variant="outline"
                       size="sm"
                       className="text-destructive"
-                      onClick={() => handleDeletePricing(plan.id)}
+                      onClick={() => handleDeletePricing(plan?.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -114,17 +114,17 @@ const PricingManagement = ({
 
       {/* Mobile View - Card Layout */}
       <div className="space-y-4 md:hidden">
-        {data.map((plan: PricingPlan) => (
+        {data?.map((plan: any) => (
           <div
-            key={plan.id}
+            key={plan?.id}
             className="relative border rounded-lg p-4 shadow-sm bg-white flex flex-col space-y-3"
           >
             {/* Status Badge - Top Right */}
             <Badge
-              variant={plan.status === "Active" ? "default" : "secondary"}
+              variant={plan?.status === "Active" ? "default" : "secondary"}
               className="absolute top-3 right-3"
             >
-              {plan.status}
+              {plan?.status || "NA"}
             </Badge>
 
             {/* Plan Info */}
@@ -133,7 +133,7 @@ const PricingManagement = ({
                 <DollarSign className="h-5 w-5 text-green-600" />
               </div>
               <div>
-                <div className="font-medium">{plan.plan}</div>
+                <div className="font-medium">{plan?.name}</div>
                 <div className="text-sm text-muted-foreground">
                   Pricing Plan
                 </div>
@@ -142,25 +142,25 @@ const PricingManagement = ({
 
             {/* Pricing */}
             <div className="text-green-600 font-medium">
-              Monthly: ${plan.monthlyPrice.toFixed(2)}
+              Monthly: ${plan?.monthly_price}
             </div>
             <div className="text-blue-600 font-medium">
-              Yearly: ${plan.yearlyPrice.toFixed(2)}
+              Yearly: ${plan?.yearly_price}
             </div>
             <div className="text-xs text-muted-foreground">
-              Save ${(plan.monthlyPrice * 12 - plan.yearlyPrice).toFixed(2)}
+              Save ${plan?.monthly_price * 12 - plan?.yearly_price}
             </div>
 
             {/* Users & Sites badges in one row */}
             <div className="flex gap-2">
               <Badge variant="outline" className="flex items-center gap-1">
                 <Users className="h-3 w-3" />
-                {plan.users} users
+                {plan?.users_limit} users
               </Badge>
 
               <Badge variant="outline" className="flex items-center gap-1">
                 <Building2 className="h-3 w-3" />
-                {plan.sites} sites
+                {plan?.sites_limit} sites
               </Badge>
             </div>
 
@@ -177,7 +177,7 @@ const PricingManagement = ({
                 variant="outline"
                 size="sm"
                 className="text-destructive"
-                onClick={() => handleDeletePricing(plan.id)}
+                onClick={() => handleDeletePricing(plan?.id)}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
