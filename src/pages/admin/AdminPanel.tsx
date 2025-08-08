@@ -94,6 +94,7 @@ import {
   useCreatePricingPlan,
   useDeletePricingPlan,
   usePricingPlans,
+  useUpdatePricingPlan,
 } from "@/hooks/usePricingPlan";
 import { PricingPlanFormData } from "@/types/pricingPlan";
 
@@ -556,6 +557,7 @@ function AdminContent() {
   const { data, isLoading, isError } = usePricingPlans();
   const createPricingPlan = useCreatePricingPlan();
   const deletePricingPlan = useDeletePricingPlan();
+  const updatePricingPlan = useUpdatePricingPlan();
   console.log(data);
   const tabFromUrl = searchParams.get("tab");
   const initialTab =
@@ -1146,15 +1148,16 @@ function AdminContent() {
     });
   };
 
-  const openEditPricingModal = (pricing: PricingPlan) => {
+  const openEditPricingModal = (pricing: any) => {
+    console.log(pricing);
     setEditingPricing(pricing);
     setPricingFormData({
-      plan: pricing.plan,
-      monthlyPrice: pricing.monthlyPrice.toString(),
-      yearlyPrice: pricing.yearlyPrice.toString(),
-      users: pricing.users.toString(),
-      sites: pricing.sites.toString(),
-      status: pricing.status,
+      plan: pricing.name || "", // plan name
+      monthlyPrice: pricing.monthly_price || "",
+      yearlyPrice: pricing.yearly_price || "",
+      users: pricing.users_limit || 0,
+      sites: pricing.sites_limit || 0,
+      status: pricing.description || "", // or pricing.status if you have it separately
     });
     setIsEditPricingModalOpen(true);
   };
@@ -1260,24 +1263,8 @@ function AdminContent() {
       return;
     }
 
-    // Check for duplicate plan names (excluding current plan)
-    if (
-      pricingPlans.some(
-        (plan: any) =>
-          plan.id !== editingPricing.id &&
-          plan.plan.toLowerCase() === pricingFormData.plan.trim().toLowerCase()
-      )
-    ) {
-      toast({
-        title: "Validation Error",
-        description: "A plan with this name already exists",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate positive numbers
-    const monthlyPrice = parseFloat(pricingFormData.monthly_price);
+    // Parse and validate numbers
+    const monthlyPrice = parseFloat(pricingFormData.monthlyPrice);
     const yearlyPrice = parseFloat(pricingFormData.yearlyPrice);
     const users = parseInt(pricingFormData.users);
     const sites = parseInt(pricingFormData.sites);
@@ -1300,31 +1287,28 @@ function AdminContent() {
       return;
     }
 
-    // Update plan
-    setPricingPlans((prev) =>
-      prev.map((plan: any) =>
-        plan.id === editingPricing.id
-          ? {
-              ...plan,
-              plan: pricingFormData.plan.trim(),
-              monthlyPrice,
-              yearlyPrice,
-              users,
-              sites,
-              status: pricingFormData.status,
-            }
-          : plan
-      )
+    // Prepare API payload
+    const apiPayload: PricingPlanFormData = {
+      name: pricingFormData.plan.trim(),
+      monthly_price: monthlyPrice,
+      yearly_price: yearlyPrice,
+      users_limit: users,
+      sites_limit: sites,
+      description: pricingFormData.status,
+    };
+
+    // Call mutation
+    updatePricingPlan.mutate(
+      { id: editingPricing.id, data: apiPayload },
+      {
+        onSuccess: () => {
+          setIsEditPricingModalOpen(false);
+          setEditingPricing(null);
+          resetPricingForm();
+        },
+        // onError handled inside your mutation hook or you can add here too
+      }
     );
-
-    setIsEditPricingModalOpen(false);
-    setEditingPricing(null);
-    resetPricingForm();
-
-    toast({
-      title: "Success",
-      description: "Pricing plan updated successfully",
-    });
   };
 
   const handleDeletePricing = (id: number) => {
