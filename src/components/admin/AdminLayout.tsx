@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useDashboard } from "@/hooks/useDashboard";
 
 interface Site {
   id: number;
@@ -46,6 +47,14 @@ export function AdminLayout() {
     setSelectedSiteId(savedSiteId);
   }, []);
 
+  const {
+    data: dashboardResponse,
+    isLoading,
+    error,
+    refetch,
+    isRefetching,
+  } = useDashboard();
+
   // Fetch sites from API
   const fetchSites = async () => {
     setLoading(true);
@@ -53,6 +62,7 @@ export function AdminLayout() {
       const { data } = await api("/construction-sites");
 
       setSites(data.data);
+      refetch();
     } catch (error) {
       console.error("Error fetching sites:", error);
     } finally {
