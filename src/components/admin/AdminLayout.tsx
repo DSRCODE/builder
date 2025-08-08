@@ -77,7 +77,8 @@ export function AdminLayout() {
       })
     );
     if (siteId === "all") {
-      return null;
+      const siteId = "0";
+      await postSites(siteId);
     } else {
       await postSites(siteId);
     }
