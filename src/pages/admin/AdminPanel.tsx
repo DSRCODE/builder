@@ -97,6 +97,8 @@ import {
   useUpdatePricingPlan,
 } from "@/hooks/usePricingPlan";
 import { PricingPlanFormData } from "@/types/pricingPlan";
+import ManageUsers from "@/components/admin/admin-panel/ManageUsers";
+import EditUser from "@/components/admin/admin-panel/EditUser";
 
 export interface ConstructionSite {
   id: number;
@@ -2174,6 +2176,11 @@ function AdminContent() {
       case "razorpay-management":
         return <RazorpayManagement />;
 
+      case "manage-users":
+        return (
+          <ManageUsers data={data} openEditUserModal={openEditUserModal} />
+        );
+
       default:
         return <div>Content not available</div>;
     }
@@ -2247,6 +2254,16 @@ function AdminContent() {
         materialCategoryFormData={materialCategoryFormData}
         handleMaterialCategoryInputChange={handleMaterialCategoryInputChange}
         updateMaterialCategoryMutation={updateMaterialCategoryMutation}
+      />
+
+      {/* Edit User Modal */}
+      <EditUser
+        isEditUserModalOpen={isEditUserModalOpen}
+        setIsEditUserModalOpen={setIsEditUserModalOpen}
+        handleEditUserSubmit={handleEditUserSubmit}
+        userFormData={userFormData}
+        handleUserInputChange={handleUserInputChange}
+        updateUserMutation={updateUserMutation}
       />
     </div>
   );
