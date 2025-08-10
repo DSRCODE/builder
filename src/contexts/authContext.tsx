@@ -55,7 +55,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         throw new Error(response.data.msg || "Login failed");
       }
-      navigate("/dashboard");
+      // ✅ Role-based redirect
+      if (response.data.data.userDetails.user_role === "admin") {
+        navigate("/dashboard");
+      } else if (response.data.data.userDetails.user_role === "supervisor") {
+        navigate("/sites");
+      } else {
+        navigate("/dashboard"); // fallback
+      }
     } catch (error: any) {
       setUser(null);
       let message = error?.message || "An error occurred during login.";

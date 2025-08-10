@@ -250,3 +250,24 @@ All colors MUST be HSL.
     animation: pulse-glow 2s ease-in-out infinite;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #04418b3b;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #04418b4a;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #04418b83;
+  cursor: pointer;
+}

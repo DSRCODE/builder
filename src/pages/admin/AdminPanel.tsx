@@ -1102,6 +1102,7 @@ function AdminContent() {
   const materialCategories = materialCategoriesData?.data || [];
   const laborWage = laborWageData?.data;
   const members = membersData?.data || [];
+  console.log(members);
 
   // Pricing plans state (dynamic with max 3 plans)
   const [pricingPlans, setPricingPlans] = useState([]);
@@ -1968,7 +1969,7 @@ function AdminContent() {
           />
         );
     }
-    // Use API data for manage-sites, manage-businesses, manage-users, and material-categories, pricing plans for pricing-management, mock data for others
+    // Use API data for manage-sites, manage-businesses, manage-users, and material-categories, pricing plans for pricing-management, mock data for others mark
     const data =
       selectedOption === "manage-sites"
         ? sites

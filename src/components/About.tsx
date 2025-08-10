@@ -17,11 +17,11 @@ const About = () => {
   ];
 
   const values = [
-    "Employee-owned company fostering innovation and accountability",
-    "Commitment to safety excellence on every project site",
-    "Sustainable building practices for environmental responsibility",
-    "Collaborative partnerships with clients and communities",
-    "Continuous learning and technological advancement",
+    "Developed by seasoned professionals with proven track records in high-value Indian construction projects",
+    "ERP solutions crafted to meet the operational, financial, and compliance needs unique to India",
+    "Relentless focus on innovation, ensuring early adoption of the best technologies for project success",
+    "Culture of partnership — collaborating with clients to deliver measurable business impact, faster ROI, and lasting growth",
+   
   ];
 
   return (
@@ -135,6 +135,10 @@ const About = () => {
                   <span className="text-muted-foreground">{value}</span>
                 </motion.div>
               ))}
+            </div>
+
+            <div className="space-y-6 mt-4 text-lg text-muted-foreground leading-relaxed">
+              <p>{t("about.description3")}</p>
             </div>
 
             {/* Call to Action */}

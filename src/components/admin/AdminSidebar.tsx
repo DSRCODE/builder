@@ -145,7 +145,9 @@ export function AdminSidebar() {
     if (path === "/admin") {
       return currentPath === "/admin";
     }
-
+    if (path === "/sites") {
+      return currentPath === "/sites";
+    }
     return currentPath.startsWith(path);
   };
 
@@ -168,8 +170,12 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item, index) => {
-                if (item.title === "Admin") {
-                  if (user.user_role !== "admin") return null;
+                if (item.title === "Admin" && user.user_role !== "admin")
+                  return null;
+
+                if (user.user_role === "supervisor") {
+                  const allowed = ["/sites", "/materials", "/labour"];
+                  if (!allowed.includes(item.url)) return null;
                 }
                 return (
                   <SidebarMenuItem key={index}>
