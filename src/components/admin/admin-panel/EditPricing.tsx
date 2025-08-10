@@ -72,7 +72,7 @@ const EditPricing = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_monthly_price">Monthly Price ($) *</Label>
+              <Label htmlFor="edit_monthly_price">Monthly Price (₹) *</Label>
               <Input
                 id="edit_monthly_price"
                 type="number"
@@ -87,7 +87,7 @@ const EditPricing = ({
               />
             </div>
             <div>
-              <Label htmlFor="edit_yearly_price">Yearly Price ($) *</Label>
+              <Label htmlFor="edit_yearly_price">Yearly Price (₹) *</Label>
               <Input
                 id="edit_yearly_price"
                 type="number"

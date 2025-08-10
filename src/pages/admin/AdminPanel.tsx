@@ -1207,9 +1207,9 @@ function AdminContent() {
 
     if (
       isNaN(monthlyPrice) ||
-      monthlyPrice <= 0 ||
+      monthlyPrice < 0 ||
       isNaN(yearlyPrice) ||
-      yearlyPrice <= 0 ||
+      yearlyPrice < 0 ||
       isNaN(users) ||
       users <= 0 ||
       isNaN(sites) ||
@@ -1271,9 +1271,9 @@ function AdminContent() {
 
     if (
       isNaN(monthlyPrice) ||
-      monthlyPrice <= 0 ||
+      monthlyPrice < 0 ||
       isNaN(yearlyPrice) ||
-      yearlyPrice <= 0 ||
+      yearlyPrice < 0 ||
       isNaN(users) ||
       users <= 0 ||
       isNaN(sites) ||

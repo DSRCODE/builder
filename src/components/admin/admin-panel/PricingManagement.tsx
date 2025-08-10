@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PricingPlan } from "@/pages/admin/AdminPanel";
-import { Building2, DollarSign, Edit, Trash2, Users } from "lucide-react";
+import { Building2, DollarSign, Edit, IndianRupee, Trash2, Users } from "lucide-react";
 
 const PricingManagement = ({
   data,
@@ -39,7 +39,7 @@ const PricingManagement = ({
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                      <DollarSign className="h-5 w-5 text-green-600" />
+                      <IndianRupee className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
                       <div className="font-medium">{plan?.name}</div>
@@ -51,15 +51,15 @@ const PricingManagement = ({
                 </TableCell>
                 <TableCell>
                   <div className="font-medium text-green-600">
-                    ${plan?.monthly_price}/month
+                    ₹{plan?.monthly_price}/month
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="font-medium text-blue-600">
-                    ${plan?.yearly_price}/year
+                    ₹{plan?.yearly_price}/year
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Save ${plan?.monthly_price * 12 - plan?.yearly_price}
+                    Save ₹{plan?.monthly_price * 12 - plan?.yearly_price}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -82,7 +82,9 @@ const PricingManagement = ({
                 </TableCell>
                 <TableCell>
                   <Badge
-                    variant={plan?.status === "Active" ? "default" : "secondary"}
+                    variant={
+                      plan?.status === "Active" ? "default" : "secondary"
+                    }
                   >
                     {plan?.status || "NA"}
                   </Badge>
@@ -142,13 +144,13 @@ const PricingManagement = ({
 
             {/* Pricing */}
             <div className="text-green-600 font-medium">
-              Monthly: ${plan?.monthly_price}
+              Monthly: ₹{plan?.monthly_price}
             </div>
             <div className="text-blue-600 font-medium">
-              Yearly: ${plan?.yearly_price}
+              Yearly: ₹{plan?.yearly_price}
             </div>
             <div className="text-xs text-muted-foreground">
-              Save ${plan?.monthly_price * 12 - plan?.yearly_price}
+              Save ₹{plan?.monthly_price * 12 - plan?.yearly_price}
             </div>
 
             {/* Users & Sites badges in one row */}

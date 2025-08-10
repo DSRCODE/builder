@@ -3,11 +3,38 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Trash2, Plus, Loader2, Users, Building2, DollarSign } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  Plus,
+  Loader2,
+  Users,
+  Building2,
+  DollarSign,
+} from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -58,13 +85,18 @@ const PricingManagement = () => {
     yearly_price: "",
     users_limit: "",
     sites_limit: "",
-    description: ""
+    description: "",
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   // Fetch packages from API
-  const { data: packagesData, isLoading, isError, error } = useQuery<PackagesResponse>({
+  const {
+    data: packagesData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<PackagesResponse>({
     queryKey: ["packages"],
     queryFn: async () => {
       const response = await api.get("/package");
@@ -91,7 +123,8 @@ const PricingManagement = () => {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to create package",
+        description:
+          error.response?.data?.message || "Failed to create package",
         variant: "destructive",
       });
     },
@@ -99,7 +132,13 @@ const PricingManagement = () => {
 
   // Update package mutation
   const updatePackageMutation = useMutation({
-    mutationFn: async ({ id, packageData }: { id: number; packageData: PricingFormData }) => {
+    mutationFn: async ({
+      id,
+      packageData,
+    }: {
+      id: number;
+      packageData: PricingFormData;
+    }) => {
       const response = await api.post(`/package/${id}`, packageData);
       return response.data;
     },
@@ -115,7 +154,8 @@ const PricingManagement = () => {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to update package",
+        description:
+          error.response?.data?.message || "Failed to update package",
         variant: "destructive",
       });
     },
@@ -137,7 +177,8 @@ const PricingManagement = () => {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to delete package",
+        description:
+          error.response?.data?.message || "Failed to delete package",
         variant: "destructive",
       });
     },
@@ -152,7 +193,7 @@ const PricingManagement = () => {
       yearly_price: "",
       users_limit: "",
       sites_limit: "",
-      description: ""
+      description: "",
     });
     setEditingPackage(null);
   };
@@ -165,17 +206,22 @@ const PricingManagement = () => {
       yearly_price: pkg.yearly_price,
       users_limit: pkg.users_limit.toString(),
       sites_limit: pkg.sites_limit.toString(),
-      description: pkg.description
+      description: pkg.description,
     });
     setIsDialogOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
-    if (!formData.name || !formData.monthly_price || !formData.yearly_price || 
-        !formData.users_limit || !formData.sites_limit) {
+    if (
+      !formData.name ||
+      !formData.monthly_price ||
+      !formData.yearly_price ||
+      !formData.users_limit ||
+      !formData.sites_limit
+    ) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields",
@@ -184,7 +230,10 @@ const PricingManagement = () => {
       return;
     }
 
-    if (parseFloat(formData.monthly_price) <= 0 || parseFloat(formData.yearly_price) <= 0) {
+    if (
+      parseFloat(formData.monthly_price) <= 0 ||
+      parseFloat(formData.yearly_price) <= 0
+    ) {
       toast({
         title: "Validation Error",
         description: "Prices must be greater than 0",
@@ -193,7 +242,10 @@ const PricingManagement = () => {
       return;
     }
 
-    if (parseInt(formData.users_limit) <= 0 || parseInt(formData.sites_limit) <= 0) {
+    if (
+      parseInt(formData.users_limit) <= 0 ||
+      parseInt(formData.sites_limit) <= 0
+    ) {
       toast({
         title: "Validation Error",
         description: "Limits must be greater than 0",
@@ -206,7 +258,7 @@ const PricingManagement = () => {
       // Update existing package
       updatePackageMutation.mutate({
         id: editingPackage.id,
-        packageData: formData
+        packageData: formData,
       });
     } else {
       // Create new package
@@ -220,14 +272,17 @@ const PricingManagement = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
-  const calculateYearlySavings = (monthlyPrice: string, yearlyPrice: string) => {
+  const calculateYearlySavings = (
+    monthlyPrice: string,
+    yearlyPrice: string
+  ) => {
     const monthly = parseFloat(monthlyPrice) * 12;
     const yearly = parseFloat(yearlyPrice);
     const savings = monthly - yearly;
@@ -250,7 +305,7 @@ const PricingManagement = () => {
         <div className="text-center">
           <p className="text-red-600 mb-2">Error loading packages</p>
           <p className="text-sm text-gray-600">
-            {error instanceof Error ? error.message : 'Unknown error occurred'}
+            {error instanceof Error ? error.message : "Unknown error occurred"}
           </p>
         </div>
       </div>
@@ -263,13 +318,17 @@ const PricingManagement = () => {
         <div>
           <h1 className="text-3xl font-bold">Pricing Management</h1>
           <p className="text-muted-foreground">
-            Manage your subscription plans and pricing ({packages.length} packages)
+            Manage your subscription plans and pricing ({packages.length}{" "}
+            packages)
           </p>
         </div>
-        
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="flex items-center gap-2 bg-accent hover:bg-accent/90">
+            <Button
+              onClick={resetForm}
+              className="flex items-center gap-2 bg-accent hover:bg-accent/90"
+            >
               <Plus className="h-4 w-4" />
               Add New Package
             </Button>
@@ -287,7 +346,9 @@ const PricingManagement = () => {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="e.g., Professional, Starter, Enterprise"
                     required
                   />
@@ -296,27 +357,34 @@ const PricingManagement = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="monthly_price">Monthly Price ($) *</Label>
+                  <Label htmlFor="monthly_price">Monthly Price (₹) *</Label>
                   <Input
                     id="monthly_price"
                     type="number"
                     step="0.01"
                     min="0"
                     value={formData.monthly_price}
-                    onChange={(e) => setFormData({ ...formData, monthly_price: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        monthly_price: e.target.value,
+                      })
+                    }
                     placeholder="49.00"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="yearly_price">Yearly Price ($) *</Label>
+                  <Label htmlFor="yearly_price">Yearly Price (₹) *</Label>
                   <Input
                     id="yearly_price"
                     type="number"
                     step="0.01"
                     min="0"
                     value={formData.yearly_price}
-                    onChange={(e) => setFormData({ ...formData, yearly_price: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, yearly_price: e.target.value })
+                    }
                     placeholder="490.00"
                     required
                   />
@@ -331,7 +399,9 @@ const PricingManagement = () => {
                     type="number"
                     min="1"
                     value={formData.users_limit}
-                    onChange={(e) => setFormData({ ...formData, users_limit: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, users_limit: e.target.value })
+                    }
                     placeholder="100"
                     required
                   />
@@ -343,7 +413,9 @@ const PricingManagement = () => {
                     type="number"
                     min="1"
                     value={formData.sites_limit}
-                    onChange={(e) => setFormData({ ...formData, sites_limit: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, sites_limit: e.target.value })
+                    }
                     placeholder="8"
                     required
                   />
@@ -355,7 +427,9 @@ const PricingManagement = () => {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   placeholder="Brief description of the package features"
                   rows={3}
                 />
@@ -372,14 +446,21 @@ const PricingManagement = () => {
                     </div>
                     <div>
                       {(() => {
-                        const { savings, percentage } = calculateYearlySavings(formData.monthly_price, formData.yearly_price);
+                        const { savings, percentage } = calculateYearlySavings(
+                          formData.monthly_price,
+                          formData.yearly_price
+                        );
                         return savings > 0 ? (
                           <div className="text-green-600">
-                            <p>Yearly saves: {formatCurrency(savings.toString())}</p>
+                            <p>
+                              Yearly saves: {formatCurrency(savings.toString())}
+                            </p>
                             <p>({percentage.toFixed(1)}% discount)</p>
                           </div>
                         ) : (
-                          <p className="text-red-600">Yearly price should be less than monthly × 12</p>
+                          <p className="text-red-600">
+                            Yearly price should be less than monthly × 12
+                          </p>
                         );
                       })()}
                     </div>
@@ -388,19 +469,26 @@ const PricingManagement = () => {
               )}
 
               <div className="flex justify-end gap-3 pt-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  disabled={createPackageMutation.isPending || updatePackageMutation.isPending}
+                  disabled={
+                    createPackageMutation.isPending ||
+                    updatePackageMutation.isPending
+                  }
                 >
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   type="submit"
-                  disabled={createPackageMutation.isPending || updatePackageMutation.isPending}
+                  disabled={
+                    createPackageMutation.isPending ||
+                    updatePackageMutation.isPending
+                  }
                 >
-                  {(createPackageMutation.isPending || updatePackageMutation.isPending) ? (
+                  {createPackageMutation.isPending ||
+                  updatePackageMutation.isPending ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                       {editingPackage ? "Updating..." : "Creating..."}
@@ -421,7 +509,10 @@ const PricingManagement = () => {
       {/* Package Cards Overview */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {packages.map((pkg) => {
-          const { savings, percentage } = calculateYearlySavings(pkg.monthly_price, pkg.yearly_price);
+          const { savings, percentage } = calculateYearlySavings(
+            pkg.monthly_price,
+            pkg.yearly_price
+          );
           return (
             <Card key={pkg.id} className="relative">
               <CardHeader>
@@ -440,7 +531,7 @@ const PricingManagement = () => {
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <DeletePackageDialog 
+                    <DeletePackageDialog
                       packageId={pkg.id}
                       packageName={pkg.name}
                     />
@@ -450,16 +541,23 @@ const PricingManagement = () => {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold">{formatCurrency(pkg.monthly_price)}</span>
-                    <span className="text-sm text-muted-foreground">/month</span>
+                    <span className="text-2xl font-bold">
+                      {formatCurrency(pkg.monthly_price)}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      /month
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold">{formatCurrency(pkg.yearly_price)}</span>
+                    <span className="text-lg font-semibold">
+                      {formatCurrency(pkg.yearly_price)}
+                    </span>
                     <span className="text-sm text-muted-foreground">/year</span>
                   </div>
                   {savings > 0 && (
                     <div className="text-sm text-green-600">
-                      Save {formatCurrency(savings.toString())} ({percentage.toFixed(1)}%) yearly
+                      Save {formatCurrency(savings.toString())} (
+                      {percentage.toFixed(1)}%) yearly
                     </div>
                   )}
                 </div>
@@ -467,16 +565,22 @@ const PricingManagement = () => {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-blue-500" />
-                    <span className="text-sm">Up to {pkg.users_limit} users</span>
+                    <span className="text-sm">
+                      Up to {pkg.users_limit} users
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-green-500" />
-                    <span className="text-sm">Up to {pkg.sites_limit} sites</span>
+                    <span className="text-sm">
+                      Up to {pkg.sites_limit} sites
+                    </span>
                   </div>
                 </div>
 
                 {pkg.description && (
-                  <p className="text-sm text-muted-foreground">{pkg.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {pkg.description}
+                  </p>
                 )}
 
                 <div className="text-xs text-muted-foreground pt-2 border-t">
@@ -487,8 +591,6 @@ const PricingManagement = () => {
           );
         })}
       </div>
-
-   
     </div>
   );
 };

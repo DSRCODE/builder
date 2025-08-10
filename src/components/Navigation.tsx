@@ -67,7 +67,11 @@ const Navigation = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1 }}
                 onClick={() => scrollToSection(item.href)}
-                className="hover:text-primary font-medium transition-smooth"
+                className={`font-medium transition-smooth ${
+                  isScrolled
+                    ? "text-black hover:text-blue-500"
+                    : "hover:text-orange-500"
+                }`}
               >
                 {item.name}
               </motion.button>

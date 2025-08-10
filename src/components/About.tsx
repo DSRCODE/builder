@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import teamImage from "@/assets/team-construction.jpg";
+import abtimg from "@/assets/abt.jpeg"
 
 const About = () => {
   const { t } = useTranslation();
@@ -38,12 +39,12 @@ const About = () => {
             {/* Image */}
             <div className="relative rounded-2xl overflow-hidden">
               <img
-                src={teamImage}
+                src={abtimg}
                 alt="D Buildz Team"
                 className="w-full h-96 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"></div>
-              
+
               {/* Floating Stats Card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -54,7 +55,9 @@ const About = () => {
               >
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">50+</div>
-                  <div className="text-muted-foreground text-sm">{t('about.subtitle')}</div>
+                  <div className="text-muted-foreground text-sm">
+                    {t("about.subtitle")}
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -97,23 +100,28 @@ const About = () => {
           >
             <div>
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-                <span className="text-primary font-medium">{t('about.title')}</span>
+                <span className="text-primary font-medium">
+                  {t("about.title")}
+                </span>
               </div>
-              
+
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                {t('about.subtitle')}
+                {t("about.subtitle")}
               </h2>
-              
+
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                <p>
-                  {t('about.description')}
-                </p>
+                <p>{t("about.description")}</p>
+              </div>
+              <div className="space-y-6 mt-4 text-lg text-muted-foreground leading-relaxed">
+                <p>{t("about.description2")}</p>
               </div>
             </div>
 
             {/* Values List */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-foreground mb-4">What Sets Us Apart</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-4">
+                What Sets Us Apart
+              </h3>
               {values.map((value, index) => (
                 <motion.div
                   key={index}
@@ -160,12 +168,15 @@ const About = () => {
         >
           <div className="max-w-4xl mx-auto">
             <blockquote className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
-              "At dbuildz, we don't just build structures—we build relationships, communities, 
-              and the foundation for tomorrow's success."
+              "At dbuildz, we don't just build structures—we build
+              relationships, communities, and the foundation for tomorrow's
+              success."
             </blockquote>
             <div className="mt-6 flex items-center justify-center space-x-4">
               <div className="w-12 h-0.5 bg-primary"></div>
-              <span className="text-muted-foreground font-medium">D Buildz Leadership</span>
+              <span className="text-muted-foreground font-medium">
+                D Buildz Leadership
+              </span>
               <div className="w-12 h-0.5 bg-primary"></div>
             </div>
           </div>

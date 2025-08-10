@@ -3178,7 +3178,7 @@ function AdminContent() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="monthly_price">
-                          Monthly Price ($) *
+                          Monthly Price (₹) *
                         </Label>
                         <Input
                           id="monthly_price"
@@ -3197,7 +3197,7 @@ function AdminContent() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="yearly_price">Yearly Price ($) *</Label>
+                        <Label htmlFor="yearly_price">Yearly Price (₹) *</Label>
                         <Input
                           id="yearly_price"
                           type="number"

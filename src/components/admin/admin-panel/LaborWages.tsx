@@ -127,7 +127,7 @@ const LaborWages = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Indian_rupee">Indian Rupee (₹)</SelectItem>
-                <SelectItem value="US_dollar">US Dollar ($)</SelectItem>
+                <SelectItem value="US_dollar">US Dollar (₹)</SelectItem>
                 <SelectItem value="Euro">Euro (€)</SelectItem>
               </SelectContent>
             </Select>
