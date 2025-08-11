@@ -119,8 +119,8 @@ const SiteLoading = ({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="₹">₹ (INR)</SelectItem>
-                        <SelectItem value="$">$ (USD)</SelectItem>
-                        <SelectItem value="€">€ (EUR)</SelectItem>
+                        {/* <SelectItem value="$">$ (USD)</SelectItem>
+                        <SelectItem value="€">€ (EUR)</SelectItem> */}
                       </SelectContent>
                     </Select>
                   </div>

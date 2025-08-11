@@ -24,7 +24,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Edit, Trash2, Plus, Receipt, Loader2, Calendar } from "lucide-react";
+import { Edit, Trash2, Plus, Receipt, Loader2, Calendar, IndianRupee } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -329,7 +329,7 @@ export function Expenses() {
     if (currency === "INR") {
       return `₹${numAmount.toLocaleString("en-IN")}`;
     }
-    return `$${numAmount.toLocaleString()}`;
+    return `₹${numAmount.toLocaleString()}`;
   };
 
   const handleAddInputChange = (field: keyof ExpenseForm, value: string) => {
@@ -898,7 +898,7 @@ export function Expenses() {
         <CardContent>
           {expenses.length === 0 ? (
             <div className="text-center py-8">
-              <Receipt className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <IndianRupee className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">
                 {t("expens.expense_log.no_exp_found")}
               </p>
