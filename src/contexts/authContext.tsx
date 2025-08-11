@@ -87,6 +87,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     confirm_password: string;
     address: string;
     phone_number: string;
+    business_name: string;
+    user_role_id: Number;
   }) => {
     const formData = new FormData();
     formData.append("name", form.name);
@@ -95,6 +97,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     formData.append("confirm_password", form.confirm_password);
     formData.append("address", form.address);
     formData.append("phone_number", form.phone_number);
+    formData.append("business_name", form.business_name);
+    // formData.append("user_role_id", Number(form.user_role_id));
 
     setAuthLoading(true);
     try {

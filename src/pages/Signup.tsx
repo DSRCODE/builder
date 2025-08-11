@@ -27,6 +27,8 @@ export function Register() {
     confirm_password: "",
     address: "",
     phone_number: "",
+    business_name: "",
+    // user_role_id: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,10 +69,21 @@ export function Register() {
     if (step < 3) {
       return;
     }
-    if (!form.address || !form.phone_number) {
+    if (!form.address || !form.phone_number || !form.business_name) {
       toast({
         title: "Step Incomplete",
-        description: "Please fill in address and phone number.",
+        description: "Please fill in address, business name and phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+    // Password validation
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+    if (!passwordRegex.test(form.password)) {
+      toast({
+        title: "Weak Password",
+        description:
+          "Password must be at least 8 chars, include upper, lower, digit, and special character.",
         variant: "destructive",
       });
       return;
@@ -142,6 +155,36 @@ export function Register() {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="business_name">Business Name</Label>
+              <Input
+                name="business_name"
+                placeholder="ABC private.Ltd"
+                value={form.business_name}
+                onChange={handleChange}
+              />
+            </div>
+            {/* <div className="space-y-2">
+              <Label htmlFor="user_role_id">Role</Label>
+              <select
+                name="user_role_id"
+                value={form.user_role_id}
+                onChange={(e) =>
+                  setForm((prev: any) => ({
+                    ...prev,
+                    user_role_id: Number(e.target.value),
+                  }))
+                }
+                className="bg-white text-gray-900 border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              >
+                <option value="">Select Role</option>
+                <option value={1}>Admin</option>
+                <option value={2}>Builder</option>
+                <option value={3}>Supervisor</option>
+                <option value={4}>Owner</option>
+                <option value={5}>Viewer</option>
+              </select>
+            </div> */}
+            <div className="space-y-2">
               <Label htmlFor="phone_number">Phone Number</Label>
               <Input
                 name="phone_number"
@@ -207,7 +250,11 @@ export function Register() {
                     Next
                   </Button>
                 ) : (
-                  <Button type="button" onClick={handleSubmit} disabled={authLoading}>
+                  <Button
+                    type="button"
+                    onClick={handleSubmit}
+                    disabled={authLoading}
+                  >
                     {authLoading ? "Registering..." : "Sign Up"}
                   </Button>
                 )}
