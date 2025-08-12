@@ -9,9 +9,15 @@ import React, {
   useEffect,
 } from "react";
 import { useNavigate } from "react-router-dom";
-
+type PlanCheckType = {
+  days_remaining: number;
+  sites_remaining: number;
+  users_remaining: number;
+};
 type AuthContextType = {
   user: User | null;
+  planCheck: PlanCheckType | null;
+
   login: (email: string, password: string) => void;
   logout: () => void;
   register: (form: {
@@ -30,10 +36,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [planCheck, setPlanCheck] = useState<PlanCheckType | null>(null);
   const [userLoading, setUserLoading] = useState<boolean>(true);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  console.log(planCheck);
 
   const login = async (email: string, password: string) => {
     const formData = new FormData();
@@ -157,9 +166,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUserLoading(false);
     }
   };
+  const fetchUserPlan = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setPlanCheck(null);
+        return;
+      }
 
+      const res = await api.get("/user-plan-data", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log(res)
+
+      if (res.data.status === true && res.data.data.limits) {
+        setPlanCheck(res.data.data.limits);
+      } else {
+        setPlanCheck(null);
+      }
+    } catch (error) {
+      setPlanCheck(null);
+    }
+  };
   useEffect(() => {
     fetchUser();
+    fetchUserPlan();
   }, []);
 
   const logout = () => {
@@ -169,7 +201,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, authLoading, userLoading }}
+      value={{
+        user,
+        planCheck,
+        login,
+        register,
+        logout,
+        authLoading,
+        userLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -170,8 +170,12 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item, index) => {
-                if (item.title === "Admin" && user.user_role !== "admin")
+                if (
+                  item.title === "Admin" &&
+                  !["admin", "super_admin"].includes(user.user_role)
+                ) {
                   return null;
+                }
 
                 if (user.user_role === "supervisor") {
                   const allowed = ["/sites", "/materials", "/labour"];

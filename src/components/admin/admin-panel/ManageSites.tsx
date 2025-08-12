@@ -11,8 +11,19 @@ import { Building2, Edit } from "lucide-react";
 import DeleteSiteDialog from "../DeleteSiteDialog";
 import { Badge } from "@/components/ui/badge";
 import { ConstructionSite } from "@/pages/admin/AdminPanel";
+import { useAuth } from "@/contexts/authContext";
+import { useState } from "react";
 
 const ManageSites = ({ data, openEditSiteModal }) => {
+  const { planCheck } = useAuth();
+  const check = planCheck?.sites_remaining;
+  const [limitDialogOpen, setLimitDialogOpen] = useState(false);
+
+  const handleAddSiteClick = () => {
+    if (check === 0) {
+      setLimitDialogOpen(true);
+    }
+  };
   return (
     <>
       {/* Desktop Table */}
@@ -166,12 +177,14 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                       variant="outline"
                       size="sm"
                       onClick={() => openEditSiteModal(site)}
+                      
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <DeleteSiteDialog
                       siteId={site.id}
                       siteName={site.site_name}
+                      
                     />
                   </div>
                 </TableCell>

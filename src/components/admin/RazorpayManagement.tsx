@@ -34,8 +34,10 @@ export const RazorpayManagement: React.FC = () => {
   const [formData, setFormData] = useState<RazorpaySettings>({
     site_key: "",
     secret_key: "",
-    mode: "test",
+    mode: "",
   });
+
+  
   const [showSecretKey, setShowSecretKey] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 

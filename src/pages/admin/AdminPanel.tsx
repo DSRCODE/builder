@@ -51,6 +51,7 @@ import {
   Loader2,
   AlertCircle,
   CreditCard,
+  Layers,
 } from "lucide-react";
 import {
   Table,
@@ -99,6 +100,10 @@ import {
 import { PricingPlanFormData } from "@/types/pricingPlan";
 import ManageUsers from "@/components/admin/admin-panel/ManageUsers";
 import EditUser from "@/components/admin/admin-panel/EditUser";
+import { useUserPlanData, useUserSubscriptionFreePlanData } from "@/services/planmanagement";
+import ManageUserPlan from "@/components/admin/admin-panel/ManageUserPlan";
+import { useAuth } from "@/contexts/authContext";
+import UserSubscriptionPlanList from "@/components/admin/admin-panel/UserSubscriptionPlanList";
 
 export interface ConstructionSite {
   id: number;
@@ -367,6 +372,20 @@ const adminOptions = [
     icon: CreditCard,
     color: "text-blue-600",
   },
+  {
+    id: "plan-management",
+    title: "Plan Management",
+    description: "Easily manage subscription plans and pricing",
+    icon: Layers,
+    color: "text-indigo-500",
+  },
+  {
+    id: "userSubscriptionPlan-management",
+    title: "User Subscription",
+    description: "Easily manage subscription plans and pricing",
+    icon: Layers,
+    color: "text-indigo-500",
+  },
 ];
 
 // Mock data for different sections
@@ -543,6 +562,26 @@ export function AdminPanel() {
 
 function AdminContent() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { user, planCheck } = useAuth();
+  const check = planCheck?.sites_remaining;
+
+  // Tabs that are only for super_admin
+  const superAdminTabs = [
+    "razorpay-management",
+    "pricing-management",
+    "plan-management",
+    "data-management",
+  ];
+
+  // Filter tabs based on role
+  const visibleTabs =
+    user?.user_role === "super_admin"
+      ? adminOptions.filter((option) => superAdminTabs.includes(option.id)) // show only super admin tabs
+      : adminOptions.filter(
+          (option) =>
+            !superAdminTabs.includes(option.id) &&
+            option.id !== "plan-management"
+        );
 
   // Valid tab options
   const validTabs = [
@@ -555,15 +594,24 @@ function AdminContent() {
     "change-password",
     "data-management",
     "razorpay-management",
+    "plan-management",
+    "userSubscriptionPlan-management",
   ];
   const { data, isLoading, isError } = usePricingPlans();
   const createPricingPlan = useCreatePricingPlan();
   const deletePricingPlan = useDeletePricingPlan();
   const updatePricingPlan = useUpdatePricingPlan();
-  console.log(data);
+  const { data: planData, isLoading: planLoading } = useUserPlanData();
+  const { data: userSubPlanData, isLoading: userSubPlanLoading } =
+    useUserSubscriptionFreePlanData();
+  console.log(userSubPlanData);
   const tabFromUrl = searchParams.get("tab");
-  const initialTab =
-    tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "manage-sites";
+ const initialTab =
+   tabFromUrl && validTabs.includes(tabFromUrl)
+     ? tabFromUrl
+     : visibleTabs.length > 0
+     ? visibleTabs[0].id
+     : "manage-sites";
   const [selectedOption, setSelectedOption] = useState(initialTab);
   const [isAddSiteModalOpen, setIsAddSiteModalOpen] = useState(false);
   const [isEditSiteModalOpen, setIsEditSiteModalOpen] = useState(false);
@@ -644,18 +692,26 @@ function AdminContent() {
 
   // Update selected option when URL changes
   useEffect(() => {
-    const tabFromUrl = searchParams.get("tab");
-    const validTab =
-      tabFromUrl && validTabs.includes(tabFromUrl)
-        ? tabFromUrl
-        : "manage-sites";
-    setSelectedOption(validTab);
+    // compute default tab based on what's visible to the current user
+    const defaultTab = visibleTabs.length ? visibleTabs[0].id : "manage-sites";
 
-    // If URL has invalid tab, update it to default
-    if (tabFromUrl && !validTabs.includes(tabFromUrl)) {
-      setSearchParams({ tab: "manage-sites" });
+    const tabFromUrl = searchParams.get("tab");
+
+    // if URL tab is valid for this user, use it; otherwise use the defaultTab
+    const resolvedTab =
+      tabFromUrl && visibleTabs.some((t) => t.id === tabFromUrl)
+        ? tabFromUrl
+        : defaultTab;
+
+    // set selected option
+    setSelectedOption(resolvedTab);
+
+    // if the URL had an invalid tab (or none), replace it with the resolvedTab
+    if (tabFromUrl !== resolvedTab) {
+      // replace: true avoids a history push when normalizing the URL
+      setSearchParams({ tab: resolvedTab }, { replace: true });
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, visibleTabs]);
 
   // Handle database export errors
   useEffect(() => {
@@ -1104,11 +1160,12 @@ function AdminContent() {
   const materialCategories = materialCategoriesData?.data || [];
   const laborWage = laborWageData?.data;
   const members = membersData?.data || [];
-  console.log(members);
+  const plans = planData?.data || [];
+  const userSubscriptionPlan = userSubPlanData?.data || [];
+  // console.log(userSubscriptionPlan);
 
   // Pricing plans state (dynamic with max 3 plans)
   const [pricingPlans, setPricingPlans] = useState([]);
-  console.log(pricingPlans);
   useEffect(() => {
     if (data?.data) {
       setPricingPlans(data.data);
@@ -1152,7 +1209,6 @@ function AdminContent() {
   };
 
   const openEditPricingModal = (pricing: any) => {
-    console.log(pricing);
     setEditingPricing(pricing);
     setPricingFormData({
       plan: pricing.name || "", // plan name
@@ -1983,9 +2039,13 @@ function AdminContent() {
         ? materialCategories
         : selectedOption === "pricing-management"
         ? pricingPlans
+        : selectedOption === "plan-management"
+        ? plans
+        : selectedOption === "userSubscriptionPlan-management"
+        ? userSubscriptionPlan
         : mockData[selectedOption as keyof typeof mockData] || [];
 
-    console.log(data);
+    // console.log(data);
 
     return (
       <Card>
@@ -2006,6 +2066,7 @@ function AdminContent() {
                 siteFormData={siteFormData}
                 handleSiteInputChange={handleSiteInputChange}
                 addSiteMutation={addSiteMutation}
+                check={check}
               />
             ) : selectedOption === "manage-businesses" ? (
               <AddManageBusiness
@@ -2052,7 +2113,9 @@ function AdminContent() {
             ) : selectedOption !== "change-password" &&
               selectedOption !== "data-management" &&
               selectedOption !== "labor-wages" &&
-              selectedOption !== "razorpay-management" ? (
+              selectedOption !== "razorpay-management" &&
+              selectedOption !== "plan-management" &&
+              selectedOption !== "userSubscriptionPlan-management" ? (
               <Button className="bg-orange-500 hover:bg-orange-600">
                 <Plus className="mr-2 h-4 w-4" />
                 Add New
@@ -2180,6 +2243,11 @@ function AdminContent() {
         return (
           <ManageUsers data={data} openEditUserModal={openEditUserModal} />
         );
+      case "plan-management":
+        return <ManageUserPlan data={data} />;
+
+      case "userSubscriptionPlan-management":
+        return <UserSubscriptionPlanList data={data} />;
 
       default:
         return <div>Content not available</div>;
@@ -2195,7 +2263,7 @@ function AdminContent() {
       <div className="flex flex-col gap-6">
         {/* Sidebar */}
         <div className="grid md:grid-cols-5 gap-1 bg-slate-50 dark:bg-slate-900 rounded-lg p-3">
-          {adminOptions.map((option) => (
+          {visibleTabs.map((option) => (
             <div
               key={option.id}
               className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${

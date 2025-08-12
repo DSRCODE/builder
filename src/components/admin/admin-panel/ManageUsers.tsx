@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Edit, Mail, Phone, Shield, Trash2 } from "lucide-react";
-import { getRoleName, getRoleColor } from "@/utils/roleUtils";
+import { getRoleName, getRoleColor, UserRole } from "@/utils/roleUtils";
 import DeleteUserDialog from "@/components/admin/DeleteUserDialog";
 import { useEffect, useState } from "react";
 
@@ -89,12 +89,13 @@ export default function ManageUsers({
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className={getRoleColor(user.user_role_id)}
+                    className={getRoleColor(user.user_role as UserRole)}
                   >
                     <Shield className="h-3 w-3 mr-1" />
-                    {getRoleName(user.user_role_id)}
+                    {getRoleName(user.user_role as UserRole)}
                   </Badge>
                 </TableCell>
+
                 <TableCell>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-sm">
@@ -183,10 +184,10 @@ export default function ManageUsers({
             {/* Role */}
             <Badge
               variant="outline"
-              className={getRoleColor(user.user_role_id)}
+              className={getRoleColor(user.user_role as UserRole)}
             >
               <Shield className="h-3 w-3 mr-1" />
-              {getRoleName(user.user_role_id)}
+              {getRoleName(user.user_role as UserRole)}
             </Badge>
 
             {/* Contact */}

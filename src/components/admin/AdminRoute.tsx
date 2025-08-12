@@ -1,20 +1,20 @@
 import { useAuth } from "@/contexts/authContext";
 import { PermissionDenied } from "./PermissionDenied";
 import { Loader2 } from "lucide-react";
-import { hasRole, USER_ROLES, getRoleName } from "@/utils/roleUtils";
+import { hasRole, USER_ROLES, getRoleName, UserRole } from "@/utils/roleUtils";
 
 interface AdminRouteProps {
   children: React.ReactNode;
-  requiredRole?: number; // 1 = Admin, 2 = Builder, 3 = Supervisor, 4 = Owner, 5 = Viewer
+  requiredRole?: UserRole; // e.g. "admin", "builder", etc.
   fallbackTitle?: string;
   fallbackMessage?: string;
 }
 
-export function AdminRoute({ 
-  children, 
-  requiredRole = USER_ROLES.ADMIN, // Default to admin only
+export function AdminRoute({
+  children,
+  requiredRole = USER_ROLES.ADMIN,
   fallbackTitle = "Access Restricted",
-  fallbackMessage
+  fallbackMessage,
 }: AdminRouteProps) {
   const { user, userLoading } = useAuth();
 
@@ -30,22 +30,27 @@ export function AdminRoute({
     );
   }
 
-  // Check if user exists and has required role
-  const userHasPermission = hasRole(user?.user_role_id, requiredRole);
+  // Ensure role is correctly typed
+  const currentUserRole: UserRole | undefined =
+    typeof user?.user_role === "string" &&
+    (Object.values(USER_ROLES) as string[]).includes(user.user_role)
+      ? (user.user_role as UserRole)
+      : undefined;
+
+  const userHasPermission =
+    currentUserRole && hasRole(currentUserRole, requiredRole);
 
   if (!userHasPermission) {
     const requiredRoleName = getRoleName(requiredRole);
-    const userRoleName = getRoleName(user?.user_role_id);
-    
-    const defaultMessage = fallbackMessage || 
+    const userRoleName = currentUserRole
+      ? getRoleName(currentUserRole)
+      : "Unknown";
+
+    const defaultMessage =
+      fallbackMessage ||
       `You don't have permission to access this page. This page requires ${requiredRoleName} access or higher. Your current role: ${userRoleName}.`;
 
-    return (
-      <PermissionDenied 
-        title={fallbackTitle}
-        message={defaultMessage}
-      />
-    );
+    return <PermissionDenied title={fallbackTitle} message={defaultMessage} />;
   }
 
   return <>{children}</>;
