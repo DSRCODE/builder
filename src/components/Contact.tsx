@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,27 +25,27 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Phone,
-      title: "Phone",
-      content: "+1 (800) 523-2200",
-      subContent: "Available 24/7 for emergencies",
+      title: `${t("contact.cnt_info.phn.title")}`,
+      content: `${t("contact.cnt_info.phn.content")}`,
+      subContent: `${t("contact.cnt_info.phn.subcontent")}`,
     },
     {
       icon: Mail,
-      title: "Email",
-      content: "info@dbuildz.com",
-      subContent: "We'll respond within 24 hours",
+      title: `${t("contact.cnt_info.mail.title")}`,
+      content: `${t("contact.cnt_info.mail.content")}`,
+      subContent: `${t("contact.cnt_info.mail.subcontent")}`,
     },
     {
       icon: MapPin,
-      title: "Headquarters",
-      content: "1400 16th Street, Denver, CO",
-      subContent: "Visit our main office",
+      title: `${t("contact.cnt_info.map.title")}`,
+      content: `${t("contact.cnt_info.map.content")}`,
+      subContent: `${t("contact.cnt_info.map.subcontent")}`,
     },
     {
       icon: Clock,
-      title: "Business Hours",
-      content: "Monday - Friday: 8AM - 6PM",
-      subContent: "Mountain Time Zone",
+      title: `${t("contact.cnt_info.clock.title")}`,
+      content: `${t("contact.cnt_info.clock.content")}`,
+      subContent: `${t("contact.cnt_info.clock.subcontent")}`,
     },
   ];
 
@@ -58,9 +59,13 @@ const Contact = () => {
     "Other",
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -71,7 +76,8 @@ const Contact = () => {
     setTimeout(() => {
       toast({
         title: "Message Sent Successfully!",
-        description: "Thank you for contacting D Buildz. We'll get back to you within 24 hours.",
+        description:
+          "Thank you for contacting D Buildz. We'll get back to you within 24 hours.",
       });
       setFormData({
         name: "",
@@ -88,7 +94,10 @@ const Contact = () => {
   const isFormValid = formData.name && formData.email && formData.message;
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
+    <section
+      id="contact"
+      className="py-20 bg-gradient-to-br from-primary/5 to-accent/5"
+    >
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -99,15 +108,19 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-            <span className="text-primary font-medium">Get In Touch</span>
+            <span className="text-primary font-medium">
+              {t("contact.header.title")}
+            </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's Build Something
-            <span className="gradient-text"> Amazing Together</span>
+            {t("contact.header.heading")}
+            <span className="gradient-text">
+              {" "}
+              {t("contact.header.heading_sub")}
+            </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ready to start your construction project? Get in touch with our expert team 
-            for a consultation and personalized quote. We're here to bring your vision to life.
+            {t("contact.header.desc")}
           </p>
         </motion.div>
 
@@ -121,10 +134,11 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold text-foreground mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold text-foreground mb-6">
+                {t("contact.cnt_info.title")}
+              </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Reach out to us through any of these channels. Our team is ready to 
-                discuss your project requirements and provide expert guidance.
+                {t("contact.cnt_info.desc")}
               </p>
             </div>
 
@@ -144,9 +158,15 @@ const Contact = () => {
                           <info.icon className="h-6 w-6 text-primary" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground mb-1">{info.title}</h4>
-                          <p className="text-foreground font-medium">{info.content}</p>
-                          <p className="text-muted-foreground text-sm">{info.subContent}</p>
+                          <h4 className="font-semibold text-foreground mb-1">
+                            {info.title}
+                          </h4>
+                          <p className="text-foreground font-medium">
+                            {info.content}
+                          </p>
+                          <p className="text-muted-foreground text-sm">
+                            {info.subContent}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -164,12 +184,14 @@ const Contact = () => {
             >
               <Card className="bg-primary/5 border-primary/20">
                 <CardContent className="p-6 text-center">
-                  <h4 className="font-semibold text-foreground mb-2">Need a Quick Quote?</h4>
+                  <h4 className="font-semibold text-foreground mb-2">
+                    {t("contact.cnt_cta.title")}
+                  </h4>
                   <p className="text-muted-foreground text-sm mb-4">
-                    For urgent project inquiries, call us directly
+                    {t("contact.cnt_cta.p")}
                   </p>
                   <Button className="bg-primary hover:bg-primary-glow transition-smooth">
-                    Call Now: (800) 523-2200
+                    {t("contact.cnt_cta.call_now")}
                   </Button>
                 </CardContent>
               </Card>
@@ -186,28 +208,36 @@ const Contact = () => {
           >
             <Card className="card-shadow border-border/50">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
-                
+                <h3 className="text-2xl font-bold text-foreground mb-6">
+                  {t("contact.cnt_form.title")}
+                </h3>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name and Email Row */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-foreground font-medium">
-                        Full Name *
+                      <Label
+                        htmlFor="name"
+                        className="text-foreground font-medium"
+                      >
+                        {t("contact.cnt_form.full_name")}
                       </Label>
                       <Input
                         id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Your full name"
+                        placeholder={t("contact.cnt_form.full_name_place")}
                         className="transition-smooth focus:ring-2 focus:ring-primary/20"
                         required
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-foreground font-medium">
-                        Email Address *
+                      <Label
+                        htmlFor="email"
+                        className="text-foreground font-medium"
+                      >
+                        {t("contact.cnt_form.email_address")}
                       </Label>
                       <Input
                         id="email"
@@ -215,7 +245,7 @@ const Contact = () => {
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="your.email@example.com"
+                        placeholder={t("contact.cnt_form.email_place")}
                         className="transition-smooth focus:ring-2 focus:ring-primary/20"
                         required
                       />
@@ -225,8 +255,11 @@ const Contact = () => {
                   {/* Phone and Company Row */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-foreground font-medium">
-                        Phone Number
+                      <Label
+                        htmlFor="phone"
+                        className="text-foreground font-medium"
+                      >
+                        {t("contact.cnt_form.phn_no")}
                       </Label>
                       <Input
                         id="phone"
@@ -239,15 +272,18 @@ const Contact = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company" className="text-foreground font-medium">
-                        Company/Organization
+                      <Label
+                        htmlFor="company"
+                        className="text-foreground font-medium"
+                      >
+                        {t("contact.cnt_form.cmp_org")}
                       </Label>
                       <Input
                         id="company"
                         name="company"
                         value={formData.company}
                         onChange={handleInputChange}
-                        placeholder="Your company name"
+                        placeholder={t("contact.cnt_form.cmp_org_place")}
                         className="transition-smooth focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
@@ -255,8 +291,11 @@ const Contact = () => {
 
                   {/* Project Type */}
                   <div className="space-y-2">
-                    <Label htmlFor="projectType" className="text-foreground font-medium">
-                      Project Type
+                    <Label
+                      htmlFor="projectType"
+                      className="text-foreground font-medium"
+                    >
+                      {t("contact.cnt_form.prj")}
                     </Label>
                     <select
                       id="projectType"
@@ -265,7 +304,9 @@ const Contact = () => {
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground transition-smooth focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     >
-                      <option value="">Select project type</option>
+                      <option value="">
+                        {t("contact.cnt_form.prj_place")}
+                      </option>
                       {projectTypes.map((type) => (
                         <option key={type} value={type}>
                           {type}
@@ -276,15 +317,18 @@ const Contact = () => {
 
                   {/* Message */}
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="text-foreground font-medium">
-                      Project Description *
+                    <Label
+                      htmlFor="message"
+                      className="text-foreground font-medium"
+                    >
+                      {t("contact.cnt_form.prj_desc")}
                     </Label>
                     <Textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      placeholder="Tell us about your project requirements, timeline, and any specific needs..."
+                      placeholder={t("contact.cnt_form.prj_desc_place")}
                       rows={5}
                       className="transition-smooth focus:ring-2 focus:ring-primary/20"
                       required
@@ -301,19 +345,19 @@ const Contact = () => {
                       {isSubmitting ? (
                         <>
                           <div className="animate-spin w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full mr-2"></div>
-                          Sending...
+                          {t("contact.cnt_form.b1")}
                         </>
                       ) : (
                         <>
                           <Send className="mr-2 h-4 w-4" />
-                          Send Message
+                          {t("contact.cnt_form.b2")}
                         </>
                       )}
                     </Button>
-                    
+
                     <div className="flex items-center text-muted-foreground text-sm">
                       <CheckCircle className="h-4 w-4 mr-2 text-primary" />
-                      We'll respond within 24 hours
+                      {t("contact.cnt_form.msg")}
                     </div>
                   </div>
                 </form>

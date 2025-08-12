@@ -4,24 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import teamImage from "@/assets/team-construction.jpg";
-import abtimg from "@/assets/abt.jpeg"
+import abtimg from "@/assets/abt.jpeg";
 
 const About = () => {
   const { t } = useTranslation();
-  
+
   const achievements = [
-    { icon: Building2, value: "500+", label: t('about.projects') },
-    { icon: Users, value: "50+", label: t('about.experience') },
-    { icon: Award, value: "100%", label: t('about.clients') },
-    { icon: TrendingUp, value: "$2B+", label: t('about.awards') },
+    { icon: Building2, value: "500+", label: t("about.projects") },
+    { icon: Users, value: "50+", label: t("about.experience") },
+    { icon: Award, value: "100%", label: t("about.clients") },
+    { icon: TrendingUp, value: "$2B+", label: t("about.awards") },
   ];
 
   const values = [
-    "Developed by seasoned professionals with proven track records in high-value Indian construction projects",
-    "ERP solutions crafted to meet the operational, financial, and compliance needs unique to India",
-    "Relentless focus on innovation, ensuring early adoption of the best technologies for project success",
-    "Culture of partnership — collaborating with clients to deliver measurable business impact, faster ROI, and lasting growth",
-   
+    `${t("about.value_list.l1")}`,
+    `${t("about.value_list.l2")}`,
+    `${t("about.value_list.l3")}`,
+    `${t("about.value_list.l4")}`,
   ];
 
   return (
@@ -120,7 +119,7 @@ const About = () => {
             {/* Values List */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-foreground mb-4">
-                What Sets Us Apart
+                {t("about.value_list.title")}
               </h3>
               {values.map((value, index) => (
                 <motion.div
@@ -148,14 +147,14 @@ const About = () => {
                   size="lg"
                   className="bg-primary hover:bg-primary-glow transition-smooth"
                 >
-                  Learn More About Us
+                  {t("about.cta.b1")}
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
                   className="border-primary/20 hover:bg-primary/5"
                 >
-                  View Our History
+                  {t("about.cta.b2")}
                 </Button>
               </div>
             </div>
@@ -172,14 +171,12 @@ const About = () => {
         >
           <div className="max-w-4xl mx-auto">
             <blockquote className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed">
-              "At dbuildz, we don't just build structures—we build
-              relationships, communities, and the foundation for tomorrow's
-              success."
+              {t("about.cta.btm_title")}
             </blockquote>
             <div className="mt-6 flex items-center justify-center space-x-4">
               <div className="w-12 h-0.5 bg-primary"></div>
               <span className="text-muted-foreground font-medium">
-                D Buildz Leadership
+                {t("about.cta.btm_desc")}
               </span>
               <div className="w-12 h-0.5 bg-primary"></div>
             </div>

@@ -22,7 +22,20 @@
     "experience": "Years of Excellence",
     "projects": "Projects Completed",
     "clients": "Employee Owned",
-    "awards": "Projects Delivered"
+    "awards": "Projects Delivered",
+    "value_list": {
+      "title": "What Sets Us Apart",
+      "l1": "Developed by seasoned professionals with proven track records in high-value Indian construction projects",
+      "l2": "ERP solutions crafted to meet the operational, financial, and compliance needs unique to India",
+      "l3": "Relentless focus on innovation, ensuring early adoption of the best technologies for project success",
+      "l4": "Culture of partnership — collaborating with clients to deliver measurable business impact, faster ROI, and lasting growth"
+    },
+    "cta": {
+      "b1": "Learn More About Us",
+      "b2": " View Our History",
+      "btm_title": "At dbuildz, we don't just build structures—we build relationships, communities, and the foundation for tomorrow's success.",
+      "btm_desc": "D Buildz Leadership"
+    }
   },
   "services": {
     "title": "Our Services",
@@ -45,6 +58,58 @@
     }
   },
   "contact": {
+    "header": {
+      "title": "Get In Touch",
+      "heading": "Let's Build Something",
+      "heading_sub": "Amazing Together",
+      "desc": "Ready to start your construction project? Get in touch with our expert team for a consultation and personalized quote. We're here to bring your vision to life."
+    },
+    "cnt_info": {
+      "title": " Contact Information",
+      "desc": " Reach out to us through any of these channels. Our team is ready to discuss your project requirements and provide expert guidance.",
+      "phn":{
+        "title":"Phone",
+        "content":"+1 (800) 523-2200",
+        "subcontent":"Available 24/7 for emergencies"
+      },
+      "mail":{
+        "title":"Email",
+        "content":"info@dbuildz.com",
+        "subcontent":"We'll respond within 24 hours"
+      },
+      "map":{
+        "title":"Headquarters",
+        "content":"1400 16th Street, Denver, CO",
+        "subcontent":"Visit our main office"
+      },
+      "clock":{
+        "title":"Business Hours",
+        "content":"Monday - Friday: 8AM - 6PM",
+        "subcontent":"Mountain Time Zone"
+      }
+    },
+    "cnt_cta": {
+      "title": "Need a Quick Quote?",
+      "p": "For urgent project inquiries, call us direct",
+      "call_now": "Call Now: (800) 523-2200"
+    },
+    "cnt_form": {
+      "title": "Send Us a Message",
+      "full_name": "Full Name *",
+      "full_name_place": "Your full name",
+      "email_address": "Email Address *",
+      "email_place": "your.email@example.com",
+      "phn_no": "Phone Number *",
+      "cmp_org": "Company/Organization",
+      "cmp_org_place": "Your Company Name",
+      "prj": "Project Type",
+      "prj_place": "Select project type",
+      "prj_desc":"Project Description *",
+      "prj_desc_place":"Tell us about your project requirements, timeline, and any specific needs...",
+      "b1":"Sending",
+      "b2":"Send Message",
+      "msg":" We'll respond within 24 hours"
+    },
     "title": "Let's Build Something Amazing Together",
     "subtitle": "Get In Touch",
     "description": "Ready to start your construction project? Get in touch with our expert team for a consultation and personalized quote. We're here to bring your vision to life.",
