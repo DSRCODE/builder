@@ -100,7 +100,10 @@ import {
 import { PricingPlanFormData } from "@/types/pricingPlan";
 import ManageUsers from "@/components/admin/admin-panel/ManageUsers";
 import EditUser from "@/components/admin/admin-panel/EditUser";
-import { useUserPlanData, useUserSubscriptionFreePlanData } from "@/services/planmanagement";
+import {
+  useUserPlanData,
+  useUserSubscriptionFreePlanData,
+} from "@/services/planmanagement";
 import ManageUserPlan from "@/components/admin/admin-panel/ManageUserPlan";
 import { useAuth } from "@/contexts/authContext";
 import UserSubscriptionPlanList from "@/components/admin/admin-panel/UserSubscriptionPlanList";
@@ -576,14 +579,20 @@ function AdminContent() {
   ];
 
   // Filter tabs based on role
+  const excludedIds = ["plan-management"]; // exclude only plan-management for admins
+
   const visibleTabs =
     user?.user_role === "super_admin"
-      ? adminOptions.filter((option) => superAdminTabs.includes(option.id)) // show only super admin tabs
+      ? adminOptions.filter(
+          (option) =>
+            superAdminTabs.includes(option.id) ||
+            option.id === "userSubscriptionPlan-management"
+        ) // show super admin tabs + userSubscriptionPlan
       : adminOptions.filter(
           (option) =>
             !superAdminTabs.includes(option.id) &&
-            option.id !== "plan-management"
-        );
+            !excludedIds.includes(option.id)
+        ); // show admin tabs + userSubscriptionPlan automatically included
 
   // Valid tab options
   const validTabs = [
@@ -608,12 +617,12 @@ function AdminContent() {
     useUserSubscriptionFreePlanData();
   console.log(userSubPlanData);
   const tabFromUrl = searchParams.get("tab");
- const initialTab =
-   tabFromUrl && validTabs.includes(tabFromUrl)
-     ? tabFromUrl
-     : visibleTabs.length > 0
-     ? visibleTabs[0].id
-     : "manage-sites";
+  const initialTab =
+    tabFromUrl && validTabs.includes(tabFromUrl)
+      ? tabFromUrl
+      : visibleTabs.length > 0
+      ? visibleTabs[0].id
+      : "manage-sites";
   const [selectedOption, setSelectedOption] = useState(initialTab);
   const [isAddSiteModalOpen, setIsAddSiteModalOpen] = useState(false);
   const [isEditSiteModalOpen, setIsEditSiteModalOpen] = useState(false);
@@ -2256,7 +2265,7 @@ function AdminContent() {
         return <div>Content not available</div>;
     }
   };
-const check1 = 0
+  const check1 = 0;
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
