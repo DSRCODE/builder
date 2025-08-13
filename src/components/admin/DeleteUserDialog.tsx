@@ -65,7 +65,7 @@ const DeleteUserDialog = ({
   };
   const check1 = 0
   const handleTriggerClick = (e: React.MouseEvent) => {
-    if (check1 === 0) {
+    if (check === 0) {
       // e.preventDefault();
       setLimitDialogOpen(true);
     } else {
