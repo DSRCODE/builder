@@ -8,10 +8,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Edit, Mail, Phone, Shield, Trash2 } from "lucide-react";
 import { getRoleName, getRoleColor, UserRole } from "@/utils/roleUtils";
 import DeleteUserDialog from "@/components/admin/DeleteUserDialog";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/authContext";
 
 interface Member {
   id: number;
@@ -55,8 +65,28 @@ export default function ManageUsers({
   data,
   openEditUserModal,
 }: ManageUsersProps) {
+  const { planCheck } = useAuth();
+  const check = planCheck?.users_remaining;
+  const [limitDialogOpen, setLimitDialogOpen] = useState(false);
+
   return (
     <>
+      {/* Limit Reached Dialog */}
+      <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Users Limit Reached</DialogTitle>
+            <DialogDescription>
+              You have reached the maximum number of users allowed for your
+              plan. Please upgrade your subscription to add more users.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setLimitDialogOpen(false)}>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <Table>
@@ -152,6 +182,8 @@ export default function ManageUsers({
                       userId={user.id}
                       userName={user.name}
                       userEmail={user.email}
+                      setLimitDialogOpen={setLimitDialogOpen}
+                      check={check}
                     />
                   </div>
                 </TableCell>
@@ -244,6 +276,8 @@ export default function ManageUsers({
                   userId={user.id}
                   userName={user.name}
                   userEmail={user.email}
+                  setLimitDialogOpen={setLimitDialogOpen}
+                  check={check}
                 />
               </div>
             </div>

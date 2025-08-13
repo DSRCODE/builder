@@ -21,9 +21,18 @@ interface DeleteUserDialogProps {
   userName: string;
   userEmail: string;
   children?: React.ReactNode;
+  setLimitDialogOpen?: (open: boolean) => void;
+  check?: Number;
 }
 
-const DeleteUserDialog = ({ userId, userName, userEmail, children }: DeleteUserDialogProps) => {
+const DeleteUserDialog = ({
+  setLimitDialogOpen,
+  check,
+  userId,
+  userName,
+  userEmail,
+  children,
+}: DeleteUserDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -54,16 +63,28 @@ const DeleteUserDialog = ({ userId, userName, userEmail, children }: DeleteUserD
   const handleDelete = () => {
     deleteUserMutation.mutate(userId);
   };
-
+  const check1 = 0
+  const handleTriggerClick = (e: React.MouseEvent) => {
+    if (check1 === 0) {
+      // e.preventDefault();
+      setLimitDialogOpen(true);
+    } else {
+      setIsOpen(true);
+    }
+  };
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild>
+      <div onClick={handleTriggerClick}>
         {children || (
-          <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-destructive hover:text-destructive"
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         )}
-      </AlertDialogTrigger>
+      </div>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">

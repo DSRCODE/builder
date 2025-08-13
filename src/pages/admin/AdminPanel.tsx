@@ -104,6 +104,7 @@ import { useUserPlanData, useUserSubscriptionFreePlanData } from "@/services/pla
 import ManageUserPlan from "@/components/admin/admin-panel/ManageUserPlan";
 import { useAuth } from "@/contexts/authContext";
 import UserSubscriptionPlanList from "@/components/admin/admin-panel/UserSubscriptionPlanList";
+import SubscriptionExpiredCard from "@/components/admin/admin-panel/SubscriptionExpiredCard";
 
 export interface ConstructionSite {
   id: number;
@@ -564,6 +565,7 @@ function AdminContent() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user, planCheck } = useAuth();
   const check = planCheck?.sites_remaining;
+  const planExpireCheck = planCheck?.days_remaining;
 
   // Tabs that are only for super_admin
   const superAdminTabs = [
@@ -2085,6 +2087,7 @@ function AdminContent() {
                 userFormData={userFormData}
                 handleUserInputChange={handleUserInputChange}
                 addUserMutation={addUserMutation}
+                check={check}
               />
             ) : selectedOption === "pricing-management" ? (
               <AddPricing
@@ -2253,37 +2256,43 @@ function AdminContent() {
         return <div>Content not available</div>;
     }
   };
-
+const check1 = 0
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
       </div>
 
-      <div className="flex flex-col gap-6">
-        {/* Sidebar */}
-        <div className="grid md:grid-cols-5 gap-1 bg-slate-50 dark:bg-slate-900 rounded-lg p-3">
-          {visibleTabs.map((option) => (
-            <div
-              key={option.id}
-              className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
-                selectedOption === option.id
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
-              }`}
-              onClick={() => handleTabSelect(option.id)}
-            >
-              <option.icon className="h-4 w-4 flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-sm">{option.title}</h3>
-              </div>
-            </div>
-          ))}
+      {planExpireCheck === 0 ? (
+        <div className="min-h-96 flex items-center justify-center bg-gray-50 p-4">
+          <SubscriptionExpiredCard />
         </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {/* Sidebar */}
+          <div className="grid md:grid-cols-5 gap-1 bg-slate-50 dark:bg-slate-900 rounded-lg p-3">
+            {visibleTabs.map((option) => (
+              <div
+                key={option.id}
+                className={`flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+                  selectedOption === option.id
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+                }`}
+                onClick={() => handleTabSelect(option.id)}
+              >
+                <option.icon className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-sm">{option.title}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
 
-        {/* Content */}
-        <div className="flex-1">{renderContent()}</div>
-      </div>
+          {/* Content */}
+          <div className="flex-1">{renderContent()}</div>
+        </div>
+      )}
 
       {/* Edit Site Modal */}
       <EditSite

@@ -7,6 +7,15 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Building2, Edit } from "lucide-react";
 import DeleteSiteDialog from "../DeleteSiteDialog";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +35,22 @@ const ManageSites = ({ data, openEditSiteModal }) => {
   };
   return (
     <>
+      {/* Limit Reached Dialog */}
+      <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Site Limit Reached</DialogTitle>
+            <DialogDescription>
+              You have reached the maximum number of sites allowed for your
+              plan. Please upgrade your subscription to add more sites.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setLimitDialogOpen(false)}>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Desktop Table */}
       <div className="hidden md:block">
         <Table>
@@ -177,14 +202,14 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                       variant="outline"
                       size="sm"
                       onClick={() => openEditSiteModal(site)}
-                      
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <DeleteSiteDialog
                       siteId={site.id}
                       siteName={site.site_name}
-                      
+                      setLimitDialogOpen={setLimitDialogOpen}
+                      check={check}
                     />
                   </div>
                 </TableCell>
@@ -311,7 +336,12 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
-                <DeleteSiteDialog siteId={site.id} siteName={site.site_name} />
+                <DeleteSiteDialog
+                  siteId={site.id}
+                  siteName={site.site_name}
+                  setLimitDialogOpen={setLimitDialogOpen}
+                  check={check}
+                />
               </div>
             </div>
           </div>

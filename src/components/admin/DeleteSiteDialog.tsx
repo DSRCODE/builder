@@ -20,9 +20,17 @@ interface DeleteSiteDialogProps {
   siteId: number;
   siteName: string;
   children?: React.ReactNode;
+  setLimitDialogOpen?: (open: boolean) => void;
+  check?: Number;
 }
 
-const DeleteSiteDialog = ({ siteId, siteName, children }: DeleteSiteDialogProps) => {
+const DeleteSiteDialog = ({
+  setLimitDialogOpen,
+  check,
+  siteId,
+  siteName,
+  children,
+}: DeleteSiteDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -44,7 +52,8 @@ const DeleteSiteDialog = ({ siteId, siteName, children }: DeleteSiteDialogProps)
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.response?.data?.message || "Failed to delete construction site",
+        description:
+          error.response?.data?.message || "Failed to delete construction site",
         variant: "destructive",
       });
     },
@@ -54,15 +63,28 @@ const DeleteSiteDialog = ({ siteId, siteName, children }: DeleteSiteDialogProps)
     deleteSiteMutation.mutate(siteId);
   };
 
+  const handleTriggerClick = (e: React.MouseEvent) => {
+    if (check === 0) {
+      e.preventDefault();
+      setLimitDialogOpen?.(true);
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild>
+      <div onClick={handleTriggerClick}>
         {children || (
-          <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-destructive hover:text-destructive"
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         )}
-      </AlertDialogTrigger>
+      </div>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
