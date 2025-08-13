@@ -67,25 +67,25 @@
     "cnt_info": {
       "title": " Contact Information",
       "desc": " Reach out to us through any of these channels. Our team is ready to discuss your project requirements and provide expert guidance.",
-      "phn":{
-        "title":"Phone",
-        "content":"+1 (800) 523-2200",
-        "subcontent":"Available 24/7 for emergencies"
+      "phn": {
+        "title": "Phone",
+        "content": "+1 (800) 523-2200",
+        "subcontent": "Available 24/7 for emergencies"
       },
-      "mail":{
-        "title":"Email",
-        "content":"info@dbuildz.com",
-        "subcontent":"We'll respond within 24 hours"
+      "mail": {
+        "title": "Email",
+        "content": "info@dbuildz.com",
+        "subcontent": "We'll respond within 24 hours"
       },
-      "map":{
-        "title":"Headquarters",
-        "content":"1400 16th Street, Denver, CO",
-        "subcontent":"Visit our main office"
+      "map": {
+        "title": "Headquarters",
+        "content": "1400 16th Street, Denver, CO",
+        "subcontent": "Visit our main office"
       },
-      "clock":{
-        "title":"Business Hours",
-        "content":"Monday - Friday: 8AM - 6PM",
-        "subcontent":"Mountain Time Zone"
+      "clock": {
+        "title": "Business Hours",
+        "content": "Monday - Friday: 8AM - 6PM",
+        "subcontent": "Mountain Time Zone"
       }
     },
     "cnt_cta": {
@@ -104,11 +104,11 @@
       "cmp_org_place": "Your Company Name",
       "prj": "Project Type",
       "prj_place": "Select project type",
-      "prj_desc":"Project Description *",
-      "prj_desc_place":"Tell us about your project requirements, timeline, and any specific needs...",
-      "b1":"Sending",
-      "b2":"Send Message",
-      "msg":" We'll respond within 24 hours"
+      "prj_desc": "Project Description *",
+      "prj_desc_place": "Tell us about your project requirements, timeline, and any specific needs...",
+      "b1": "Sending",
+      "b2": "Send Message",
+      "msg": " We'll respond within 24 hours"
     },
     "title": "Let's Build Something Amazing Together",
     "subtitle": "Get In Touch",
@@ -187,7 +187,36 @@
   "pricing": {
     "title": "Choose Your Plan",
     "subtitle": "Scale your construction management with plans designed for teams of all sizes",
-    "description": "Choose the package that best fits your construction needs"
+    "description": "Choose the package that best fits your construction needs",
+    "loading": "Loading pricing plans...",
+    "err_loading": "Error loading pricing plans...",
+    "no_plans": "No pricing plans available",
+    "check_back": "Please check back later or contact our sales team",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save": "Save up to 20%",
+    "popular":"Most Popular",
+    "sites":"Sites",
+    "users":"Users",
+    "year":"year",
+    "save1":"Save",
+    "save2":"save",
+    "features": {
+      "f0":"Up to",
+      "f0.1":"team member",
+      "f1": "active construction sites",
+      "f2": " Project management tools",
+      "f3": "Mobile app access",
+      "f4": "Email support",
+      "f5": "Priority support",
+      "f6": " Analytics & reporting",
+      "f7": " 24/7 dedicated support",
+      "f8": "API access",
+      "f9": "Custom integrations"
+    },
+    "btn": "Get Started",
+    "sln": "Need a custome solution?",
+    "cnt": "Contact our sales team"
   },
   "language": {
     "select": "Select Language",
@@ -888,5 +917,55 @@
     "expenses": "Expenses",
     "reports": "Reports",
     "logout": "Logout"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "subtitle": "Admin",
+    "navitem": {
+      "n1": {
+        "title": "Manage Sites",
+        "desc": "Add, edit, or remove construction sites"
+      },
+      "n2": {
+        "title": "Manage Businesses",
+        "desc": "Configure business entities and settings"
+      },
+      "n3": {
+        "title": "Labor Wages",
+        "desc": "Set wage rates and payment schedules"
+      },
+      "n4": {
+        "title": "Material Categories",
+        "desc": "Organize material types and categories"
+      },
+      "n5": {
+        "title": "Manage Users",
+        "desc": "User accounts and access permissions"
+      },
+      "n6": {
+        "title": "Pricing Management",
+        "desc": "Manage subscription plans and pricing"
+      },
+      "n7": {
+        "title": "Change Password",
+        "desc": "Update admin security credentials"
+      },
+      "n8": {
+        "title": "Data Management",
+        "desc": "Backup, restore, and data operations"
+      },
+      "n9": {
+        "title": "Razorpay Management",
+        "desc": "Configure payment gateway settings"
+      },
+      "n10": {
+        "title": "Plan Management",
+        "desc": "Easily manage subscription plans and pricing"
+      },
+      "n11": {
+        "title": "User Subscription",
+        "desc": "Easily manage subscription plans and pricing"
+      }
+    }
   }
 }

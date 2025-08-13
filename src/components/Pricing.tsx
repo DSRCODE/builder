@@ -108,17 +108,16 @@ const Pricing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Choose Your Plan
+              {t("pricing.title")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams
-              of all sizes
+              {t("pricing.subtitle")}
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">Loading pricing plans...</p>
+              <p className="text-muted-foreground">{t("pricing.loading")}</p>
             </div>
           </div>
         </div>
@@ -135,17 +134,16 @@ const Pricing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Choose Your Plan
+              {t("pricing.title")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams
-              of all sizes
+              {t("pricing.subtitle")}
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-              <p className="text-red-600 mb-2">Error loading pricing plans</p>
+              <p className="text-red-600 mb-2"> {t("pricing.err_loading")}</p>
               <p className="text-sm text-muted-foreground">
                 {error instanceof Error
                   ? error.message
@@ -167,19 +165,18 @@ const Pricing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Choose Your Plan
+              {t("pricing.title")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Scale your construction management with plans designed for teams
-              of all sizes
+              {t("pricing.subtitle")}
             </p>
           </div>
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 mb-2">No pricing plans available</p>
+              <p className="text-gray-600 mb-2"> {t("pricing.no_plans")}</p>
               <p className="text-sm text-muted-foreground">
-                Please check back later or contact our sales team
+                {t("pricing.check_back")}
               </p>
             </div>
           </div>
@@ -202,11 +199,10 @@ const Pricing = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Choose Your Plan
+            {t("pricing.title")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Scale your construction management with plans designed for teams of
-            all sizes
+            {t("pricing.subtitle")}
           </p>
 
           {/* Billing Toggle */}
@@ -218,7 +214,7 @@ const Pricing = () => {
                   : "text-muted-foreground"
               }`}
             >
-              Monthly
+              {t("pricing.monthly")}
             </span>
             <button
               onClick={() =>
@@ -243,11 +239,11 @@ const Pricing = () => {
                   : "text-muted-foreground"
               }`}
             >
-              Yearly
+              {t("pricing.yearly")}
             </span>
             {billingCycle === "yearly" && (
               <Badge variant="secondary" className="ml-2">
-                Save up to 20%
+                {t("pricing.save")}
               </Badge>
             )}
           </div>
@@ -292,7 +288,7 @@ const Pricing = () => {
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-primary text-primary-foreground px-4 py-1 flex items-center gap-1">
                         <Star className="w-3 h-3" />
-                        Most Popular
+                        {t("pricing.popular")}
                       </Badge>
                     </div>
                   )}
@@ -304,7 +300,7 @@ const Pricing = () => {
                     <div className="mt-4">
                       <div className="flex items-baseline justify-center gap-1">
                         <span className="text-4xl font-bold">
-                          ${formatPrice(currentPrice)}
+                          ₹{formatPrice(currentPrice)}
                         </span>
                         <span className="text-muted-foreground">
                           {priceLabel}
@@ -312,13 +308,14 @@ const Pricing = () => {
                       </div>
                       {billingCycle === "yearly" && savings > 0 && (
                         <div className="text-sm text-green-600 mt-1">
-                          Save ${formatPrice(savings.toString())} (
-                          {percentage.toFixed(0)}% off)
+                          {t("pricing.save1")}₹{formatPrice(savings.toString())}{" "}
+                          ({percentage.toFixed(0)}% off)
                         </div>
                       )}
                       {billingCycle === "monthly" && (
                         <div className="text-sm text-muted-foreground mt-1">
-                          ${formatPrice(pkg.yearly_price)}/year (save{" "}
+                          ₹{formatPrice(pkg.yearly_price)}/ {t("pricing.year")}({" "}
+                          {t("pricing.save2")}{" "}
                           {calculateYearlySavings(
                             pkg.monthly_price,
                             pkg.yearly_price
@@ -336,7 +333,10 @@ const Pricing = () => {
                             {pkg.users_limit}
                           </div>
                         </div>
-                        <div className="text-muted-foreground">Users</div>
+                        <div className="text-muted-foreground">
+                          {" "}
+                          {t("pricing.users")}
+                        </div>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-1 mb-1">
@@ -345,7 +345,9 @@ const Pricing = () => {
                             {pkg.sites_limit}
                           </div>
                         </div>
-                        <div className="text-muted-foreground">Sites</div>
+                        <div className="text-muted-foreground">
+                          {t("pricing.sites")}
+                        </div>
                       </div>
                     </div>
                   </CardHeader>
@@ -364,39 +366,46 @@ const Pricing = () => {
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
                         <span className="text-sm">
-                          Up to {pkg.users_limit} team members
+                          {t("pricing.features.f0")} {pkg.users_limit}{" "}
+                          {t("pricing.features.f0.1")}
                         </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
                         <span className="text-sm">
-                          {pkg.sites_limit} active construction sites
+                          {pkg.sites_limit} {t("pricing.features.f1")}
                         </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
                         <span className="text-sm">
-                          Project management tools
+                          {t("pricing.features.f2")}
                         </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-sm">Mobile app access</span>
+                        <span className="text-sm">
+                          {t("pricing.features.f3")}
+                        </span>
                       </li>
                       <li className="flex items-center gap-3">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-sm">Email support</span>
+                        <span className="text-sm">
+                          {t("pricing.features.f4")}
+                        </span>
                       </li>
                       {pkg.users_limit >= 25 && (
                         <>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm">Priority support</span>
+                            <span className="text-sm">
+                              {t("pricing.features.f5")}
+                            </span>
                           </li>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
                             <span className="text-sm">
-                              Analytics & reporting
+                              {t("pricing.features.f6")}
                             </span>
                           </li>
                         </>
@@ -406,16 +415,21 @@ const Pricing = () => {
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
                             <span className="text-sm">
-                              24/7 dedicated support
+                              {t("pricing.features.f7")}
                             </span>
                           </li>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm">API access</span>
+                            <span className="text-sm">
+                              {t("pricing.features.f8")}
+                            </span>
                           </li>
                           <li className="flex items-center gap-3">
                             <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                            <span className="text-sm">Custom integrations</span>
+                            <span className="text-sm">
+                              {" "}
+                              {t("pricing.features.f9")}
+                            </span>
                           </li>
                         </>
                       )}
@@ -429,7 +443,7 @@ const Pricing = () => {
                       }`}
                       onClick={() => handleNavigation()}
                     >
-                      Get Started
+                      {t("pricing.btn")}
                     </Button>
                   </CardContent>
                 </Card>
@@ -446,9 +460,10 @@ const Pricing = () => {
           className="text-center mt-12"
         >
           <p className="text-muted-foreground">
-            Need a custom solution?{" "}
+            {t("pricing.sln")}
+
             <span className="text-primary font-medium cursor-pointer hover:underline">
-              Contact our sales team
+               {t("pricing.cnt")}
             </span>
           </p>
         </motion.div>

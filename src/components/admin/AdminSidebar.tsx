@@ -138,7 +138,7 @@ export function AdminSidebar() {
       url: "/reports",
       icon: BarChart3,
     },
-    { title: "Admin", url: "/admin", icon: Settings },
+    { title: `${t("admin.subtitle")}`, url: "/admin", icon: Settings },
   ];
 
   const isActive = (path: string) => {

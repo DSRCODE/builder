@@ -108,6 +108,7 @@ import ManageUserPlan from "@/components/admin/admin-panel/ManageUserPlan";
 import { useAuth } from "@/contexts/authContext";
 import UserSubscriptionPlanList from "@/components/admin/admin-panel/UserSubscriptionPlanList";
 import SubscriptionExpiredCard from "@/components/admin/admin-panel/SubscriptionExpiredCard";
+import { useTranslation } from "react-i18next";
 
 export interface ConstructionSite {
   id: number;
@@ -312,85 +313,6 @@ interface MaterialCategoriesResponse {
   message: string;
   data: MaterialCategory[];
 }
-const adminOptions = [
-  {
-    id: "manage-sites",
-    title: "Manage Sites",
-    description: "Add, edit, or remove construction sites",
-    icon: Building2,
-    color: "text-blue-600",
-  },
-  {
-    id: "manage-businesses",
-    title: "Manage Businesses",
-    description: "Configure business entities and settings",
-    icon: Building,
-    color: "text-green-600",
-  },
-  {
-    id: "labor-wages",
-    title: "Labor Wages",
-    description: "Set wage rates and payment schedules",
-    icon: DollarSign,
-    color: "text-yellow-600",
-  },
-  {
-    id: "material-categories",
-    title: "Material Categories",
-    description: "Organize material types and categories",
-    icon: Package,
-    color: "text-purple-600",
-  },
-  {
-    id: "manage-users",
-    title: "Manage Users",
-    description: "User accounts and access permissions",
-    icon: Users,
-    color: "text-orange-600",
-  },
-  {
-    id: "pricing-management",
-    title: "Pricing Management",
-    description: "Manage subscription plans and pricing",
-    icon: Wallet,
-    color: "text-pink-600",
-  },
-  {
-    id: "change-password",
-    title: "Change Password",
-    description: "Update admin security credentials",
-    icon: Key,
-    color: "text-red-600",
-  },
-  {
-    id: "data-management",
-    title: "Data Management",
-    description: "Backup, restore, and data operations",
-    icon: Database,
-    color: "text-indigo-600",
-  },
-  {
-    id: "razorpay-management",
-    title: "Razorpay Management",
-    description: "Configure payment gateway settings",
-    icon: CreditCard,
-    color: "text-blue-600",
-  },
-  {
-    id: "plan-management",
-    title: "Plan Management",
-    description: "Easily manage subscription plans and pricing",
-    icon: Layers,
-    color: "text-indigo-500",
-  },
-  {
-    id: "userSubscriptionPlan-management",
-    title: "User Subscription",
-    description: "Easily manage subscription plans and pricing",
-    icon: Layers,
-    color: "text-indigo-500",
-  },
-];
 
 // Mock data for different sections
 const mockData = {
@@ -565,6 +487,86 @@ export function AdminPanel() {
 }
 
 function AdminContent() {
+  const { t } = useTranslation();
+  const adminOptions = [
+    {
+      id: "manage-sites",
+      title: `${t("admin.navitem.n1.title")}`,
+      description: `${t("admin.navitem.n1.desc")}`,
+      icon: Building2,
+      color: "text-blue-600",
+    },
+    {
+      id: "manage-businesses",
+      title: `${t("admin.navitem.n2.title")}`,
+      description: `${t("admin.navitem.n2.desc")}`,
+      icon: Building,
+      color: "text-green-600",
+    },
+    {
+      id: "labor-wages",
+      title: `${t("admin.navitem.n3.title")}`,
+      description: `${t("admin.navitem.n3.desc")}`,
+      icon: DollarSign,
+      color: "text-yellow-600",
+    },
+    {
+      id: "material-categories",
+      title: `${t("admin.navitem.n4.title")}`,
+      description: `${t("admin.navitem.n4.desc")}`,
+      icon: Package,
+      color: "text-purple-600",
+    },
+    {
+      id: "manage-users",
+      title: `${t("admin.navitem.n5.title")}`,
+      description: `${t("admin.navitem.n5.desc")}`,
+      icon: Users,
+      color: "text-orange-600",
+    },
+    {
+      id: "pricing-management",
+      title: `${t("admin.navitem.n6.title")}`,
+      description: `${t("admin.navitem.n6.desc")}`,
+      icon: Wallet,
+      color: "text-pink-600",
+    },
+    {
+      id: "change-password",
+      title: `${t("admin.navitem.n7.title")}`,
+      description: `${t("admin.navitem.n7.desc")}`,
+      icon: Key,
+      color: "text-red-600",
+    },
+    {
+      id: "data-management",
+      title: `${t("admin.navitem.n8.title")}`,
+      description: `${t("admin.navitem.n8.desc")}`,
+      icon: Database,
+      color: "text-indigo-600",
+    },
+    {
+      id: "razorpay-management",
+      title: `${t("admin.navitem.n9.title")}`,
+      description: `${t("admin.navitem.n9.desc")}`,
+      icon: CreditCard,
+      color: "text-blue-600",
+    },
+    {
+      id: "plan-management",
+      title: `${t("admin.navitem.n10.title")}`,
+      description: `${t("admin.navitem.n10.desc")}`,
+      icon: Layers,
+      color: "text-indigo-500",
+    },
+    {
+      id: "userSubscriptionPlan-management",
+      title: `${t("admin.navitem.n11.title")}`,
+      description: `${t("admin.navitem.n11.desc")}`,
+      icon: Layers,
+      color: "text-indigo-500",
+    },
+  ];
   const [searchParams, setSearchParams] = useSearchParams();
   const { user, planCheck } = useAuth();
   const check = planCheck?.sites_remaining;
@@ -2269,7 +2271,9 @@ function AdminContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
+        <h1 className="text-3xl font-bold text-foreground">
+          {t("admin.title")}
+        </h1>
       </div>
 
       {planExpireCheck === 0 ? (
