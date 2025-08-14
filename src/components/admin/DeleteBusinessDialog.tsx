@@ -15,6 +15,7 @@ import { Trash2, Loader2, Building } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface DeleteBusinessDialogProps {
   businessId: number;
@@ -22,10 +23,15 @@ interface DeleteBusinessDialogProps {
   children?: React.ReactNode;
 }
 
-const DeleteBusinessDialog = ({ businessId, businessName, children }: DeleteBusinessDialogProps) => {
+const DeleteBusinessDialog = ({
+  businessId,
+  businessName,
+  children,
+}: DeleteBusinessDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   // Delete business mutation
   const deleteBusinessMutation = useMutation({
@@ -35,16 +41,18 @@ const DeleteBusinessDialog = ({ businessId, businessName, children }: DeleteBusi
     },
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "Business deleted successfully",
+        title: `${t("admin.deletedialog.deletbusiness.suc")}`,
+        description: `${t("admin.deletedialog.deletbusiness.suc2")}`,
       });
       queryClient.invalidateQueries({ queryKey: ["businesses"] });
       setIsOpen(false);
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.response?.data?.message || "Failed to delete business",
+        title: `${t("admin.deletedialog.deletbusiness.er")}`,
+        description:
+          error.response?.data?.message ||
+          `${t("admin.deletedialog.deletbusiness.er2")}`,
         variant: "destructive",
       });
     },
@@ -58,7 +66,11 @@ const DeleteBusinessDialog = ({ businessId, businessName, children }: DeleteBusi
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         {children || (
-          <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-destructive hover:text-destructive"
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         )}
@@ -67,26 +79,26 @@ const DeleteBusinessDialog = ({ businessId, businessName, children }: DeleteBusi
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Building className="h-5 w-5 text-red-600" />
-            Delete Business
+            {t("admin.deletedialog.deletbusiness.title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this business?
+            {t("admin.deletedialog.deletbusiness.subtitle")}
             <br />
             <strong>"{businessName}"</strong>
             <br />
             <br />
-            This action cannot be undone and will permanently remove:
+            {t("admin.deletedialog.deletbusiness.head")}
             <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>All business information</li>
-              <li>Associated construction sites</li>
-              <li>Related project data</li>
-              <li>Business configuration settings</li>
+              <li>{t("admin.deletedialog.deletbusiness.l1")}</li>
+              <li>{t("admin.deletedialog.deletbusiness.l2")}</li>
+              <li>{t("admin.deletedialog.deletbusiness.l3")}</li>
+              <li>{t("admin.deletedialog.deletbusiness.l4")}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteBusinessMutation.isPending}>
-            Cancel
+            {t("admin.deletedialog.deletbusiness.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
@@ -96,12 +108,12 @@ const DeleteBusinessDialog = ({ businessId, businessName, children }: DeleteBusi
             {deleteBusinessMutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Deleting...
+                {t("admin.deletedialog.deletbusiness.deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete Business
+                {t("admin.deletedialog.deletbusiness.delete")}
               </>
             )}
           </AlertDialogAction>

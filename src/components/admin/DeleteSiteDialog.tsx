@@ -45,17 +45,18 @@ const DeleteSiteDialog = ({
     },
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "Construction site deleted successfully",
+        title: `${t("admin.deletedialog.deletsites.suc")}`,
+        description: `${t("admin.deletedialog.deletsites.suc1")}`,
       });
       queryClient.invalidateQueries({ queryKey: ["construction-sites"] });
       setIsOpen(false);
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
+        title: `${t("admin.deletedialog.deletsites.er")}`,
         description:
-          error.response?.data?.message || "Failed to delete construction site",
+          error.response?.data?.message ||
+          `${t("admin.deletedialog.deletsites.er1")}`,
         variant: "destructive",
       });
     },
@@ -91,26 +92,26 @@ const DeleteSiteDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Building2 className="h-5 w-5 text-red-600" />
-            Delete Construction Site
+            {t("admin.deletedialog.deletsites.title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this construction site?
+            {t("admin.deletedialog.deletsites.subtitle")}
             <br />
             <strong>"{siteName}"</strong>
             <br />
             <br />
-            This action cannot be undone and will permanently remove:
+            {t("admin.deletedialog.deletsites.head")}
             <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>All site data and information</li>
-              <li>Associated project records</li>
-              <li>Site images and documents</li>
-              <li>Progress tracking data</li>
+              <li> {t("admin.deletedialog.deletsites.l1")}</li>
+              <li> {t("admin.deletedialog.deletsites.l2")}</li>
+              <li> {t("admin.deletedialog.deletsites.l3")}</li>
+              <li> {t("admin.deletedialog.deletsites.l4")}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteSiteMutation.isPending}>
-            Cancel
+            {t("admin.deletedialog.deletsites.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
@@ -120,12 +121,12 @@ const DeleteSiteDialog = ({
             {deleteSiteMutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Deleting...
+                {t("admin.deletedialog.deletsites.deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete Site
+                {t("admin.deletedialog.deletsites.delete")}
               </>
             )}
           </AlertDialogAction>

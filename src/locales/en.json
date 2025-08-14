@@ -1390,10 +1390,67 @@
         },
         "n7": {
           "t": "Total Spent"
-        }
-        ,
-        "adding":"Adding...",
-        "add":"Add Site"
+        },
+        "adding": "Adding...",
+        "add": "Add Site"
+      }
+    },
+    "deletedialog": {
+      "deleteplan": {
+        "title": "Delete this plan?",
+        "subtitle": " This action cannot be undone. The plan will be permanently deleted.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      },
+      "deletsites": {
+        "title": "Delete Construction Site",
+        "subtitle": "Are you sure you want to delete this construction site?",
+        "head": "This action cannot be undone and will permanently remove:",
+        "l1": "All site data and information",
+        "l2": "Associated project records",
+        "l3": "Site images and documents",
+        "l4": "Progress tracking data",
+        "cancel": "Cancel",
+        "deleting": "Deleting....",
+        "delete": "Delete Site",
+        "suc": "Success",
+        "er": "Error",
+        "suc1": "Construction site deleted successfully",
+        "er1": "Failed to delete construction site",
+        "er2": "Failed to delete business",
+        "suc2": "Business deleted successfully"
+      },
+      "deletbusiness": {
+        "title": "Delete Business",
+        "subtitle": "Are you sure you want to delete this business?",
+        "head": "  This action cannot be undone and will permanently remove:",
+        "l1": "All business information",
+        "l2": "Associated construction sites",
+        "l3": "Related project data",
+        "l4": "Business configuration settings",
+        "cancel": "Cancel",
+        "deleting": "Deleting....",
+        "delete": "Delete Business",
+        "suc": "Success",
+        "er": "Error",
+        "er2": "Failed to delete business",
+        "suc2": "Business deleted successfully"
+      },
+      "deletuser": {
+        "title": " Delete User",
+        "subtitle": "Are you sure you want to delete this user?",
+        "head": "   This action cannot be undone and will permanently remove:",
+        "l1": "User account and profile information",
+        "l2": "Access to all systems and data",
+        "l3": "Associated projects and activities",
+        "l4": "User permissions and settings",
+        "cancel": "Cancel",
+        "deleting": "Deleting....",
+        "delete": "Delete User",
+        "suc": "Success",
+        "er": "Error",
+        "er2": "User deleted successfully",
+        "suc2": "Failed to delete user"
       }
     }
   }

@@ -15,6 +15,7 @@ import { Trash2, Loader2, Users } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface DeleteUserDialogProps {
   userId: number;
@@ -36,7 +37,7 @@ const DeleteUserDialog = ({
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const { t } = useTranslation();
   // Delete user mutation
   const deleteUserMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -45,16 +46,18 @@ const DeleteUserDialog = ({
     },
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "User deleted successfully",
+        title: `${t("admin.deletedialog.deletuser.suc")}`,
+        description: `${t("admin.deletedialog.deletuser.suc2")}`,
       });
       queryClient.invalidateQueries({ queryKey: ["members"] });
       setIsOpen(false);
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.response?.data?.message || "Failed to delete user",
+        title: `${t("admin.deletedialog.deletuser.er")}`,
+        description:
+          error.response?.data?.message ||
+          `${t("admin.deletedialog.deletuser.er2")}`,
         variant: "destructive",
       });
     },
@@ -63,7 +66,7 @@ const DeleteUserDialog = ({
   const handleDelete = () => {
     deleteUserMutation.mutate(userId);
   };
-  const check1 = 0
+  const check1 = 0;
   const handleTriggerClick = (e: React.MouseEvent) => {
     if (check === 0) {
       // e.preventDefault();
@@ -89,28 +92,28 @@ const DeleteUserDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Users className="h-5 w-5 text-red-600" />
-            Delete User
+            {t("admin.deletedialog.deletuser.title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this user?
+            {t("admin.deletedialog.deletuser.subtitle")}
             <br />
             <strong>"{userName}"</strong>
             <br />
             <span className="text-sm text-muted-foreground">({userEmail})</span>
             <br />
             <br />
-            This action cannot be undone and will permanently remove:
+            {t("admin.deletedialog.deletuser.head")}
             <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>User account and profile information</li>
-              <li>Access to all systems and data</li>
-              <li>Associated projects and activities</li>
-              <li>User permissions and settings</li>
+              <li> {t("admin.deletedialog.deletuser.l1")}</li>
+              <li> {t("admin.deletedialog.deletuser.l2")}</li>
+              <li> {t("admin.deletedialog.deletuser.l3")}</li>
+              <li> {t("admin.deletedialog.deletuser.l4")}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteUserMutation.isPending}>
-            Cancel
+            {t("admin.deletedialog.deletuser.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
@@ -120,12 +123,12 @@ const DeleteUserDialog = ({
             {deleteUserMutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Deleting...
+                {t("admin.deletedialog.deletuser.deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete User
+                {t("admin.deletedialog.deletuser.delete")}
               </>
             )}
           </AlertDialogAction>

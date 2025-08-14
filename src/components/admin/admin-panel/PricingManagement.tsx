@@ -18,6 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import DeletePlanButton from "../DeletePlanButton";
 
 const PricingManagement = ({
   data,
@@ -110,14 +111,10 @@ const PricingManagement = ({
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-destructive"
-                      onClick={() => handleDeletePricing(plan?.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <DeletePlanButton
+                      plan={plan}
+                      handleDeletePricing={handleDeletePricing}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
@@ -188,14 +185,10 @@ const PricingManagement = ({
               >
                 <Edit className="h-4 w-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-destructive"
-                onClick={() => handleDeletePricing(plan?.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
+              <DeletePlanButton
+                plan={plan}
+                handleDeletePricing={handleDeletePricing}
+              />
             </div>
           </div>
         ))}
