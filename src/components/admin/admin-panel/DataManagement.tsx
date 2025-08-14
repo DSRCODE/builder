@@ -7,8 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Database, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const DataManagement = ({ isExporting, handleDatabaseExport }) => {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -32,10 +34,11 @@ const DataManagement = ({ isExporting, handleDatabaseExport }) => {
               </Card> */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Export Database</CardTitle>
-            <CardDescription>
-              Export complete database as SQL file
-            </CardDescription>
+            <CardTitle className="text-lg">
+              {" "}
+              {t("admin.datamange.title")}
+            </CardTitle>
+            <CardDescription>{t("admin.datamange.subtitle")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Button
@@ -47,12 +50,12 @@ const DataManagement = ({ isExporting, handleDatabaseExport }) => {
               {isExporting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Exporting...
+                  {t("admin.datamange.exporting")}
                 </>
               ) : (
                 <>
                   <Database className="mr-2 h-4 w-4" />
-                  Export Database
+                  {t("admin.datamange.export_db")}
                 </>
               )}
             </Button>

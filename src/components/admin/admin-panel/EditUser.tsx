@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface UserFormData {
   user_role: "admin" | "builder" | "supervisor" | "owner" | "viewer";
@@ -45,31 +46,32 @@ export default function EditUser({
   handleUserInputChange,
   updateUserMutation,
 }: EditUserProps) {
+  const { t } = useTranslation();
   return (
     <Dialog open={isEditUserModalOpen} onOpenChange={setIsEditUserModalOpen}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
-          <DialogDescription>
-            Update user account details and permissions
-          </DialogDescription>
+          <DialogTitle>{t("admin.edituser.title")}</DialogTitle>
+          <DialogDescription>{t("admin.edituser.subitle")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleEditUserSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_user_name">Full Name *</Label>
+              <Label htmlFor="edit_user_name">
+                {t("admin.edituser.form.in1.t")}
+              </Label>
               <Input
                 id="edit_user_name"
                 value={userFormData.name}
-                onChange={(e) =>
-                  handleUserInputChange("name", e.target.value)
-                }
-                placeholder="Enter full name"
+                onChange={(e) => handleUserInputChange("name", e.target.value)}
+                placeholder={t("admin.edituser.form.in1.t")}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="edit_user_role">User Role *</Label>
+              <Label htmlFor="edit_user_role">
+                {t("admin.edituser.form.in2.t")}
+              </Label>
               <Select
                 value={userFormData.user_role}
                 onValueChange={(value) =>
@@ -77,7 +79,7 @@ export default function EditUser({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select role" />
+                  <SelectValue placeholder={t("admin.edituser.form.in2.p")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="admin">Admin</SelectItem>
@@ -91,21 +93,23 @@ export default function EditUser({
           </div>
 
           <div>
-            <Label htmlFor="edit_user_email">Email Address *</Label>
+            <Label htmlFor="edit_user_email">
+              {t("admin.edituser.form.in3.t")}
+            </Label>
             <Input
               id="edit_user_email"
               type="email"
               value={userFormData.email}
-              onChange={(e) =>
-                handleUserInputChange("email", e.target.value)
-              }
-              placeholder="Enter email address"
+              onChange={(e) => handleUserInputChange("email", e.target.value)}
+              placeholder={t("admin.edituser.form.in3.p")}
               required
             />
           </div>
 
           <div>
-            <Label htmlFor="edit_user_phone">Phone Number *</Label>
+            <Label htmlFor="edit_user_phone">
+              {t("admin.edituser.form.in4.t")}
+            </Label>
             <Input
               id="edit_user_phone"
               type="tel"
@@ -113,14 +117,16 @@ export default function EditUser({
               onChange={(e) =>
                 handleUserInputChange("phone_number", e.target.value)
               }
-              placeholder="Enter phone number (min 10 digits)"
+              placeholder={t("admin.edituser.form.in4.p")}
               required
               minLength={10}
             />
           </div>
 
           <div>
-            <Label htmlFor="edit_user_password">Password</Label>
+            <Label htmlFor="edit_user_password">
+              {t("admin.edituser.form.in5.t")}
+            </Label>
             <Input
               id="edit_user_password"
               type="password"
@@ -128,11 +134,11 @@ export default function EditUser({
               onChange={(e) =>
                 handleUserInputChange("password", e.target.value)
               }
-              placeholder="Leave empty to keep current password"
+              placeholder={t("admin.edituser.form.in5.p")}
               minLength={6}
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Leave empty to keep current password. Minimum 6 characters if changing.
+              {t("admin.edituser.form.in5.ds")}
             </p>
           </div>
 
@@ -143,7 +149,7 @@ export default function EditUser({
               onClick={() => setIsEditUserModalOpen(false)}
               disabled={updateUserMutation.isPending}
             >
-              Cancel
+              {t("admin.edituser.btn")}
             </Button>
             <Button
               type="submit"
@@ -153,10 +159,10 @@ export default function EditUser({
               {updateUserMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Updating...
+                  {t("admin.edituser.updating")}
                 </>
               ) : (
-                "Update User"
+                `${t("admin.edituser.update")}`
               )}
             </Button>
           </DialogFooter>

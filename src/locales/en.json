@@ -195,15 +195,15 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "save": "Save up to 20%",
-    "popular":"Most Popular",
-    "sites":"Sites",
-    "users":"Users",
-    "year":"year",
-    "save1":"Save",
-    "save2":"save",
+    "popular": "Most Popular",
+    "sites": "Sites",
+    "users": "Users",
+    "year": "year",
+    "save1": "Save",
+    "save2": "save",
     "features": {
-      "f0":"Up to",
-      "f0.1":"team member",
+      "f0": "Up to",
+      "f0.1": "team member",
       "f1": "active construction sites",
       "f2": " Project management tools",
       "f3": "Mobile app access",
@@ -921,6 +921,13 @@
   "admin": {
     "title": "Admin Panel",
     "subtitle": "Admin",
+    "subscriptionwarning": {
+      "title": "Your Subscription Has Expired",
+      "desc": "Renew your plan or purchase a new one to continue accessing all services.",
+      "btn": "Renew Plan"
+    },
+    "siteswarning": {},
+    "userswarning": {},
     "navitem": {
       "n1": {
         "title": "Manage Sites",
@@ -966,6 +973,280 @@
         "title": "User Subscription",
         "desc": "Easily manage subscription plans and pricing"
       }
+    },
+    "editsite": {
+      "title": "Edit Construction Site",
+      "subtitle": "Update the construction site details",
+      "form": {
+        "in1": {
+          "t": "Site Name *",
+          "p": "Enter site name"
+        },
+        "in2": {
+          "t": "Location",
+          "p": "e.g., India, USA"
+        },
+        "in3": {
+          "t": "Address *",
+          "p": "Enter complete address"
+        },
+        "in4": {
+          "t": "Currency *",
+          "p": "Select currency"
+        },
+        "in5": {
+          "t": "Estimated Budget *"
+        },
+        "in6": {
+          "t": "Progress (%)"
+        },
+        "in7": {
+          "t": "Total Spent"
+        },
+        "btn": "Cancle",
+        "updating": "Updating...",
+        "update": "Update Site"
+      }
+    },
+    "editpricing": {
+      "title": "Edit Pricing Plan",
+      "subtitle": "Update pricing plan details and features",
+      "form": {
+        "in1": {
+          "t": "Plan Name *",
+          "p": "e.g., Starter, Professional"
+        },
+        "in2": {
+          "t": "Status *",
+          "p": "Select status"
+        },
+        "in3": {
+          "t": "}Monthly Price (₹) *"
+        },
+        "in4": {
+          "t": "Yearly Price (₹) *"
+        },
+        "in5": {
+          "t": "Max Users *"
+        },
+        "in6": {
+          "t": "Max Sites *"
+        },
+        "in7": {
+          "t": "Total Spent"
+        },
+        "btn": "Cancle",
+        "update": "Update Plan"
+      }
+    },
+    "editbusiness": {
+      "title": "Edit Business",
+      "subtitle": "Update the business information",
+      "form": {
+        "in1": {
+          "t": "Business Name *",
+          "p": "Enter business name",
+          "wr": " Minimum 2 characters required"
+        }
+      },
+      "btn": "Cancle",
+      "update": " Update Business",
+      "updating": "Updating..."
+    },
+    "editmaterial": {
+      "title": "Edit Material Category",
+      "subtitle": "Update the material category information",
+      "form": {
+        "in1": {
+          "t": "  Category Name *",
+          "p": "Enter category name"
+        }
+      },
+      "btn": "Cancle",
+      "update": " Update Category",
+      "updating": "Updating..."
+    },
+    "edituser": {
+      "title": "Edit User",
+      "subtitle": "Update user account details and permissions",
+      "form": {
+        "in1": {
+          "t": "Full Name *",
+          "p": "Enter full name"
+        },
+        "in2": {
+          "t": " User Role *",
+          "p": "Select role"
+        },
+        "in3": {
+          "t": " Email Address *",
+          "p": "Enter email address"
+        },
+        "in4": {
+          "t": "Phone Number *",
+          "p": "Enter phone number (min 10 digits)"
+        },
+        "in5": {
+          "t": "Password",
+          "p": "Leave empty to keep current password",
+          "ds": "Leave empty to keep current password. Minimum 6 characters if changing."
+        }
+      },
+      "btn": "Cancle",
+      "update": " Update User",
+      "updating": "Updating..."
+    },
+    "usersubscriptionlist": {
+      "name": "Name",
+      "email": "Email",
+      "Subscriptiontype": "Subscription Type",
+      "status": "Status",
+      "packagename": "Package Name"
+    },
+    "mangeuserplan": {
+      "l1": "Days Remaining",
+      "l2": "Sites Remaining",
+      "l3": "Users Remaining",
+      "actionbtn": "Action",
+      "edit": {
+        "title": "Edit Plan",
+        "subtitle": "Update limits, keys, and mode for this plan.",
+        "btn": "Cancle",
+        "saving": "Saving",
+        "save": "Save Changes"
+      }
+    },
+    "mangerazorpay": {
+      "form": {
+        "n1": {
+          "t": " Site Key (Publishable Key) *",
+          "p": " rzp_test_xxxxxxxxxx or rzp_live_xxxxxxxxxx",
+          "ds": " Your Razorpay publishable key (starts with rzp_test_ or rzp_live_)"
+        },
+        "n2": {
+          "t": " Secret Key *",
+          "p": "Enter your Razorpay secret key",
+          "ds": "  Your Razorpay secret key (keep this confidential)"
+        },
+        "n3": {
+          "t1": " Payment Mode *",
+          "t2": " Test Mode",
+          "t3": " Payment Mode",
+          "p": "Select payment mode",
+          "ds1": "  Test mode - No real transactions will be processed",
+          "ds2": " Live mode - Real transactions will be processed"
+        },
+        "updating": "Updating...",
+        "saving": "Saving Setting",
+        "reset": "Reset",
+        "retry": "  Retry",
+        "status_indicator": "You have unsaved changes.Click SAVE SETTINGS to apply them.",
+        "err": "Error loading Razorpay settings:",
+        "val_err": "Validation Error",
+        "val_ds": "Site Key and Secret Key are required",
+        "suc": "Success",
+        "er": "Error",
+        "f_msg": "Failed to update Razorpay settings",
+        "s_msg": "Razorpay settings updated successfully"
+      }
+    },
+    "datamange": {
+      "title": "Export Database",
+      "subtitle": "Export complete database as SQL file",
+      "exporting": "Exporting...",
+      "export_db": " Export Database"
+    },
+    "changepass": {
+      "form": {
+        "in1": {
+          "t": "Current Password *",
+          "p": "Enter current password"
+        },
+        "in2": {
+          "t": "New Password *",
+          "p": "Enter new password (min 6 characters)"
+        },
+        "in3": {
+          "t": " Confirm New Password *",
+          "p": "Confirm new password"
+        },
+        "in4": {
+          "t": "Password Requirements:",
+          "p1": "At least 6 characters",
+          "p2": "Different from current password",
+          "p3": " Passwords match"
+        }
+      },
+      "update": " Update Password",
+      "chng_pass": " Changing Password..."
+    },
+    "pricemange": {
+      "title": " Pricing Plan",
+      "plan_details": "Plan Details",
+      "monthly_price": "Monthly Price",
+      "yearly_price": "Yearly Price",
+      "max_users": "Max Users",
+      "max_sites": "Max Sites",
+      "status": "Status",
+      "action": "Actions",
+      "save": "Save: "
+    },
+    "materialcategorymange": {
+      "category_detail": "Category Details",
+      "create_date": "Created Date",
+      "last_update": "Last Update",
+      "status": "Status",
+      "action": "Actions",
+      "categoryid": "Category ID: ",
+      "yr": "year",
+      "mn": "month",
+      "day": "day"
+    },
+    "mangebussiness": {
+      "bussiness_name": "Business Name",
+      "create_date": "Created Date",
+      "last_update": "Last Update",
+      "status": "Status",
+      "action": "Actions",
+      "bussiness_Entity": "Business Entity",
+      "created": "Created",
+      "updated": "Updated"
+    },
+
+    "laborwage": {
+      "form": {
+        "n1": {
+          "t": "Mason Wage (per day) *"
+        },
+        "n2": {
+          "t": "Helper Wage (per day) *"
+        },
+        "n3": {
+          "t": "Lady Helper Wage (per day) *"
+        },
+        "n4": {
+          "t": " Currency *",
+          "p": "Select currency"
+        }
+      },
+      "current_Setting": "Current Setting",
+      "mason": "Mason:",
+      "helper": "Helper: ",
+      "lady_helper": "Lady Helper: ",
+      "lst_up": "Last updated: ",
+      "saving": "Saving...",
+      "save_wage": "Save Wage Settings",
+      "loading": "Loading wage settings...",
+      "err_loading": "Error loading wage settings"
+    },
+
+    "mangeusers": {
+      "users": "Users",
+      "role": "Role",
+      "contact": "Contact",
+      "status": "Status",
+      "verif": "Verification",
+      "action": "Actions"
     }
   }
 }

@@ -21,22 +21,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Edit } from "lucide-react";
 import { useUpdatePlanSettings } from "@/services/planmanagement";
+import { useTranslation } from "react-i18next";
 
 export default function ManageUserPlan({ data }: any) {
+  const { t } = useTranslation();
   const planLimits = [
     {
       key: "no_of_days",
-      label: "Days Remaining",
+      label: `${t("admin.mangeuserplan.l1")}`,
       value: data?.no_of_days ?? 0,
     },
     {
       key: "no_of_sites",
-      label: "Sites Remaining",
+      label: `${t("admin.mangeuserplan.l2")}`,
       value: data?.no_of_sites ?? 0,
     },
     {
       key: "no_of_users",
-      label: "Users Remaining",
+      label: `${t("admin.mangeuserplan.l3")}`,
       value: data?.no_of_users ?? 0,
     },
   ];
@@ -84,7 +86,9 @@ export default function ManageUserPlan({ data }: any) {
                 {item.label}
               </TableHead>
             ))}
-            <TableHead className="text-center">Action</TableHead>
+            <TableHead className="text-center">
+              {t("admin.mangeuserplan.actionbtn")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -107,15 +111,13 @@ export default function ManageUserPlan({ data }: any) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Edit Plan</DialogTitle>
+            <DialogTitle>{t("admin.mangeuserplan.edit.title")}</DialogTitle>
             <DialogDescription>
-              Update limits, keys, and mode for this plan.
+              {t("admin.mangeuserplan.edit.subtitle")}
             </DialogDescription>
           </DialogHeader>
 
           <Tabs defaultValue="limits" className="mt-4">
-           
-
             <TabsContent value="limits" className="space-y-4 mt-0">
               {planLimits.map((item) => (
                 <div key={item.key} className="space-y-1">
@@ -132,7 +134,7 @@ export default function ManageUserPlan({ data }: any) {
               ))}
               <DialogFooter>
                 <Button variant="outline" onClick={() => setOpen(false)}>
-                  Cancel
+                  {t("admin.mangeuserplan.edit.btn")}
                 </Button>
                 <Button
                   onClick={handleSaveLimits}
@@ -141,10 +143,10 @@ export default function ManageUserPlan({ data }: any) {
                   {updatePlan.isPending ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin mr-2" />{" "}
-                      Saving...
+                      {t("admin.mangeuserplan.edit.saving")}
                     </>
                   ) : (
-                    "Save Changes"
+                    `${t("admin.mangeuserplan.edit.save")}`
                   )}
                 </Button>
               </DialogFooter>

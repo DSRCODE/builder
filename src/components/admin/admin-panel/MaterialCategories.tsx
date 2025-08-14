@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/table";
 import { MaterialCategory } from "@/pages/admin/AdminPanel";
 import { Edit, Package, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       {/* Desktop Table */}
@@ -19,11 +21,22 @@ const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Category Details</TableHead>
-              <TableHead>Created Date</TableHead>
-              <TableHead>Last Updated</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+              <TableHead>
+                {t("admin.materialcategorymange.category_detail")}
+              </TableHead>
+              <TableHead>
+                {" "}
+                {t("admin.materialcategorymange.create_date")}
+              </TableHead>
+              <TableHead>
+                {" "}
+                {t("admin.materialcategorymange.last_update")}
+              </TableHead>
+              <TableHead> {t("admin.materialcategorymange.status")}</TableHead>
+              <TableHead className="text-center">
+                {" "}
+                {t("admin.materialcategorymange.action")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -37,7 +50,8 @@ const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
                     <div>
                       <div className="font-medium">{category.name}</div>
                       <div className="text-sm text-muted-foreground">
-                        Category ID: {category.id}
+                        {t("admin.materialcategorymange.categoryid")}
+                        {category.id}
                       </div>
                     </div>
                   </div>
@@ -112,7 +126,7 @@ const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
               <div>
                 <div className="font-medium">{category.name}</div>
                 <div className="text-sm text-muted-foreground">
-                  Category ID: {category.id}
+                  {t("admin.materialcategorymange.categoryid")} {category.id}
                 </div>
               </div>
             </div>

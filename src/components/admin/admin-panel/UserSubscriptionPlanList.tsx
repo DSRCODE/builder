@@ -6,18 +6,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTranslation } from "react-i18next";
 
 export default function UserSubscriptionPlanList({ data }: any) {
+  const { t } = useTranslation();
   return (
     <div className="bg-white rounded-lg shadow p-4">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center">Name</TableHead>
-            <TableHead className="text-center">Email</TableHead>
-            <TableHead className="text-center">Subscription Type</TableHead>
-            <TableHead className="text-center">Status</TableHead>
-            <TableHead className="text-center">Package Name</TableHead>
+            <TableHead className="text-center">
+              {t("admin.usersubscriptionlist.name")}
+            </TableHead>
+            <TableHead className="text-center">
+              {t("admin.usersubscriptionlist.email")}
+            </TableHead>
+            <TableHead className="text-center">
+              {" "}
+              {t("admin.usersubscriptionlist.Subscriptiontype")}
+            </TableHead>
+            <TableHead className="text-center">
+              {t("admin.usersubscriptionlist.status")}
+            </TableHead>
+            <TableHead className="text-center">
+              {t("admin.usersubscriptionlist.packagename")}{" "}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -35,7 +48,9 @@ export default function UserSubscriptionPlanList({ data }: any) {
               <TableCell className="text-center">
                 {item.status ?? "--"}
               </TableCell>
-              <TableCell className="text-center">{item.package ?? "NA"}</TableCell>
+              <TableCell className="text-center">
+                {item.package ?? "NA"}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

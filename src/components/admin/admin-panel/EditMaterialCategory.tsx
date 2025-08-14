@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const EditMaterialCategory = ({
   isEditMaterialCategoryModalOpen,
@@ -19,6 +20,7 @@ const EditMaterialCategory = ({
   handleMaterialCategoryInputChange,
   updateMaterialCategoryMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isEditMaterialCategoryModalOpen}
@@ -26,21 +28,23 @@ const EditMaterialCategory = ({
     >
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle>Edit Material Category</DialogTitle>
+          <DialogTitle>{t("admin.editmaterial.title")}</DialogTitle>
           <DialogDescription>
-            Update the material category information
+            {t("admin.editmaterial.subtitle")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleEditMaterialCategorySubmit} className="space-y-4">
           <div>
-            <Label htmlFor="edit_category_name">Category Name *</Label>
+            <Label htmlFor="edit_category_name">
+              {t("admin.editmaterial.form.in1.t")}
+            </Label>
             <Input
               id="edit_category_name"
               value={materialCategoryFormData.name}
               onChange={(e) =>
                 handleMaterialCategoryInputChange("name", e.target.value)
               }
-              placeholder="Enter category name"
+              placeholder={t("admin.editmaterial.form.in1.t")}
               required
             />
           </div>
@@ -51,7 +55,7 @@ const EditMaterialCategory = ({
               onClick={() => setIsEditMaterialCategoryModalOpen(false)}
               disabled={updateMaterialCategoryMutation.isPending}
             >
-              Cancel
+              {t("admin.editmaterial.btn")}
             </Button>
             <Button
               type="submit"
@@ -61,10 +65,10 @@ const EditMaterialCategory = ({
               {updateMaterialCategoryMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Updating...
+                  {t("admin.editmaterial.updating")}
                 </>
               ) : (
-                "Update Category"
+                `${t("admin.editmaterial.update")}`
               )}
             </Button>
           </DialogFooter>

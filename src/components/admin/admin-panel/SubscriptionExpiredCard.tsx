@@ -1,8 +1,10 @@
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function SubscriptionExpiredCard() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-xl border border-yellow-300 p-4 sm:p-6">
@@ -14,11 +16,10 @@ export default function SubscriptionExpiredCard() {
           </div>
           <div>
             <h2 className="text-lg font-semibold text-yellow-800">
-              Your Subscription Has Expired
+              {t("admin.subscriptionwarning.title")}
             </h2>
             <p className="text-sm text-yellow-700 mt-1">
-              Renew your plan or purchase a new one to continue accessing all
-              services.
+              {t("admin.subscriptionwarning.desc")}
             </p>
           </div>
         </div>
@@ -30,7 +31,7 @@ export default function SubscriptionExpiredCard() {
             className="bg-yellow-500 hover:bg-yellow-600 text-white w-full sm:w-auto"
             onClick={() => navigate("/")}
           >
-            Renew Plan
+            {t("admin.subscriptionwarning.btn")}
           </Button>
         </div>
       </div>

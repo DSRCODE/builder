@@ -22,6 +22,7 @@ import { getRoleName, getRoleColor, UserRole } from "@/utils/roleUtils";
 import DeleteUserDialog from "@/components/admin/DeleteUserDialog";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/authContext";
+import { useTranslation } from "react-i18next";
 
 interface Member {
   id: number;
@@ -65,6 +66,7 @@ export default function ManageUsers({
   data,
   openEditUserModal,
 }: ManageUsersProps) {
+  const { t } = useTranslation();
   const { planCheck } = useAuth();
   const check = planCheck?.users_remaining;
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
@@ -92,12 +94,12 @@ export default function ManageUsers({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Contact</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Verification</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{t("admin.mangeusers.users")}</TableHead>
+              <TableHead>{t("admin.mangeusers.role")}</TableHead>
+              <TableHead>{t("admin.mangeusers.contact")}</TableHead>
+              <TableHead>{t("admin.mangeusers.status")}</TableHead>
+              <TableHead>{t("admin.mangeusers.verif")}</TableHead>
+              <TableHead>{t("admin.mangeusers.action")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

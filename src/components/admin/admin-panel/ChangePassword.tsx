@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Key, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ChangePassword = ({
   handleChangePasswordSubmit,
@@ -9,17 +10,18 @@ const ChangePassword = ({
   handlePasswordInputChange,
   changePasswordMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <form
       onSubmit={handleChangePasswordSubmit}
       className="grid grid-cols-1 md:grid-cols-2 gap-6"
     >
       <div>
-        <Label htmlFor="old_password">Current Password *</Label>
+        <Label htmlFor="old_password">{t("admin.changepass.form.in1.t")}</Label>
         <Input
           id="old_password"
           type="password"
-          placeholder="Enter current password"
+          placeholder={t("admin.changepass.form.in1.p")}
           value={passwordFormData.old_password}
           onChange={(e) =>
             handlePasswordInputChange("old_password", e.target.value)
@@ -28,11 +30,14 @@ const ChangePassword = ({
         />
       </div>
       <div>
-        <Label htmlFor="new_password">New Password *</Label>
+        <Label htmlFor="new_password">
+          {" "}
+          {t("admin.changepass.form.in2.t")}
+        </Label>
         <Input
           id="new_password"
           type="password"
-          placeholder="Enter new password (min 6 characters)"
+          placeholder={t("admin.changepass.form.in2.p")}
           value={passwordFormData.new_password}
           onChange={(e) =>
             handlePasswordInputChange("new_password", e.target.value)
@@ -43,12 +48,12 @@ const ChangePassword = ({
       </div>
       <div>
         <Label htmlFor="new_password_confirmation">
-          Confirm New Password *
+          {t("admin.changepass.form.in3.t")}
         </Label>
         <Input
           id="new_password_confirmation"
           type="password"
-          placeholder="Confirm new password"
+          placeholder={t("admin.changepass.form.in3.p")}
           value={passwordFormData.new_password_confirmation}
           onChange={(e) =>
             handlePasswordInputChange(
@@ -63,7 +68,10 @@ const ChangePassword = ({
       {/* Password strength indicator */}
       {passwordFormData.new_password && (
         <div className="space-y-2">
-          <div className="text-sm font-medium">Password Requirements:</div>
+          <div className="text-sm font-medium">
+            {" "}
+            {t("admin.changepass.form.in4.t")}
+          </div>
           <div className="space-y-1 text-xs">
             <div
               className={`flex items-center gap-2 ${
@@ -79,7 +87,7 @@ const ChangePassword = ({
                     : "bg-red-600"
                 }`}
               />
-              At least 6 characters
+              {t("admin.changepass.form.in4.p1")}
             </div>
             <div
               className={`flex items-center gap-2 ${
@@ -98,7 +106,7 @@ const ChangePassword = ({
                     : "bg-red-600"
                 }`}
               />
-              Different from current password
+              {t("admin.changepass.form.in4.p2")}
             </div>
             <div
               className={`flex items-center gap-2 ${
@@ -118,7 +126,7 @@ const ChangePassword = ({
                     : "bg-red-600"
                 }`}
               />
-              Passwords match
+              {t("admin.changepass.form.in4.p3")}
             </div>
           </div>
         </div>
@@ -132,12 +140,12 @@ const ChangePassword = ({
         {changePasswordMutation.isPending ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Changing Password...
+            {t("admin.changepass.chng_pass")}
           </>
         ) : (
           <>
             <Key className="h-4 w-4 mr-2" />
-            Update Password
+            {t("admin.changepass.update")}
           </>
         )}
       </Button>

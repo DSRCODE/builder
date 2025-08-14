@@ -8,7 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertCircle, DollarSign, Loader2 } from "lucide-react";
+import { AlertCircle, DollarSign, IndianRupee, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const LaborWages = ({
   laborWageLoading,
@@ -19,12 +20,15 @@ const LaborWages = ({
   laborWage,
   saveLaborWagesMutation,
 }) => {
+  const { t } = useTranslation();
   if (laborWageLoading) {
     return (
       <div className="flex items-center justify-center h-32">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-          <p className="text-muted-foreground">Loading wage settings...</p>
+          <p className="text-muted-foreground">
+            {t("admin.laborwage.loading")}
+          </p>
         </div>
       </div>
     );
@@ -35,7 +39,9 @@ const LaborWages = ({
       <div className="flex items-center justify-center h-32">
         <div className="text-center">
           <AlertCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
-          <p className="text-red-600 mb-1">Error loading wage settings</p>
+          <p className="text-red-600 mb-1">
+            {t("admin.laborwage.err_loading")}
+          </p>
           <p className="text-sm text-muted-foreground">
             {laborWageError instanceof Error
               ? laborWageError.message
@@ -51,7 +57,10 @@ const LaborWages = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="mason_wage">Mason Wage (per day) *</Label>
+            <Label htmlFor="mason_wage">
+              {" "}
+              {t("admin.laborwage.form.n1.t")}
+            </Label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -71,7 +80,10 @@ const LaborWages = ({
           </div>
 
           <div>
-            <Label htmlFor="helper_wage">Helper Wage (per day) *</Label>
+            <Label htmlFor="helper_wage">
+              {" "}
+              {t("admin.laborwage.form.n2.t")}
+            </Label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -94,7 +106,7 @@ const LaborWages = ({
         <div className="space-y-4">
           <div>
             <Label htmlFor="lady_helper_wage">
-              Lady Helper Wage (per day) *
+              {t("admin.laborwage.form.n3.t")}
             </Label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -115,7 +127,7 @@ const LaborWages = ({
           </div>
 
           <div>
-            <Label htmlFor="currency">Currency *</Label>
+            <Label htmlFor="currency"> {t("admin.laborwage.form.n4.t")}</Label>
             <Select
               value={laborWageFormData.currency}
               onValueChange={(value) =>
@@ -123,12 +135,12 @@ const LaborWages = ({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select currency" />
+                <SelectValue placeholder={t("admin.laborwage.form.n4.p")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Indian_rupee">Indian Rupee (₹)</SelectItem>
-                <SelectItem value="US_dollar">US Dollar (₹)</SelectItem>
-                <SelectItem value="Euro">Euro (€)</SelectItem>
+                {/* <SelectItem value="US_dollar">US Dollar (₹)</SelectItem> */}
+                {/* <SelectItem value="Euro">Euro (€)</SelectItem> */}
               </SelectContent>
             </Select>
           </div>
@@ -137,25 +149,34 @@ const LaborWages = ({
 
       {laborWage && (
         <div className="bg-muted/50 p-4 rounded-lg">
-          <h4 className="font-medium mb-2">Current Settings</h4>
+          <h4 className="font-medium mb-2">
+            {t("admin.laborwage.current_Setting")}
+          </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground">Mason:</span>
+              <span className="text-muted-foreground">
+                {t("admin.laborwage.mason")}
+              </span>
               <span className="ml-2 font-medium">₹{laborWage.mason_wage}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Helper:</span>
+              <span className="text-muted-foreground">
+                {t("admin.laborwage.helper")}
+              </span>
               <span className="ml-2 font-medium">₹{laborWage.helper_wage}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Lady Helper:</span>
+              <span className="text-muted-foreground">
+                {" "}
+                {t("admin.laborwage.lady_helper")}
+              </span>
               <span className="ml-2 font-medium">
                 ₹{laborWage.lady_helper_wage}
               </span>
             </div>
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            Last updated:{" "}
+            {t("admin.laborwage.lst_up")}{" "}
             {new Date(laborWage.updated_at).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -175,12 +196,12 @@ const LaborWages = ({
         {saveLaborWagesMutation.isPending ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Saving...
+            {t("admin.laborwage.saving")}
           </>
         ) : (
           <>
-            <DollarSign className="h-4 w-4 mr-2" />
-            Save Wage Settings
+            <IndianRupee className="h-4 w-4 mr-2" />
+            {t("admin.laborwage.save_wage")}
           </>
         )}
       </Button>

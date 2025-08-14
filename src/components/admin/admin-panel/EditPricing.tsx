@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Edit } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const EditPricing = ({
   isEditPricingModalOpen,
@@ -25,6 +26,7 @@ const EditPricing = ({
   pricingFormData,
   handlePricingInputChange,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isEditPricingModalOpen}
@@ -32,27 +34,32 @@ const EditPricing = ({
     >
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Edit Pricing Plan</DialogTitle>
+          <DialogTitle>{t("admin.editpricing.title")}</DialogTitle>
           <DialogDescription>
-            Update pricing plan details and features
+            {t("admin.editpricing.subtitle")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleEditPricingSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_plan_name">Plan Name *</Label>
+              <Label htmlFor="edit_plan_name">
+                {" "}
+                {t("admin.editpricing.form.in1.t")}
+              </Label>
               <Input
                 id="edit_plan_name"
                 value={pricingFormData.plan}
                 onChange={(e) =>
                   handlePricingInputChange("plan", e.target.value)
                 }
-                placeholder="e.g., Starter, Professional"
+                placeholder={t("admin.editpricing.form.in1.p")}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="edit_plan_status">Status *</Label>
+              <Label htmlFor="edit_plan_status">
+                {t("admin.editpricing.form.in2.t")}
+              </Label>
               <Select
                 value={pricingFormData.status}
                 onValueChange={(value) =>
@@ -60,7 +67,9 @@ const EditPricing = ({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue
+                    placeholder={t("admin.editpricing.form.in2.p")}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Active">Active</SelectItem>
@@ -72,7 +81,9 @@ const EditPricing = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_monthly_price">Monthly Price (₹) *</Label>
+              <Label htmlFor="edit_monthly_price">
+                {t("admin.editpricing.form.in3.t")}
+              </Label>
               <Input
                 id="edit_monthly_price"
                 type="number"
@@ -87,7 +98,10 @@ const EditPricing = ({
               />
             </div>
             <div>
-              <Label htmlFor="edit_yearly_price">Yearly Price (₹) *</Label>
+              <Label htmlFor="edit_yearly_price">
+                {" "}
+                {t("admin.editpricing.form.in4.t")}
+              </Label>
               <Input
                 id="edit_yearly_price"
                 type="number"
@@ -105,7 +119,10 @@ const EditPricing = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_max_users">Max Users *</Label>
+              <Label htmlFor="edit_max_users">
+                {" "}
+                {t("admin.editpricing.form.in5.t")}
+              </Label>
               <Input
                 id="edit_max_users"
                 type="number"
@@ -119,7 +136,10 @@ const EditPricing = ({
               />
             </div>
             <div>
-              <Label htmlFor="edit_max_sites">Max Sites *</Label>
+              <Label htmlFor="edit_max_sites">
+                {" "}
+                {t("admin.editpricing.form.in6.t")}
+              </Label>
               <Input
                 id="edit_max_sites"
                 type="number"
@@ -140,11 +160,11 @@ const EditPricing = ({
               variant="outline"
               onClick={() => setIsEditPricingModalOpen(false)}
             >
-              Cancel
+              {t("admin.editpricing.btn")}
             </Button>
             <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
               <Edit className="h-4 w-4 mr-2" />
-              Update Plan
+              {t("admin.editpricing.update")}
             </Button>
           </DialogFooter>
         </form>

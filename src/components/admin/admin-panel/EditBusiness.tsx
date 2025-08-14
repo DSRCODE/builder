@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Edit, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const EditBusiness = ({
   isEditBusinessModalOpen,
@@ -19,6 +20,7 @@ const EditBusiness = ({
   handleBusinessInputChange,
   updateBusinessMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isEditBusinessModalOpen}
@@ -26,24 +28,29 @@ const EditBusiness = ({
     >
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle>Edit Business</DialogTitle>
-          <DialogDescription>Update the business information</DialogDescription>
+          <DialogTitle>{t("admin.editbusiness.title")}</DialogTitle>
+          <DialogDescription>
+            {t("admin.editbusiness.subtitle")}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleEditBusinessSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="edit_business_name">Business Name *</Label>
+            <Label htmlFor="edit_business_name">
+              {" "}
+              {t("admin.editbusiness.form.in1.t")}
+            </Label>
             <Input
               id="edit_business_name"
               value={businessFormData.name}
               onChange={(e) =>
                 handleBusinessInputChange("name", e.target.value)
               }
-              placeholder="Enter business name"
+              placeholder={t("admin.editbusiness.form.in1.p")}
               required
               minLength={2}
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Minimum 2 characters required
+              {t("admin.editbusiness.form.in1.wr")}
             </p>
           </div>
 
@@ -54,7 +61,7 @@ const EditBusiness = ({
               onClick={() => setIsEditBusinessModalOpen(false)}
               disabled={updateBusinessMutation.isPending}
             >
-              Cancel
+              {t("admin.editbusiness.btn")}
             </Button>
             <Button
               type="submit"
@@ -64,12 +71,12 @@ const EditBusiness = ({
               {updateBusinessMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Updating...
+                  {t("admin.editbusiness.updating")}
                 </>
               ) : (
                 <>
                   <Edit className="h-4 w-4 mr-2" />
-                  Update Business
+                  {t("admin.editbusiness.update")}
                 </>
               )}
             </Button>

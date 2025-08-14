@@ -572,8 +572,8 @@ function AdminContent() {
   const check = planCheck?.sites_remaining;
   const planExpireCheck = planCheck?.days_remaining;
 
-  // Tabs that are only for super_admin
-  const superAdminTabs = [
+  // Tabs only visible to super_admin
+  const superAdminOnlyTabs = [
     "razorpay-management",
     "pricing-management",
     "plan-management",
@@ -581,35 +581,30 @@ function AdminContent() {
   ];
 
   // Filter tabs based on role
-  const excludedIds = ["plan-management"]; // exclude only plan-management for admins
-
   const visibleTabs =
     user?.user_role === "super_admin"
-      ? adminOptions.filter(
-          (option) =>
-            superAdminTabs.includes(option.id) ||
-            option.id === "userSubscriptionPlan-management"
-        ) // show super admin tabs + userSubscriptionPlan
+      ? adminOptions // super_admin sees everything
       : adminOptions.filter(
-          (option) =>
-            !superAdminTabs.includes(option.id) &&
-            !excludedIds.includes(option.id)
-        ); // show admin tabs + userSubscriptionPlan automatically included
+          (option) => !superAdminOnlyTabs.includes(option.id)
+        );
+
+  // Valid tab options (list of all possible)
+  const validTabs = adminOptions.map((opt) => opt.id);
 
   // Valid tab options
-  const validTabs = [
-    "manage-sites",
-    "manage-businesses",
-    "labor-wages",
-    "material-categories",
-    "manage-users",
-    "pricing-management",
-    "change-password",
-    "data-management",
-    "razorpay-management",
-    "plan-management",
-    "userSubscriptionPlan-management",
-  ];
+  // const validTabs = [
+  //   "manage-sites",
+  //   "manage-businesses",
+  //   "labor-wages",
+  //   "material-categories",
+  //   "manage-users",
+  //   "pricing-management",
+  //   "change-password",
+  //   "data-management",
+  //   "razorpay-management",
+  //   "plan-management",
+  //   "userSubscriptionPlan-management",
+  // ];
   const { data, isLoading, isError } = usePricingPlans();
   const createPricingPlan = useCreatePricingPlan();
   const deletePricingPlan = useDeletePricingPlan();

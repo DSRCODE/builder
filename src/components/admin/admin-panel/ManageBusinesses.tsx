@@ -11,8 +11,10 @@ import {
 import { Building, Edit } from "lucide-react";
 import DeleteBusinessDialog from "../DeleteBusinessDialog";
 import { Business } from "@/pages/admin/AdminPanel";
+import { useTranslation } from "react-i18next";
 
 const ManageBusinesses = ({ data, openEditBusinessModal }) => {
+  const { t } = useTranslation();
   return (
     <div className="w-full">
       {/* Desktop table */}
@@ -20,11 +22,13 @@ const ManageBusinesses = ({ data, openEditBusinessModal }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Business Name</TableHead>
-              <TableHead>Created Date</TableHead>
-              <TableHead>Last Updated</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+              <TableHead>{t("admin.mangebussiness.bussiness_name")}</TableHead>
+              <TableHead>{t("admin.mangebussiness.create_date")}</TableHead>
+              <TableHead>{t("admin.mangebussiness.last_update")}</TableHead>
+              <TableHead>{t("admin.mangebussiness.status")}</TableHead>
+              <TableHead className="text-center">
+                {t("admin.mangebussiness.action")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -38,7 +42,7 @@ const ManageBusinesses = ({ data, openEditBusinessModal }) => {
                     <div>
                       <div className="font-medium">{business.name}</div>
                       <div className="text-sm text-muted-foreground">
-                        Business Entity
+                        {t("admin.mangebussiness.bussiness_Entity")}
                       </div>
                     </div>
                   </div>
@@ -107,13 +111,13 @@ const ManageBusinesses = ({ data, openEditBusinessModal }) => {
               <div>
                 <div className="font-medium">{business.name}</div>
                 <div className="text-sm text-muted-foreground">
-                  Business Entity
+                  {t("admin.mangebussiness.bussiness_Entity")}
                 </div>
               </div>
             </div>
 
             <div className="text-sm mb-1">
-              <strong>Created:</strong>{" "}
+              <strong> {t("admin.mangebussiness.created")}:</strong>{" "}
               {new Date(business.created_at).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",
@@ -123,7 +127,7 @@ const ManageBusinesses = ({ data, openEditBusinessModal }) => {
             <div className="text-sm mb-10">
               {" "}
               {/* extra bottom padding for buttons */}
-              <strong>Updated:</strong>{" "}
+              <strong>{t("admin.mangebussiness.updated")}:</strong>{" "}
               {new Date(business.updated_at).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",

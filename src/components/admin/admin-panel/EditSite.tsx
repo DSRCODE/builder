@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Edit, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const EditSite = ({
   isEditSiteModalOpen,
@@ -27,57 +28,68 @@ const EditSite = ({
   handleSiteInputChange,
   editSiteMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog open={isEditSiteModalOpen} onOpenChange={setIsEditSiteModalOpen}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Edit Construction Site</DialogTitle>
-          <DialogDescription>
-            Update the construction site details
-          </DialogDescription>
+          <DialogTitle> {t("admin.editsite.title")}</DialogTitle>
+          <DialogDescription>{t("admin.editsite.subtitle")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleEditSiteSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="edit_site_name">Site Name *</Label>
+              <Label htmlFor="edit_site_name">
+                {" "}
+                {t("admin.editsite.form.in1.t")}
+              </Label>
               <Input
                 id="edit_site_name"
                 value={siteFormData.site_name}
                 onChange={(e) =>
                   handleSiteInputChange("site_name", e.target.value)
                 }
-                placeholder="Enter site name"
+                placeholder={t("admin.editsite.form.in1.p")}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="edit_location">Location *</Label>
+              <Label htmlFor="edit_location">
+                {" "}
+                {t("admin.editsite.form.in2.t")}
+              </Label>
               <Input
                 id="edit_location"
                 value={siteFormData.location}
                 onChange={(e) =>
                   handleSiteInputChange("location", e.target.value)
                 }
-                placeholder="e.g., India, USA"
+                placeholder={t("admin.editsite.form.in2.p")}
                 required
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="edit_address">Address *</Label>
+            <Label htmlFor="edit_address">
+              {" "}
+              {t("admin.editsite.form.in3.t")}
+            </Label>
             <Textarea
               id="edit_address"
               value={siteFormData.address}
               onChange={(e) => handleSiteInputChange("address", e.target.value)}
-              placeholder="Enter complete address"
+              placeholder={t("admin.editsite.form.in3.p")}
               required
             />
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="edit_currency">Currency *</Label>
+              <Label htmlFor="edit_currency">
+                {" "}
+                {t("admin.editsite.form.in4.t")}
+              </Label>
               <Select
                 value={siteFormData.currency}
                 onValueChange={(value) =>
@@ -85,7 +97,7 @@ const EditSite = ({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select currency" />
+                  <SelectValue placeholder={t("admin.editsite.form.in4.p")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="₹">₹ (INR)</SelectItem>
@@ -95,7 +107,10 @@ const EditSite = ({
               </Select>
             </div>
             <div>
-              <Label htmlFor="edit_estimated_budget">Estimated Budget *</Label>
+              <Label htmlFor="edit_estimated_budget">
+                {" "}
+                {t("admin.editsite.form.in5.t")}
+              </Label>
               <Input
                 id="edit_estimated_budget"
                 type="number"
@@ -110,7 +125,10 @@ const EditSite = ({
               />
             </div>
             <div>
-              <Label htmlFor="edit_progress">Progress (%)</Label>
+              <Label htmlFor="edit_progress">
+                {" "}
+                {t("admin.editsite.form.in6.t")}
+              </Label>
               <Input
                 id="edit_progress"
                 type="number"
@@ -126,7 +144,10 @@ const EditSite = ({
           </div>
 
           <div>
-            <Label htmlFor="edit_total_spent">Total Spent</Label>
+            <Label htmlFor="edit_total_spent">
+              {" "}
+              {t("admin.editsite.form.in7.t")}
+            </Label>
             <Input
               id="edit_total_spent"
               type="number"
@@ -147,7 +168,7 @@ const EditSite = ({
               onClick={() => setIsEditSiteModalOpen(false)}
               disabled={editSiteMutation.isPending}
             >
-              Cancel
+              {t("admin.editsite.form.btn")}
             </Button>
             <Button
               type="submit"
@@ -157,12 +178,12 @@ const EditSite = ({
               {editSiteMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Updating...
+                  {t("admin.editsite.form.updating")}
                 </>
               ) : (
                 <>
                   <Edit className="h-4 w-4 mr-2" />
-                  Update Site
+                  {t("admin.editsite.form.update")}
                 </>
               )}
             </Button>

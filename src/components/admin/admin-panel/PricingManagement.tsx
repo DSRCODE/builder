@@ -9,14 +9,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PricingPlan } from "@/pages/admin/AdminPanel";
-import { Building2, DollarSign, Edit, IndianRupee, Trash2, Users } from "lucide-react";
+import {
+  Building2,
+  DollarSign,
+  Edit,
+  IndianRupee,
+  Trash2,
+  Users,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const PricingManagement = ({
   data,
   openEditPricingModal,
   handleDeletePricing,
 }) => {
-  console.log(data)
+  // console.log(data)
+  const { t } = useTranslation();
   return (
     <div className="overflow-x-auto">
       {/* Desktop View */}
@@ -24,13 +33,16 @@ const PricingManagement = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Plan Details</TableHead>
-              <TableHead>Monthly Price</TableHead>
-              <TableHead>Yearly Price</TableHead>
-              <TableHead>Max Users</TableHead>
-              <TableHead>Max Sites</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+              <TableHead>{t("admin.pricemange.plan_details")}</TableHead>
+              <TableHead> {t("admin.pricemange.monthly_price")}</TableHead>
+              <TableHead> {t("admin.pricemange.yearly_price")}</TableHead>
+              <TableHead> {t("admin.pricemange.max_users")}</TableHead>
+              <TableHead> {t("admin.pricemange.max_sites")}</TableHead>
+              <TableHead> {t("admin.pricemange.status")}</TableHead>
+              <TableHead className="text-center">
+                {" "}
+                {t("admin.pricemange.action")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -44,7 +56,7 @@ const PricingManagement = ({
                     <div>
                       <div className="font-medium">{plan?.name}</div>
                       <div className="text-sm text-muted-foreground">
-                        Pricing Plan
+                        {t("admin.pricemange.title")}
                       </div>
                     </div>
                   </div>
@@ -137,20 +149,21 @@ const PricingManagement = ({
               <div>
                 <div className="font-medium">{plan?.name}</div>
                 <div className="text-sm text-muted-foreground">
-                  Pricing Plan
+                  {t("admin.pricemange.title")}
                 </div>
               </div>
             </div>
 
             {/* Pricing */}
             <div className="text-green-600 font-medium">
-              Monthly: ₹{plan?.monthly_price}
+              {t("admin.pricemange.monthly_price")}: ₹{plan?.monthly_price}
             </div>
             <div className="text-blue-600 font-medium">
-              Yearly: ₹{plan?.yearly_price}
+              {t("admin.pricemange.yearly_price")}: ₹{plan?.yearly_price}
             </div>
             <div className="text-xs text-muted-foreground">
-              Save ₹{plan?.monthly_price * 12 - plan?.yearly_price}
+              {t("admin.pricemange.save")} ₹
+              {plan?.monthly_price * 12 - plan?.yearly_price}
             </div>
 
             {/* Users & Sites badges in one row */}
