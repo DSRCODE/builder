@@ -15,6 +15,7 @@ import { Trash2, Loader2, Building2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface DeleteSiteDialogProps {
   siteId: number;
@@ -31,6 +32,7 @@ const DeleteSiteDialog = ({
   siteName,
   children,
 }: DeleteSiteDialogProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();

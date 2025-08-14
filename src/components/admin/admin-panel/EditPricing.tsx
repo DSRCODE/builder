@@ -160,11 +160,11 @@ const EditPricing = ({
               variant="outline"
               onClick={() => setIsEditPricingModalOpen(false)}
             >
-              {t("admin.editpricing.btn")}
+              {t("admin.editpricing.form.btn")}
             </Button>
             <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
               <Edit className="h-4 w-4 mr-2" />
-              {t("admin.editpricing.update")}
+              {t("admin.editpricing.form.update")}
             </Button>
           </DialogFooter>
         </form>

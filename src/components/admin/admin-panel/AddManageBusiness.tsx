@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AddManageBusiness = ({
   isAddBusinessModalOpen,
@@ -20,6 +21,7 @@ const AddManageBusiness = ({
   handleBusinessInputChange,
   addBusinessMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isAddBusinessModalOpen}
@@ -28,29 +30,35 @@ const AddManageBusiness = ({
       <DialogTrigger asChild>
         <Button className="bg-orange-500 hover:bg-orange-600">
           <Plus className="mr-2 h-4 w-4" />
-          Add New Business
+          {t("admin.addbussiness.title")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle>Add New Business</DialogTitle>
-          <DialogDescription>Create a new business entity</DialogDescription>
+          <DialogTitle> {t("admin.addbussiness.title")}</DialogTitle>
+          <DialogDescription>
+            {" "}
+            {t("admin.addbussiness.subtitle")}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleAddBusinessSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="business_name">Business Name *</Label>
+            <Label htmlFor="business_name">
+              {" "}
+              {t("admin.addbussiness.form.n1.t")}
+            </Label>
             <Input
               id="business_name"
               value={businessFormData.name}
               onChange={(e) =>
                 handleBusinessInputChange("name", e.target.value)
               }
-              placeholder="Enter business name"
+              placeholder={t("admin.addbussiness.form.n1.p")}
               required
               minLength={2}
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Minimum 2 characters required
+              {t("admin.addbussiness.form.n1.wr")}
             </p>
           </div>
 
@@ -61,7 +69,7 @@ const AddManageBusiness = ({
               onClick={() => setIsAddBusinessModalOpen(false)}
               disabled={addBusinessMutation.isPending}
             >
-              Cancel
+              {t("admin.addbussiness.cancel")}
             </Button>
             <Button
               type="submit"
@@ -71,12 +79,12 @@ const AddManageBusiness = ({
               {addBusinessMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Adding...
+                  {t("admin.addbussiness.adding")}
                 </>
               ) : (
                 <>
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Business
+                  {t("admin.addbussiness.add")}
                 </>
               )}
             </Button>

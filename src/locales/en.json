@@ -1247,6 +1247,154 @@
       "status": "Status",
       "verif": "Verification",
       "action": "Actions"
+    },
+
+    "addmaterialcategory": {
+      "btn": "Add Category",
+      "title": "Add New Material Category",
+      "subtitle": "Create a new material category to organize your materials",
+      "form": {
+        "n1": {
+          "t": "Category Name *",
+          "p": "Enter category name"
+        }
+      },
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add Category"
+    },
+    "addnewplan": {
+      "btn": "Add New Plan",
+      "title": "Add New Pricing Plan",
+      "subtitle": " Create a new pricing plan with features and limits (Maximum 3 plans allowed)",
+      "form": {
+        "n1": {
+          "t": "Plan Name *",
+          "p": "e.g., Starter, Professional"
+        },
+        "n2": {
+          "t": "Status *",
+          "p": "Select status"
+        },
+        "n3": {
+          "t": "Monthly Price (₹) *"
+        },
+        "n4": {
+          "t": "Yearly Price (₹) *"
+        },
+        "n5": {
+          "t": "Max Users *"
+        },
+        "n6": {
+          "t": "Max Sites *"
+        }
+      },
+      "cancel": "Cancel",
+      "addplan": "Add Plan"
+    },
+    "adduser": {
+      "title": "Add New User",
+      "subtitle": "Create a new user account with role and permissions",
+      "btn": "  Add New User",
+      "limit": {
+        "title": "Users Limit Reached",
+        "desc": "You have reached the maximum number of users allowed for your plan. Please upgrade your subscription to add more users.",
+        "ok": "OK"
+      },
+      "form": {
+        "n1": {
+          "t": "Full Name *",
+          "p": "Enter full name"
+        },
+        "n2": {
+          "t": "User Role *",
+          "p": "Select role"
+        },
+        "n3": {
+          "t": "Email Address *",
+          "p": "Enter email address"
+        },
+        "n4": {
+          "t": "Phone Number *",
+          "p": "Enter phone number (min 10 digits)"
+        },
+        "n5": {
+          "t": "Password *",
+          "p": "Enter password (min 6 characters)"
+        }
+      },
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add User"
+    },
+
+    "addbussiness": {
+      "title": "Add New Business",
+      "subtitle": "Create a new business entity",
+      "form": {
+        "n1": {
+          "t": "Business Name *",
+          "p": "Enter business name",
+          "wr": " Minimum 2 characters required"
+        }
+      },
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add Business"
+    },
+    "sitemanage": {
+      "limit": {
+        "title": "Site Limit Reached",
+        "desc": "You have reached the maximum number of sites allowed for your plan. Please upgrade your subscription to add more sites.",
+        "ok": "OK"
+      },
+      "site_details": "Site Details",
+      "business": "Business",
+      "add_loc": "Address & Location",
+      "budg_spent": "Budget & Spent",
+      "progress": "Progress",
+      "created": "Created By",
+      "created_Date": "Created Date",
+      "actions": "Actions",
+      "busid": "Businees ID",
+      "budget": "Budget:",
+      "spent": "Spent:",
+      "no_user_assigned": "  No user assigned"
+    },
+    "addsite": {
+      "btn": "Add New Site",
+      "title": "Add New Construction Site",
+      "subtitle": " Create a new construction site with all the necessary details",
+      "form": {
+        "n1": {
+          "t": "Site Name *",
+          "p": "Enter site name"
+        },
+        "n2": {
+          "t": "Location *",
+          "p": "e.g., India, USA"
+        },
+        "n3": {
+          "t": "Address *",
+          "p": "Enter complete address"
+        },
+        "n4": {
+          "t": "Currency *",
+          "p": "Select currency"
+        },
+        "n5": {
+          "t": "Estimated Budget *"
+        },
+        "n6": {
+          "t": "Progress (%)"
+        },
+        "n7": {
+          "t": "Total Spent"
+        }
+        ,
+        "adding":"Adding...",
+        "add":"Add Site"
+      }
     }
   }
 }

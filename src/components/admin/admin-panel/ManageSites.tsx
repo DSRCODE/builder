@@ -22,8 +22,10 @@ import { Badge } from "@/components/ui/badge";
 import { ConstructionSite } from "@/pages/admin/AdminPanel";
 import { useAuth } from "@/contexts/authContext";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ManageSites = ({ data, openEditSiteModal }) => {
+  const { t } = useTranslation();
   const { planCheck } = useAuth();
   const check = planCheck?.sites_remaining;
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
@@ -39,14 +41,16 @@ const ManageSites = ({ data, openEditSiteModal }) => {
       <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Site Limit Reached</DialogTitle>
+            <DialogTitle>{t("admin.sitemanage.limit.title")}</DialogTitle>
             <DialogDescription>
-              You have reached the maximum number of sites allowed for your
-              plan. Please upgrade your subscription to add more sites.
+              {t("admin.sitemanage.limit.desc")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button onClick={() => setLimitDialogOpen(false)}>OK</Button>
+            <Button onClick={() => setLimitDialogOpen(false)}>
+              {" "}
+              {t("admin.sitemanage.limit.ok")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -56,14 +60,16 @@ const ManageSites = ({ data, openEditSiteModal }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Site Details</TableHead>
-              <TableHead>Business</TableHead>
-              <TableHead>Address & Location</TableHead>
-              <TableHead>Budget & Spent</TableHead>
-              <TableHead>Progress</TableHead>
-              <TableHead>Created By</TableHead>
-              <TableHead>Created Date</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+              <TableHead>{t("admin.sitemanage.site_details")}</TableHead>
+              <TableHead>{t("admin.sitemanage.business")}</TableHead>
+              <TableHead>{t("admin.sitemanage.add_loc")}</TableHead>
+              <TableHead>{t("admin.sitemanage.budg_spent")}</TableHead>
+              <TableHead>{t("admin.sitemanage.progress")}</TableHead>
+              <TableHead>{t("admin.sitemanage.created")}</TableHead>
+              <TableHead>{t("admin.sitemanage.created_Date")}</TableHead>
+              <TableHead className="text-center">
+                {t("admin.sitemanage.actions")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -99,7 +105,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                       {site.business.name}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      Business ID: {site.business.id}
+                      {t("admin.sitemanage.busid")} {site.business.id}
                     </div>
                   </div>
                 </TableCell>
@@ -179,7 +185,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                     </div>
                   ) : (
                     <div className="text-sm text-muted-foreground">
-                      No user assigned
+                      {t("admin.sitemanage.no_user_assigned")}
                     </div>
                   )}
                 </TableCell>
@@ -253,7 +259,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                 {site.business.name}
               </div>
               <div className="text-xs text-muted-foreground">
-                Business ID: {site.business.id}
+                {t("admin.sitemanage.busid")} {site.business.id}
               </div>
             </div>
 
@@ -268,7 +274,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
             {/* Budget & Spent */}
             <div className="flex justify-between text-sm">
               <span>
-                Budget:{" "}
+                {t("admin.sitemanage.budget")}{" "}
                 <strong>
                   {site.currency === "INR" || site.currency === "₹"
                     ? "₹"
@@ -277,7 +283,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
                 </strong>
               </span>
               <span className="text-red-600">
-                Spent:{" "}
+                {t("admin.sitemanage.spent")}{" "}
                 <strong>
                   {site.currency === "INR" || site.currency === "₹"
                     ? "₹"
@@ -315,7 +321,7 @@ const ManageSites = ({ data, openEditSiteModal }) => {
               </div>
             ) : (
               <div className="text-sm text-muted-foreground">
-                No user assigned
+                {t("admin.sitemanage.no_user_assigned")}
               </div>
             )}
 

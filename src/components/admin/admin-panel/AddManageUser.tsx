@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Loader2, Plus } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface UserFormData {
   user_role: "admin" | "builder" | "supervisor" | "owner" | "viewer";
@@ -50,6 +51,7 @@ export default function AddManageUser({
   addUserMutation,
   check,
 }: AddManageUserProps) {
+  const { t } = useTranslation();
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
   const check1 = 0;
   const handleAddSiteClick = () => {
@@ -65,14 +67,16 @@ export default function AddManageUser({
       <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Users Limit Reached</DialogTitle>
+            <DialogTitle>{t("admin.adduser.limit.title")}</DialogTitle>
             <DialogDescription>
-              You have reached the maximum number of users allowed for your
-              plan. Please upgrade your subscription to add more users.
+              {t("admin.adduser.limit.desc")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button onClick={() => setLimitDialogOpen(false)}>OK</Button>
+            <Button onClick={() => setLimitDialogOpen(false)}>
+              {" "}
+              {t("admin.adduser.limit.ok")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -87,32 +91,34 @@ export default function AddManageUser({
           }`}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add New User
+          {t("admin.adduser.btn")}
         </Button>
 
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Add New User</DialogTitle>
-            <DialogDescription>
-              Create a new user account with role and permissions
-            </DialogDescription>
+            <DialogTitle> {t("admin.adduser.title")}</DialogTitle>
+            <DialogDescription>{t("admin.adduser.subtitle")}</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleAddUserSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="user_name">Full Name *</Label>
+                <Label htmlFor="user_name">
+                  {t("admin.adduser.form.n1.t")}
+                </Label>
                 <Input
                   id="user_name"
                   value={userFormData.name}
                   onChange={(e) =>
                     handleUserInputChange("name", e.target.value)
                   }
-                  placeholder="Enter full name"
+                  placeholder={t("admin.adduser.form.n1.p")}
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="user_role">User Role *</Label>
+                <Label htmlFor="user_role">
+                  {t("admin.adduser.form.n2.t")}
+                </Label>
                 <Select
                   value={userFormData.user_role}
                   onValueChange={(value) =>
@@ -120,7 +126,7 @@ export default function AddManageUser({
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select role" />
+                    <SelectValue placeholder={t("admin.adduser.form.n2.p")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">Admin</SelectItem>
@@ -134,19 +140,19 @@ export default function AddManageUser({
             </div>
 
             <div>
-              <Label htmlFor="user_email">Email Address *</Label>
+              <Label htmlFor="user_email">{t("admin.adduser.form.n3.t")}</Label>
               <Input
                 id="user_email"
                 type="email"
                 value={userFormData.email}
                 onChange={(e) => handleUserInputChange("email", e.target.value)}
-                placeholder="Enter email address"
+                placeholder={t("admin.adduser.form.n3.p")}
                 required
               />
             </div>
 
             <div>
-              <Label htmlFor="user_phone">Phone Number *</Label>
+              <Label htmlFor="user_phone">{t("admin.adduser.form.n4.t")}</Label>
               <Input
                 id="user_phone"
                 type="tel"
@@ -154,14 +160,16 @@ export default function AddManageUser({
                 onChange={(e) =>
                   handleUserInputChange("phone_number", e.target.value)
                 }
-                placeholder="Enter phone number (min 10 digits)"
+                placeholder={t("admin.adduser.form.n4.p")}
                 required
                 minLength={10}
               />
             </div>
 
             <div>
-              <Label htmlFor="user_password">Password *</Label>
+              <Label htmlFor="user_password">
+                {t("admin.adduser.form.n5.t")}
+              </Label>
               <Input
                 id="user_password"
                 type="password"
@@ -169,7 +177,7 @@ export default function AddManageUser({
                 onChange={(e) =>
                   handleUserInputChange("password", e.target.value)
                 }
-                placeholder="Enter password (min 6 characters)"
+                placeholder={t("admin.adduser.form.n5.p")}
                 required
                 minLength={6}
               />
@@ -182,7 +190,7 @@ export default function AddManageUser({
                 onClick={() => setIsAddUserModalOpen(false)}
                 disabled={addUserMutation.isPending}
               >
-                Cancel
+                {t("admin.adduser.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -192,12 +200,12 @@ export default function AddManageUser({
                 {addUserMutation.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Adding...
+                    {t("admin.adduser.adding")}
                   </>
                 ) : (
                   <>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add User
+                    {t("admin.adduser.add")}
                   </>
                 )}
               </Button>

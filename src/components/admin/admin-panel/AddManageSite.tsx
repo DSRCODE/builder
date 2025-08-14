@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AddManageSite = ({
   isAddSiteModalOpen,
@@ -31,7 +32,7 @@ const AddManageSite = ({
   check,
 }) => {
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
-
+  const { t } = useTranslation();
   const handleAddSiteClick = () => {
     if (check === 0) {
       setLimitDialogOpen(true);
@@ -46,14 +47,16 @@ const AddManageSite = ({
       <Dialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Site Limit Reached</DialogTitle>
+            <DialogTitle>{t("admin.sitemanage.limit.title")}</DialogTitle>
             <DialogDescription>
-              You have reached the maximum number of sites allowed for your
-              plan. Please upgrade your subscription to add more sites.
+              {t("admin.sitemanage.limit.desc")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button onClick={() => setLimitDialogOpen(false)}>OK</Button>
+            <Button onClick={() => setLimitDialogOpen(false)}>
+              {" "}
+              {t("admin.sitemanage.limit.ok")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -69,60 +72,60 @@ const AddManageSite = ({
           }`}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add New Site
+          {t("admin.addsite.btn")}
         </Button>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
-            <DialogTitle>Add New Construction Site</DialogTitle>
-            <DialogDescription>
-              Create a new construction site with all the necessary details
-            </DialogDescription>
+            <DialogTitle>{t("admin.addsite.title")}</DialogTitle>
+            <DialogDescription>{t("admin.addsite.subtitle")}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleAddSiteSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="site_name">Site Name *</Label>
+                <Label htmlFor="site_name">
+                  {t("admin.addsite.form.n1.t")}
+                </Label>
                 <Input
                   id="site_name"
                   value={siteFormData.site_name}
                   onChange={(e) =>
                     handleSiteInputChange("site_name", e.target.value)
                   }
-                  placeholder="Enter site name"
+                  placeholder={t("admin.addsite.form.n1.p")}
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="location">Location *</Label>
+                <Label htmlFor="location">{t("admin.addsite.form.n2.t")}</Label>
                 <Input
                   id="location"
                   value={siteFormData.location}
                   onChange={(e) =>
                     handleSiteInputChange("location", e.target.value)
                   }
-                  placeholder="e.g., India, USA"
+                  placeholder={t("admin.addsite.form.n2.p")}
                   required
                 />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="address">Address *</Label>
+              <Label htmlFor="address">{t("admin.addsite.form.n3.t")}</Label>
               <Textarea
                 id="address"
                 value={siteFormData.address}
                 onChange={(e) =>
                   handleSiteInputChange("address", e.target.value)
                 }
-                placeholder="Enter complete address"
+                placeholder={t("admin.addsite.form.n3.p")}
                 required
               />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="currency">Currency *</Label>
+                <Label htmlFor="currency">{t("admin.addsite.form.n4.t")}</Label>
                 <Select
                   value={siteFormData.currency}
                   onValueChange={(value) =>
@@ -130,7 +133,7 @@ const AddManageSite = ({
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select currency" />
+                    <SelectValue placeholder={t("admin.addsite.form.n4.p")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="₹">₹ (INR)</SelectItem>
@@ -138,7 +141,9 @@ const AddManageSite = ({
                 </Select>
               </div>
               <div>
-                <Label htmlFor="estimated_budget">Estimated Budget *</Label>
+                <Label htmlFor="estimated_budget">
+                  {t("admin.addsite.form.n5.t")}
+                </Label>
                 <Input
                   id="estimated_budget"
                   type="number"
@@ -153,7 +158,7 @@ const AddManageSite = ({
                 />
               </div>
               <div>
-                <Label htmlFor="progress">Progress (%)</Label>
+                <Label htmlFor="progress">{t("admin.addsite.form.n6.t")}</Label>
                 <Input
                   id="progress"
                   type="number"
@@ -169,7 +174,9 @@ const AddManageSite = ({
             </div>
 
             <div>
-              <Label htmlFor="total_spent">Total Spent</Label>
+              <Label htmlFor="total_spent">
+                {t("admin.addsite.form.n7.t")}
+              </Label>
               <Input
                 id="total_spent"
                 type="number"
@@ -190,7 +197,7 @@ const AddManageSite = ({
                 onClick={() => setIsAddSiteModalOpen(false)}
                 disabled={addSiteMutation.isPending}
               >
-                Cancel
+                {t("admin.addmaterialcategory.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -200,12 +207,12 @@ const AddManageSite = ({
                 {addSiteMutation.isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Adding...
+                    {t("admin.addsite.form.adding")}
                   </>
                 ) : (
                   <>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Site
+                    {t("admin.addsite.form.add")}
                   </>
                 )}
               </Button>

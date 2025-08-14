@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AddPricing = ({
   isAddPricingModalOpen,
@@ -27,6 +28,7 @@ const AddPricing = ({
   pricingFormData,
   handlePricingInputChange,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isAddPricingModalOpen}
@@ -38,33 +40,38 @@ const AddPricing = ({
           // disabled={pricingPlans.length >= 3}
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add New Plan {pricingPlans.length >= 3 && "(Max 3)"}
+          {t("admin.addnewplan.btn")} {pricingPlans.length >= 3 && "(Max 3)"}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Add New Pricing Plan</DialogTitle>
+          <DialogTitle>{t("admin.addnewplan.title")}</DialogTitle>
           <DialogDescription>
-            Create a new pricing plan with features and limits (Maximum 3 plans
-            allowed)
+            {t("admin.addnewplan.subtitle")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleAddPricingSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="plan_name">Plan Name *</Label>
+              <Label htmlFor="plan_name">
+                {" "}
+                {t("admin.addnewplan.form.n1.t")}
+              </Label>
               <Input
                 id="plan_name"
                 value={pricingFormData.plan}
                 onChange={(e) =>
                   handlePricingInputChange("plan", e.target.value)
                 }
-                placeholder="e.g., Starter, Professional"
+                placeholder={t("admin.addnewplan.form.n1.p")}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="plan_status">Status *</Label>
+              <Label htmlFor="plan_status">
+                {" "}
+                {t("admin.addnewplan.form.n2.t")}
+              </Label>
               <Select
                 value={pricingFormData.status}
                 onValueChange={(value) =>
@@ -72,7 +79,7 @@ const AddPricing = ({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue placeholder={t("admin.addnewplan.form.n2.p")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Active">Active</SelectItem>
@@ -84,7 +91,10 @@ const AddPricing = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="monthly_price">Monthly Price (₹) *</Label>
+              <Label htmlFor="monthly_price">
+                {" "}
+                {t("admin.addnewplan.form.n3.t")}
+              </Label>
               <Input
                 id="monthly_price"
                 type="number"
@@ -99,7 +109,10 @@ const AddPricing = ({
               />
             </div>
             <div>
-              <Label htmlFor="yearly_price">Yearly Price (₹) *</Label>
+              <Label htmlFor="yearly_price">
+                {" "}
+                {t("admin.addnewplan.form.n4.t")}
+              </Label>
               <Input
                 id="yearly_price"
                 type="number"
@@ -117,7 +130,10 @@ const AddPricing = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="max_users">Max Users *</Label>
+              <Label htmlFor="max_users">
+                {" "}
+                {t("admin.addnewplan.form.n5.t")}
+              </Label>
               <Input
                 id="max_users"
                 type="number"
@@ -131,7 +147,10 @@ const AddPricing = ({
               />
             </div>
             <div>
-              <Label htmlFor="max_sites">Max Sites *</Label>
+              <Label htmlFor="max_sites">
+                {" "}
+                {t("admin.addnewplan.form.n6.t")}
+              </Label>
               <Input
                 id="max_sites"
                 type="number"
@@ -152,11 +171,11 @@ const AddPricing = ({
               variant="outline"
               onClick={() => setIsAddPricingModalOpen(false)}
             >
-              Cancel
+              {t("admin.addnewplan.cancel")}
             </Button>
             <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
               <Plus className="h-4 w-4 mr-2" />
-              Add Plan
+              {t("admin.addnewplan.addplan")}
             </Button>
           </DialogFooter>
         </form>

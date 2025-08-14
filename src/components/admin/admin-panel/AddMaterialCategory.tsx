@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AddMaterialCategory = ({
   isAddMaterialCategoryModalOpen,
@@ -20,6 +21,7 @@ const AddMaterialCategory = ({
   handleMaterialCategoryInputChange,
   addMaterialCategoryMutation,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
       open={isAddMaterialCategoryModalOpen}
@@ -28,26 +30,28 @@ const AddMaterialCategory = ({
       <DialogTrigger asChild>
         <Button className="bg-orange-500 hover:bg-orange-600">
           <Plus className="h-4 w-4 mr-2" />
-          Add Category
+          {t("admin.addmaterialcategory.btn")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Material Category</DialogTitle>
+          <DialogTitle>{t("admin.addmaterialcategory.btn")}</DialogTitle>
           <DialogDescription>
-            Create a new material category to organize your materials
+            {t("admin.addmaterialcategory.subtitle")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleAddMaterialCategorySubmit} className="space-y-4">
           <div>
-            <Label htmlFor="category_name">Category Name *</Label>
+            <Label htmlFor="category_name">
+              {t("admin.addmaterialcategory.form.n1.t")}
+            </Label>
             <Input
               id="category_name"
               value={materialCategoryFormData.name}
               onChange={(e) =>
                 handleMaterialCategoryInputChange("name", e.target.value)
               }
-              placeholder="Enter category name"
+              placeholder={t("admin.addmaterialcategory.form.n1.p")}
               required
             />
           </div>
@@ -58,7 +62,7 @@ const AddMaterialCategory = ({
               onClick={() => setIsAddMaterialCategoryModalOpen(false)}
               disabled={addMaterialCategoryMutation.isPending}
             >
-              Cancel
+              {t("admin.addmaterialcategory.cancel")}
             </Button>
             <Button
               type="submit"
@@ -68,10 +72,10 @@ const AddMaterialCategory = ({
               {addMaterialCategoryMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Adding...
+                  {t("admin.addmaterialcategory.adding")}.
                 </>
               ) : (
-                "Add Category"
+                `${t("admin.addmaterialcategory.add")}`
               )}
             </Button>
           </DialogFooter>
