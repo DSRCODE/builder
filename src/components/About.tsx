@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import teamImage from "@/assets/team-construction.jpg";
-import abtimg from "@/assets/abt.jpeg";
+import abtimg from "/abt.jpeg";
 
 const About = () => {
   const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, PlayCircle, Building, Users, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import heroImage from "@/assets/hero-construction.jpg";
+import heroImage from "/hero-construction.jpg";
 
 const Hero = () => {
   const { t } = useTranslation();

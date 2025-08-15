@@ -10,13 +10,15 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8081,
   },
-  plugins: [
-    react(),
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(
+    Boolean
+  ),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: "../laravel/public", // so it goes to Laravel's public folder
   },
 }));
