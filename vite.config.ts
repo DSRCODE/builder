@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: "../laravel/public", // so it goes to Laravel's public folder
+    outDir: "../public_html", // so it goes to Laravel's public folder
   },
 }));
