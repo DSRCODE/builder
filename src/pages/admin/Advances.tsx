@@ -22,10 +22,11 @@ import {
   Plus,
   Edit,
   Trash2,
-  DollarSign,
+
   Calendar,
   RefreshCw,
   AlertCircle,
+  IndianRupee,
 } from "lucide-react";
 import {
   useMasonAdvances,
@@ -151,7 +152,7 @@ export function Advances() {
 
         <Card>
           <CardHeader className="flex flex-row items-center space-y-0">
-            <DollarSign className="mr-2 h-5 w-5 text-primary" />
+            <IndianRupee className="mr-2 h-5 w-5 text-primary" />
             <div>
               <CardTitle>{t("advances.mason_advances")}</CardTitle>
               <CardDescription>{t("advances.description")}</CardDescription>
@@ -275,7 +276,7 @@ export function Advances() {
 
       <Card>
         <CardHeader className="flex flex-row items-center space-y-0">
-          <DollarSign className="mr-2 h-5 w-5 text-primary" />
+          <IndianRupee className="mr-2 h-5 w-5 text-primary" />
           <div>
             <CardTitle> {t("advances.mason_advances")}</CardTitle>
             <CardDescription>
@@ -300,16 +301,16 @@ export function Advances() {
             </Alert>
           ) : advances.length === 0 ? (
             <div className="text-center py-8">
-              <DollarSign className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+              <IndianRupee className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                `${t("advances.messages.no_advances_found")}`
+                {t("advances.messages.no_advances_found")}
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                `${t("advances.messages.get_started")}`
+                {t("advances.messages.get_started")}
               </p>
               <Button onClick={() => setIsAddModalOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                `${t("advances.buttons.add_advance")}`
+                {t("advances.buttons.add_advance")}
               </Button>
             </div>
           ) : (

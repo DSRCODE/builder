@@ -278,6 +278,8 @@
     "overall": "Overall"
   },
   "sites": {
+    "no_found":"No site found",
+    "first_site":"Start by adding your first site.",
     "sites_mangement": "Sites Management",
     "manage_all_construction_site": "Manage all construction sites and their progress",
     "loading": "Loading...",

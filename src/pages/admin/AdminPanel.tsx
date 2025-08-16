@@ -2156,15 +2156,14 @@ function AdminContent() {
               <p className="text-sm text-gray-500">
                 Start by adding your first user
               </p>
-              ) : data.length === 0 && selectedOption === "material-categories"
-              ? (
-              <div className="text-center py-8">
-                <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600">No material categories found</p>
-                <p className="text-sm text-gray-500">
-                  No categories available at the moment
-                </p>
-              </div>{" "}
+            </div>
+          ) : data.length === 0 && selectedOption === "material-categories" ? (
+            <div className="text-center py-8">
+              <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600">No material categories found</p>
+              <p className="text-sm text-gray-500">
+                No categories available at the moment
+              </p>
             </div>
           ) : data?.length === 0 && selectedOption === "pricing-management" ? (
             <div className="text-center py-8">
