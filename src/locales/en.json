@@ -1253,6 +1253,12 @@
     },
 
     "addmaterialcategory": {
+      "deletematerial": {
+        "title": "Delete this category?",
+        "subtitle": " This action cannot be undone. The placategoryn will be permanently deleted.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      },
       "btn": "Add Category",
       "title": "Add New Material Category",
       "subtitle": "Create a new material category to organize your materials",

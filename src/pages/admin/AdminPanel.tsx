@@ -1008,6 +1008,31 @@ function AdminContent() {
     },
   });
 
+  const deleteMaterialCategoryMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.post(`/material-categories/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Material category deleted successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["material-categories"] });
+      setIsEditMaterialCategoryModalOpen(false);
+      setEditingMaterialCategory(null);
+      resetMaterialCategoryForm();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message || "Failed to delete material category",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Update business mutation
   const updateBusinessMutation = useMutation({
     mutationFn: async ({
@@ -1246,7 +1271,7 @@ function AdminContent() {
       [field]: value,
     }));
   };
-  // luther
+  // Pricing API
   const handleAddPricingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -1381,7 +1406,8 @@ function AdminContent() {
   const handleDeletePricing = (id: number) => {
     deletePricingPlan.mutate(id);
   };
-  // luther
+
+  // Pricing API
 
   const resetUserForm = () => {
     setUserFormData({
@@ -1756,7 +1782,9 @@ function AdminContent() {
       },
     });
   };
-
+  const handleDeleteMaterialCategory = (id: number) => {
+    deleteMaterialCategoryMutation.mutate(id);
+  };
   const resetPasswordForm = () => {
     setPasswordFormData({
       old_password: "",
@@ -2214,6 +2242,7 @@ function AdminContent() {
           <MaterialCategories
             data={data}
             openEditMaterialCategoryModal={openEditMaterialCategoryModal}
+            handleDeleteMaterialCategory={handleDeleteMaterialCategory}
           />
         );
 

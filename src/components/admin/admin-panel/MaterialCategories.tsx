@@ -11,9 +11,17 @@ import {
 import { MaterialCategory } from "@/pages/admin/AdminPanel";
 import { Edit, Package, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import DeleteMaterialCategory from "../DeleteMaterialCategory";
 
-const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
+const MaterialCategories = ({
+  data,
+  openEditMaterialCategoryModal,
+  handleDeleteMaterialCategory,
+}) => {
   const { t } = useTranslation();
+  const handleDeteleCategory = (id: number) => {
+    console.log(id);
+  };
   return (
     <div className="space-y-4">
       {/* Desktop Table */}
@@ -90,13 +98,7 @@ const MaterialCategories = ({ data, openEditMaterialCategoryModal }) => {
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                   <DeleteMaterialCategory category={category} handleDeleteMaterialCategory={handleDeleteMaterialCategory}/>
                   </div>
                 </TableCell>
               </TableRow>
