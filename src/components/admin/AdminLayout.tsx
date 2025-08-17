@@ -132,17 +132,20 @@ export function AdminLayout() {
               <SidebarTrigger />
 
               {/* Company Name */}
-              <div className="flex flex-col leading-tight max-w-[90px] sm:max-w-[150px]">
-                <span className="text-[10px] sm:text-xs text-muted-foreground">
-                  Company
-                </span>
-                <span
-                  className="text-xs sm:text-sm font-medium truncate"
-                  title={user?.business_name || "No Company found"}
-                >
-                  {user?.business_name || "No Company found"}
-                </span>
-              </div>
+              {user?.user_role === "super_admin" ? null : (
+                <div className="flex flex-col leading-tight max-w-[90px] sm:max-w-[150px]">
+                  <span className="text-[10px] sm:text-xs text-muted-foreground">
+                    Company
+                  </span>
+                  <span
+                    className="text-xs sm:text-sm font-medium truncate"
+                    title={user?.business_name || "No Company found"}
+                  >
+                    {user?.business_name || "No Company found"}
+                  </span>
+                </div>
+              )}
+
               {/* Subscription Expiry */}
               {user?.user_role !== "super_admin" &&
                 typeof planCheck?.days_remaining === "number" && (
