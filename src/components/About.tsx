@@ -10,10 +10,10 @@ const About = () => {
   const { t } = useTranslation();
 
   const achievements = [
-    { icon: Building2, value: "500+", label: t("about.projects") },
-    { icon: Users, value: "50+", label: t("about.experience") },
+    { icon: Building2, value: "100%", label: t("about.projects") },
+    { icon: Users, value: "500+", label: t("about.experience") },
     { icon: Award, value: "100%", label: t("about.clients") },
-    { icon: TrendingUp, value: "$2B+", label: t("about.awards") },
+    { icon: TrendingUp, value: "50+", label: t("about.awards") },
   ];
 
   const values = [
