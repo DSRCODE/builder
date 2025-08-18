@@ -1195,7 +1195,7 @@ function AdminContent() {
   const members = membersData?.data || [];
   const plans = planData?.data || [];
   const userSubscriptionPlan = userSubPlanData?.data || [];
-  // console.log(userSubscriptionPlan);
+  console.log(userSubscriptionPlan);
 
   // Pricing plans state (dynamic with max 3 plans)
   const [pricingPlans, setPricingPlans] = useState([]);

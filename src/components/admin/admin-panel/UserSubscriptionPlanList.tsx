@@ -37,19 +37,19 @@ export default function UserSubscriptionPlanList({ data }: any) {
           {data?.map((item: any) => (
             <TableRow key={item.id}>
               <TableCell className="text-center">
-                {item.user?.name ?? "--"}
+                {item?.user?.name ?? "--"}
               </TableCell>
               <TableCell className="text-center">
                 {item.user?.email ?? "--"}
               </TableCell>
               <TableCell className="text-center">
-                {item.subscription_type ?? "--"}
+                {item?.subscription_type ?? "--"}
               </TableCell>
               <TableCell className="text-center">
-                {item.status ?? "--"}
+                {item?.status ?? "--"}
               </TableCell>
               <TableCell className="text-center">
-                {item.package ?? "NA"}
+                {item?.package?.name ?? "Free"}
               </TableCell>
             </TableRow>
           ))}

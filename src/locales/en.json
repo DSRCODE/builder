@@ -130,7 +130,7 @@
     "allRightsReserved": "All rights reserved.",
     "company_name": "D Buildz",
     "tagline": "Building Excellence Since 1972",
-    "description": "As a 100% employee-owned company, D Buildz has been delivering innovative building solutions across North America for over five decades. We're committed to excellence, safety, and sustainability in every project.",
+    "description": "D Buildz is redefining construction management with a fresh perspective grounded in extensive industry experience. Our leadership has a proven track record of successfully managing complex projects across India’s fast-evolving construction sector.",
     "footer_links": {
       "services_title": "Services",
       "services": {
@@ -278,8 +278,8 @@
     "overall": "Overall"
   },
   "sites": {
-    "no_found":"No site found",
-    "first_site":"Start by adding your first site.",
+    "no_found": "No site found",
+    "first_site": "Start by adding your first site.",
     "sites_mangement": "Sites Management",
     "manage_all_construction_site": "Manage all construction sites and their progress",
     "loading": "Loading...",
@@ -1461,6 +1461,61 @@
         "er2": "User deleted successfully",
         "suc2": "Failed to delete user"
       }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "At Dbuildz, we are committed to protecting your privacy and safeguarding your personal and sensitive data. This policy explains how we collect, use, store, and protect your information.",
+
+    "section1": {
+      "title": "Information We Collect",
+      "desc": "We may collect information including your name, job title, address, contact details, login credentials, demographics, payment details, device information, and other data as defined under law."
+    },
+    "section2": {
+      "title": "How We Use Your Data",
+      "desc": "Your data may be used for providing services, record-keeping, improving offerings, compliance with law, research, promotional updates, security, fraud prevention, and business performance evaluation."
+    },
+    "section3": {
+      "title": "Data Protection & Disclosure",
+      "desc": "We implement industry-standard security practices to prevent unauthorized access. We do not sell or trade your data; disclosure happens only with consent, to deliver services, or when legally required."
+    },
+    "section4": {
+      "title": "Your Rights & Contact",
+      "desc": "You have the right to review, update, and correct your information. This policy may be updated over time. For questions or grievances, you may contact us directly."
+    },
+    "footer": "By using Dbuildz Services, you agree to this Privacy Policy."
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "intro": "Welcome to Dbuildz! By using our website, app, and related services (\"Platform\"), you agree to these Terms & Conditions. Please read them carefully.",
+    "points": {
+      "1": "Who Can Use Our Services: You must be at least 18 years old and legally capable to use Dbuildz in India. All information you provide should be true and current. If you’re using Dbuildz for a business, you must have authority to act on its behalf.",
+      "2": "Our Services: Dbuildz helps contractors, vendors, and suppliers (\"Merchants\") record project details and manage transactions with customers (\"Customers\"). Our platform may also connect you to financial services and insights.",
+      "3": "Account Creation & Security: To use our services, you’ll need to create an account with details like your business name, phone number, and password. You’re responsible for your account’s security. If you notice suspicious activity, inform Dbuildz right away.",
+      "4": "KYC & Verification: Some features may require identity verification (KYC). If we request any documents or additional information, you need to provide them truthfully and promptly. Failure or refusal may result in service restrictions.",
+      "5": "Privacy & Consent: By using Dbuildz, you agree we may use your information as described in our Privacy Policy. We may send you transaction updates, service notifications, and offers.",
+      "6": "Responsibilities: You agree not to use our Platform for illegal or harmful activities. All information you share must be accurate. You’re responsible for complying with Indian laws in your use of our services.",
+      "7": "Third-Party Services: Some features may connect with other platforms or services (like payment gateways or social media). These are governed by their own terms; Dbuildz is not liable for their actions.",
+      "8": "Intellectual Property: All Dbuildz content and technology belongs to us. Don’t copy, misuse, or modify it. Any feedback you share may be used by us.",
+      "9": "Payments: You’re responsible for charges, accurate billing info, and any applicable taxes. If payments are overdue or billing info is incomplete, your account may be suspended or terminated.",
+      "10": "Termination: We may suspend or end your access if you break these rules or misuse the Platform. You can close your account anytime, but unpaid fees will still apply.",
+      "11": "Limitation of Liability: We do our best to keep Dbuildz reliable, but we can’t guarantee perfection or be responsible for damages from interruptions, errors, or third-party content.",
+      "12": "Disputes & Indian Law: Any conflicts will be handled under Indian law and jurisdiction, mainly in Bangalore. Disputes may also be resolved through arbitration conducted in English.",
+      "13": "Updates to Terms: We may change these rules from time to time—check the Platform for the latest version.",
+      "14": "Contact Us: Questions or feedback? Email us at [info@dbuildz.com]."
+    },
+    "contact": "For any questions or feedback regarding these terms, please email us at info@dbuildz.com."
+  },
+  "refund": {
+    "title": "Refund & Cancellation Policy",
+    "intro": "Fees for paid plans are generally non-refundable, unless required by law or if Dbuildz chooses to offer a refund at its discretion.",
+    "points": {
+      "1": "If you purchase an annual or monthly plan and cancel during your subscription period, you won’t receive a refund for unused time.",
+      "2": "Paid subscriptions may auto-renew; you can cancel renewal anytime before your renewal date to stop future billing.",
+      "3": "If Dbuildz terminates your account without cause, we may refund fees for the unused portion of your subscription.",
+      "4": "You are responsible for paying all applicable fees and taxes.",
+      "5": "If payments become overdue or billing info is incomplete, your account may be suspended or terminated.",
+      "6": "Please review your plan terms carefully before subscribing."
     }
   }
 }

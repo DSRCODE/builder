@@ -59,9 +59,9 @@ const Footer = () => {
   ];
 
   const contactInfo = [
-    { icon: Phone, text: "+1 (800) 523-2200" },
-    { icon: Mail, text: "info@dbuildz.com" },
-    { icon: MapPin, text: "1400 16th Street, Denver, CO 80202" },
+    { icon: Phone, text: "+91 6363556060" },
+    { icon: Mail, text: "Info@dbuildz.com" },
+    // { icon: MapPin, text: "1400 16th Street, Denver, CO 80202" },
   ];
 
   return (
@@ -147,7 +147,6 @@ const Footer = () => {
                 ))}
               </ul>
             </motion.div>
-         
 
             {/* Newsletter Signup */}
             <motion.div
@@ -190,19 +189,19 @@ const Footer = () => {
             </div>
             <div className="flex space-x-6 text-sm">
               <a
-                href="#"
+                href="/privacy"
                 className="text-white/70 hover:text-accent transition-smooth"
               >
                 {t("footer.bottom_bar.privacy_policy")}
               </a>
               <a
-                href="#"
+                href="/terms"
                 className="text-white/70 hover:text-accent transition-smooth"
               >
                 {t("footer.bottom_bar.terms_of_service")}
               </a>
               <a
-                href="#"
+                href="/refund"
                 className="text-white/70 hover:text-accent transition-smooth"
               >
                 {t("footer.bottom_bar.return_policy")}

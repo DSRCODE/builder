@@ -19,7 +19,7 @@ import { USER_ROLES } from "@/utils/roleUtils";
 export function Sites() {
   return (
     <AdminRoute
-      requiredRole={USER_ROLES.ADMIN} // Allow both Admin (1) and Manager (2) to access sites
+      requiredRole={USER_ROLES.ADMIN}
       fallbackTitle="Sites Management Access Required"
       fallbackMessage="You don't have permission to access sites management. Please contact your administrator."
     >

@@ -23,6 +23,9 @@ import { AuthProvider } from "./contexts/authContext";
 import { Register } from "./pages/Signup";
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RefundCancellationPolicy from "./pages/RefundCancellationPolicy";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +43,9 @@ const App = () => (
                 <Route path="" element={<GuestGuard />}>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/privacy" element={<PrivacyPolicy/>}/>
+                  <Route path="/terms" element={<TermsAndConditions/>}/>
+                  <Route path="/refund" element={<RefundCancellationPolicy/>}/>
                 </Route>
                 <Route
                   path="/"

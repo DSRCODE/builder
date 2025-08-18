@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => ({
     },
   },
   // build: {
-  //   outDir: "../public_html",
+  //   outDir: "../public_html", 
   // },
 }));

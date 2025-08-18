@@ -16,6 +16,7 @@ import api from "@/lib/api";
 import { useState } from "react";
 import { useAuth } from "@/contexts/authContext";
 import { useNavigate } from "react-router-dom";
+import { openRazorpayCheckout } from "@/utils/razorpay";
 
 interface Package {
   id: number;
@@ -52,9 +53,40 @@ const Pricing = () => {
   console.log(user);
   const navigate = useNavigate();
 
-  const handleNavigation = () => {
+  const handleNavigation = async (pkg: any) => {
     if (user === null) {
       navigate("/login");
+      return;
+    }
+    try {
+       const formData = new FormData();
+       formData.append("package_id", pkg.id.toString());
+       formData.append("type", billingCycle);
+      // Send request to your backend to create a package order
+      const response = await api.post("/package/create-order", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+    });
+
+      // The backend should respond with { order_id, amount, ... }
+      const { order_id, amount, razorpay_key } = response.data;
+
+      console.log(response)
+
+      openRazorpayCheckout({
+        amount: amount / 100, // Razorpay returns amount in paise
+        name: pkg.name + " Plan",
+        description: "Subscribe to " + pkg.name,
+        email: user?.email || "",
+        phone: user?.phone_number || "",
+        order_id: order_id,
+        key: razorpay_key,
+        // use actual order ID from backend
+      });
+    } catch (err) {
+      console.error("Order creation failed:", err);
+      alert("Could not initiate payment. Please try again.");
     }
   };
 
@@ -184,6 +216,19 @@ const Pricing = () => {
       </section>
     );
   }
+
+  const handleRazorpayPayment = (pkg: any) => {
+    console.log(pkg);
+    // Replace amount, user details as needed.
+    // openRazorpayCheckout({
+    //   amount: billingCycle === "yearly" ? pkg.yearly_price : pkg.monthly_price,
+    //   name: pkg.name + " Plan",
+    //   description: "Subscribe to " + pkg.name,
+    //   email: user?.email || "",
+    //   phone: user?.phone_number || "",
+    //   order_id: "optional_order_id_from_backend"
+    // });
+  };
 
   return (
     <section
@@ -441,7 +486,7 @@ const Pricing = () => {
                           ? "bg-primary hover:bg-primary-glow"
                           : "bg-primary/70 hover:bg-primary-glow"
                       }`}
-                      onClick={() => handleNavigation()}
+                      onClick={() => handleNavigation(pkg)}
                     >
                       {t("pricing.btn")}
                     </Button>
@@ -463,7 +508,7 @@ const Pricing = () => {
             {t("pricing.sln")}
 
             <span className="text-primary font-medium cursor-pointer hover:underline">
-               {t("pricing.cnt")}
+              {t("pricing.cnt")}
             </span>
           </p>
         </motion.div>
