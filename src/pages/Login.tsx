@@ -127,10 +127,11 @@ export function Login() {
 
       storeTokens(res.data);
       // Retrieve auth_id from localStorage here
-      const authId = localStorage.getItem("auth_id") || "";
+      const Id = localStorage.getItem("auth_id") || "";
+      const [provider, auth_id] = Id.split("|") || [];
 
       // Call your custom login with stored authId
-      login(email, password, authId);
+      login(email, password, auth_id);
     } catch (err: any) {
       alert(
         err.response?.data?.error_description || "OTP verification failed."
