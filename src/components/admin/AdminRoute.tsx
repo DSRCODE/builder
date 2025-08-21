@@ -5,7 +5,7 @@ import { hasRole, USER_ROLES, getRoleName, UserRole } from "@/utils/roleUtils";
 
 interface AdminRouteProps {
   children: React.ReactNode;
-  requiredRole?: UserRole; // e.g. "admin", "builder", etc.
+  requiredRole?: UserRole | UserRole[]; // <-- Allow single role or array of roles
   fallbackTitle?: string;
   fallbackMessage?: string;
 }
@@ -18,7 +18,6 @@ export function AdminRoute({
 }: AdminRouteProps) {
   const { user, userLoading } = useAuth();
 
-  // Show loading while checking user permissions
   if (userLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -30,25 +29,30 @@ export function AdminRoute({
     );
   }
 
-  // Ensure role is correctly typed
   const currentUserRole: UserRole | undefined =
     typeof user?.user_role === "string" &&
     (Object.values(USER_ROLES) as string[]).includes(user.user_role)
       ? (user.user_role as UserRole)
       : undefined;
 
-  const userHasPermission =
-    currentUserRole && hasRole(currentUserRole, requiredRole);
+  // New logic: if requiredRole is array, check if currentUserRole is included
+  const hasPermission = Array.isArray(requiredRole)
+    ? currentUserRole
+      ? requiredRole.includes(currentUserRole)
+      : false
+    : currentUserRole === requiredRole;
 
-  if (!userHasPermission) {
-    const requiredRoleName = getRoleName(requiredRole);
+  if (!hasPermission) {
+    const requiredRoleName = Array.isArray(requiredRole)
+      ? requiredRole.map((r) => getRoleName(r)).join(", ")
+      : getRoleName(requiredRole);
     const userRoleName = currentUserRole
       ? getRoleName(currentUserRole)
       : "Unknown";
 
     const defaultMessage =
       fallbackMessage ||
-      `You don't have permission to access this page. This page requires ${requiredRoleName} access or higher. Your current role: ${userRoleName}.`;
+      `You don't have permission to access this page. This page requires role(s): ${requiredRoleName}. Your current role: ${userRoleName}.`;
 
     return <PermissionDenied title={fallbackTitle} message={defaultMessage} />;
   }

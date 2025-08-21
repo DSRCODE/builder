@@ -1,6 +1,7 @@
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { User } from "@/types/user";
+import { useAuth0 } from "@auth0/auth0-react";
 import React, {
   createContext,
   useContext,
@@ -18,7 +19,7 @@ type AuthContextType = {
   user: User | null;
   planCheck: PlanCheckType | null;
 
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string, auth_id: string) => void;
   logout: () => void;
   register: (form: {
     name: string;
@@ -30,6 +31,11 @@ type AuthContextType = {
   }) => void;
   authLoading: boolean;
   userLoading: boolean;
+  // Add Auth0 hooks
+  auth0Login: () => void;
+  auth0Logout: () => void;
+  auth0User: any;
+  auth0Loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,10 +50,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   console.log(planCheck);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, auth_id: string) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("auth_id", auth_id);
     setAuthLoading(true);
     try {
       const response = await api.post("/login", formData);
@@ -98,6 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     phone_number: string;
     business_name: string;
     user_role_id: Number;
+    // auth_id: string;
   }) => {
     const formData = new FormData();
     formData.append("name", form.name);
@@ -107,6 +115,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     formData.append("address", form.address);
     formData.append("phone_number", form.phone_number);
     formData.append("business_name", form.business_name);
+    // formData.append("auth_id", form.auth_id);
     // formData.append("user_role_id", Number(form.user_role_id));
 
     setAuthLoading(true);
@@ -166,6 +175,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUserLoading(false);
     }
   };
+
   const fetchUserPlan = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -178,7 +188,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(res)
+      console.log(res);
 
       if (res.data.status === true && res.data.data.limits) {
         setPlanCheck(res.data.data.limits);
@@ -199,6 +209,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
   };
 
+  // Auth0 hooks
+  const {
+    loginWithRedirect,
+    logout: auth0Logout,
+    user: auth0User,
+    isLoading: auth0Loading,
+    isAuthenticated,
+  } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated && auth0User) {
+      localStorage.setItem("auth0User", JSON.stringify(auth0User));
+    }
+  }, [isAuthenticated, auth0User]);
+
+  const auth0Login = () => loginWithRedirect();
+
+  console.log(user);
+
   return (
     <AuthContext.Provider
       value={{
@@ -209,6 +238,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         authLoading,
         userLoading,
+        auth0Login,
+        auth0Logout,
+        auth0User,
+        auth0Loading,
       }}
     >
       {children}

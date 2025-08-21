@@ -69,7 +69,7 @@
       "desc": " Reach out to us through any of these channels. Our team is ready to discuss your project requirements and provide expert guidance.",
       "phn": {
         "title": "Phone",
-        "content": "+1 (800) 523-2200",
+        "content": "+91 6363556060",
         "subcontent": "Available 24/7 for emergencies"
       },
       "mail": {
@@ -91,7 +91,7 @@
     "cnt_cta": {
       "title": "Need a Quick Quote?",
       "p": "For urgent project inquiries, call us direct",
-      "call_now": "Call Now: (800) 523-2200"
+      "call_now": "Call Now: +91 6363556060"
     },
     "cnt_form": {
       "title": "Send Us a Message",
@@ -105,6 +105,7 @@
       "prj": "Project Type",
       "prj_place": "Select project type",
       "prj_desc": "Project Description *",
+      "desc_below": "Description Below",
       "prj_desc_place": "Tell us about your project requirements, timeline, and any specific needs...",
       "b1": "Sending",
       "b2": "Send Message",
@@ -1024,7 +1025,7 @@
           "p": "Select status"
         },
         "in3": {
-          "t": "}Monthly Price (₹) *"
+          "t": "Monthly Price (₹) *"
         },
         "in4": {
           "t": "Yearly Price (₹) *"
@@ -1038,7 +1039,7 @@
         "in7": {
           "t": "Total Spent"
         },
-        "btn": "Cancle",
+        "btn": "Cancel",
         "update": "Update Plan"
       }
     },

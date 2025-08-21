@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,10 @@ import { Link } from "react-router-dom";
 import { Building } from "lucide-react";
 
 export function Register() {
-  const { register, authLoading } = useAuth();
+  const { register, authLoading, auth0User } = useAuth();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-
+  const [authid, setAuthid] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -28,9 +28,26 @@ export function Register() {
     address: "",
     phone_number: "",
     business_name: "",
+    // auth_id: "",
     // user_role_id: "",
   });
-
+  // useEffect(() => {
+  //   const storedAuth0User = localStorage.getItem("auth0User");
+  //   if (storedAuth0User) {
+  //     try {
+  //       const userObj = JSON.parse(storedAuth0User);
+  //       setForm((prev) => ({
+  //         ...prev,
+  //         name: userObj.name || "",
+  //         email: userObj.email || "",
+  //         auth_id: userObj.sub || "",
+  //       }));
+  //       setAuthid(userObj.sub);
+  //     } catch (e) {
+  //       console.error("Failed to parse auth0User from localStorage", e);
+  //     }
+  //   }
+  // }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -201,85 +218,97 @@ export function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/10 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
-      >
-        <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
-          <CardHeader className="text-center space-y-2">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="mx-auto w-16 h-16 bg-primary rounded-full flex items-center justify-center"
-            >
-              <Building className="w-8 h-8 text-primary-foreground" />
-            </motion.div>
-            <div>
-              <CardTitle className="text-2xl font-bold text-foreground">
-                D Buildz
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Register Your Account
-              </CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <form className="space-y-4">
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/10 flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+            <CardHeader className="text-center space-y-2">
               <motion.div
-                key={step}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-4"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="mx-auto w-16 h-16 bg-primary rounded-full flex items-center justify-center"
               >
-                {renderStep()}
+                <Building className="w-8 h-8 text-primary-foreground" />
               </motion.div>
-
-              <div className="flex justify-between">
-                {step > 1 && (
-                  <Button type="button" variant="outline" onClick={prevStep}>
-                    Back
-                  </Button>
-                )}
-                {step < 3 ? (
-                  <Button type="button" onClick={nextStep}>
-                    Next
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={authLoading}
-                  >
-                    {authLoading ? "Registering..." : "Sign Up"}
-                  </Button>
-                )}
+              <div>
+                <CardTitle className="text-2xl font-bold text-foreground">
+                  D Buildz
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Register Your Account
+                </CardDescription>
               </div>
+            </CardHeader>
+            <CardContent>
+              <form className="space-y-4">
+                <motion.div
+                  key={step}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-4"
+                >
+                  {renderStep()}
+                </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="text-center pt-2"
-              >
-                <span className="text-sm text-muted-foreground">
-                  Already have an account?{" "}
-                  <Link
-                    to="/login"
-                    className="text-primary hover:underline font-medium"
-                  >
-                    Sign in
-                  </Link>
-                </span>
-              </motion.div>
-            </form>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
+                <div className="flex justify-between">
+                  {step > 1 && (
+                    <Button type="button" variant="outline" onClick={prevStep}>
+                      Back
+                    </Button>
+                  )}
+                  {step < 3 ? (
+                    <Button type="button" onClick={nextStep}>
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={authLoading}
+                    >
+                      {authLoading ? "Registering..." : "Sign Up"}
+                    </Button>
+                  )}
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="text-center pt-2"
+                >
+                  <span className="text-sm text-muted-foreground">
+                    Already have an account?{" "}
+                    <Link
+                      to="/login"
+                      className="text-primary hover:underline font-medium"
+                    >
+                      Sign in
+                    </Link>
+                  </span>
+                </motion.div>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+
+      {/* <div className="my-4 text-center">OR</div>
+        <Button
+          onClick={auth0Login}
+          disabled={auth0Loading}
+          className="w-[450px] bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
+        >
+          {auth0Loading ? "Redirecting..." : "Log in with Auth0"}
+        </Button>
+      </div> */}
+    </>
   );
 }

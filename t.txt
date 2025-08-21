@@ -1,0 +1,266 @@
+import React, { useState } from "react";
+import axios from "axios";
+
+const domain = "YOUR_DOMAIN.auth0.com";
+const clientId = "YOUR_CLIENT_ID";
+
+export default function MyLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [mfaToken, setMfaToken] = useState("");
+  const [stage, setStage] = useState("login");
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(`https://${domain}/oauth/token`, {
+        grant_type: "http://auth0.com/oauth/grant-type/password-realm",
+        username: email,
+        password,
+        audience: `https://${domain}/api/v2/`,
+        scope: "openid profile email",
+        client_id: clientId,
+        realm: "Username-Password-Authentication", // your DB connection
+      });
+
+      if (res.data.mfa_required) {
+        setMfaToken(res.data.mfa_token); // save MFA token
+        setStage("mfa");
+      } else {
+        console.log("✅ Logged in:", res.data);
+      }
+    } catch (err) {
+      console.error(err.response?.data || err);
+    }
+  };
+
+  const handleVerifyMfa = async () => {
+    try {
+      const res = await axios.post(`https://${domain}/oauth/token`, {
+        grant_type: "http://auth0.com/oauth/grant-type/mfa-otp",
+        client_id: clientId,
+        mfa_token: mfaToken,
+        otp,
+      });
+
+      console.log("✅ MFA Success:", res.data);
+    } catch (err) {
+      console.error(err.response?.data || err);
+    }
+  };
+
+  return (
+    <div>
+      {stage === "login" && (
+        <>
+          <h2>My Login Page</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={handleLogin}>Login</button>
+        </>
+      )}
+
+      {stage === "mfa" && (
+        <>
+          <h2>Enter OTP (Google Authenticator)</h2>
+          <input
+            type="text"
+            placeholder="6-digit code"
+            onChange={(e) => setOtp(e.target.value)}
+          />
+          <button onClick={handleVerifyMfa}>Verify</button>
+        </>
+      )}
+    </div>
+  );
+}
+
+
+Normal Login form:
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Building, Lock, User } from "lucide-react";
+import { useAuth } from "@/contexts/authContext";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
+
+export function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, authLoading, auth0Login, auth0Loading } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast({
+        title: "Login Failed",
+        description: "Please enter both email and password.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Get auth_id from localStorage if available
+    const storedAuth0User = localStorage.getItem("auth0User");
+    let auth_id = "";
+
+    if (storedAuth0User) {
+      try {
+        const userObj = JSON.parse(storedAuth0User);
+        auth_id = userObj.sub || "";
+      } catch {
+        // Ignore JSON parse error, leave auth_id empty
+      }
+    }
+
+    login(email, password, auth_id);
+  };
+
+  return (
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/10 flex items-center flex-col justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+            <CardHeader className="text-center space-y-4">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="mx-auto w-16 h-16 bg-primary rounded-full flex items-center justify-center"
+              >
+                <Building className="w-8 h-8 text-primary-foreground" />
+              </motion.div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-foreground">
+                  D Buildz
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Construction Management System
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-2"
+                >
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    Email
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="admin@dbuildz.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="pl-10 bg-background border-border focus:border-primary"
+                      required
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="space-y-2"
+                >
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-10 bg-background border-border focus:border-primary"
+                      required
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Button
+                    disabled={authLoading}
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
+                  >
+                    {authLoading ? "Signing In..." : "Sign In"}
+                  </Button>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="text-center pt-2"
+                >
+                  <span className="text-sm text-muted-foreground">
+                    Don't have an account?{" "}
+                    <Link
+                      to="/register"
+                      className="text-primary hover:underline font-medium"
+                    >
+                      Sign up
+                    </Link>
+                  </span>
+                </motion.div>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+        <div className="my-4 text-center">OR</div>
+        <Button
+          onClick={auth0Login}
+          disabled={auth0Loading}
+          className="w-[450px] bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
+        >
+          {auth0Loading ? "Redirecting..." : "Log in with Auth0"}
+        </Button>
+      </div>
+    </>
+  );
+}

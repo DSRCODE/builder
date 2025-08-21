@@ -145,9 +145,9 @@ export function AdminSidebar() {
     if (path === "/admin") {
       return currentPath === "/admin";
     }
-    if (path === "/sites") {
-      return currentPath === "/sites";
-    }
+    // if (path === "/sites") {
+    //   return currentPath === "/sites";
+    // }
     return currentPath.startsWith(path);
   };
 
@@ -178,7 +178,12 @@ export function AdminSidebar() {
                 }
 
                 if (user.user_role === "supervisor") {
-                  const allowed = ["/sites", "/materials", "/labour"];
+                  const allowed = [
+                    "/dashboard",
+                    "/sites",
+                    "/materials",
+                    "/labour",
+                  ];
                   if (!allowed.includes(item.url)) return null;
                 }
                 return (

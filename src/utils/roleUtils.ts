@@ -16,12 +16,12 @@ export const ROLE_NAMES: Record<UserRole, string> = {
   [USER_ROLES.SUPERADMIN]: "Super Admin",
   [USER_ROLES.ADMIN]: "Admin",
   [USER_ROLES.BUILDER]: "Builder",
-  [USER_ROLES.SUPERVISOR]: "Supervisor",
+  [USER_ROLES.SUPERVISOR]: "supervisor",
   [USER_ROLES.OWNER]: "Owner",
   [USER_ROLES.VIEWER]: "Viewer",
 };
 
-// Role hierarchy (index 0 = highest permission)
+// Role hierarchy (not used for access control here, but kept if needed)
 const ROLE_HIERARCHY: UserRole[] = [
   USER_ROLES.SUPERADMIN,
   USER_ROLES.ADMIN,
@@ -31,29 +31,27 @@ const ROLE_HIERARCHY: UserRole[] = [
   USER_ROLES.VIEWER,
 ];
 
-// ✅ Check if user has required role or higher
+// ✅ Check if user has required role (exact match only)
 export const hasRole = (
   userRole: UserRole | undefined,
   requiredRole: UserRole
 ): boolean => {
   if (!userRole) return false;
-  return (
-    ROLE_HIERARCHY.indexOf(userRole) <= ROLE_HIERARCHY.indexOf(requiredRole)
-  );
+  return userRole === requiredRole;
 };
 
-// ✅ Specific role checks
+// ✅ Specific role checks (exact role name equality)
 export const isAdmin = (userRole: UserRole | undefined): boolean =>
-  hasRole(userRole, USER_ROLES.ADMIN);
+  userRole === USER_ROLES.ADMIN;
 
 export const isBuilderOrHigher = (userRole: UserRole | undefined): boolean =>
-  hasRole(userRole, USER_ROLES.BUILDER);
+  userRole === USER_ROLES.BUILDER;
 
 export const isSupervisorOrHigher = (userRole: UserRole | undefined): boolean =>
-  hasRole(userRole, USER_ROLES.SUPERVISOR);
+  userRole === USER_ROLES.SUPERVISOR;
 
 export const isOwnerOrHigher = (userRole: UserRole | undefined): boolean =>
-  hasRole(userRole, USER_ROLES.OWNER);
+  userRole === USER_ROLES.OWNER;
 
 export const isViewer = (userRole: UserRole | undefined): boolean =>
   userRole === USER_ROLES.VIEWER;

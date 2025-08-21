@@ -19,10 +19,10 @@ const Footer = () => {
     company: [
       { name: [t("footer.footer_links.company.company_1")], href: "#about" },
       { name: [t("footer.footer_links.company.company_2")], href: "#" },
-      { name: [t("footer.footer_links.company.company_3")], href: "#" },
-      { name: [t("footer.footer_links.company.company_4")], href: "#" },
-      { name: [t("footer.footer_links.company.company_5")], href: "#" },
-      { name: [t("footer.footer_links.company.company_6")], href: "#" },
+      // { name: [t("footer.footer_links.company.company_3")], href: "#" },
+      // { name: [t("footer.footer_links.company.company_4")], href: "#" },
+      // { name: [t("footer.footer_links.company.company_5")], href: "#" },
+      // { name: [t("footer.footer_links.company.company_6")], href: "#" },
     ],
     policy: [
       { name: [t("footer.bottom_bar.privacy_policy")], href: "#about" },
@@ -106,7 +106,7 @@ const Footer = () => {
               </div>
 
               {/* Social Links */}
-              <div className="flex space-x-4">
+              {/* <div className="flex space-x-4">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={social.key}
@@ -121,7 +121,7 @@ const Footer = () => {
                     <social.icon className="h-5 w-5 text-white group-hover:text-accent-foreground transition-smooth" />
                   </motion.a>
                 ))}
-              </div>
+              </div> */}
             </motion.div>
 
             {/* Company Links */}

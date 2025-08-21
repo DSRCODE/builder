@@ -477,7 +477,10 @@ const mockData = {
 export function AdminPanel() {
   return (
     <AdminRoute
-      requiredRole={USER_ROLES.ADMIN}
+      requiredRole={[
+        USER_ROLES.ADMIN,
+        USER_ROLES.SUPERADMIN,
+      ]}
       fallbackTitle="Admin Panel Access Required"
       fallbackMessage="You don't have permission to access the admin panel. Only administrators can view this page."
     >

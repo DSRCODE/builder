@@ -16,7 +16,7 @@ const Contact = () => {
     email: "",
     phone: "",
     company: "",
-    projectType: "",
+    // projectType: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,12 +35,12 @@ const Contact = () => {
       content: `${t("contact.cnt_info.mail.content")}`,
       subContent: `${t("contact.cnt_info.mail.subcontent")}`,
     },
-    {
-      icon: MapPin,
-      title: `${t("contact.cnt_info.map.title")}`,
-      content: `${t("contact.cnt_info.map.content")}`,
-      subContent: `${t("contact.cnt_info.map.subcontent")}`,
-    },
+    // {
+    //   icon: MapPin,
+    //   title: `${t("contact.cnt_info.map.title")}`,
+    //   content: `${t("contact.cnt_info.map.content")}`,
+    //   subContent: `${t("contact.cnt_info.map.subcontent")}`,
+    // },
     {
       icon: Clock,
       title: `${t("contact.cnt_info.clock.title")}`,
@@ -84,7 +84,7 @@ const Contact = () => {
         email: "",
         phone: "",
         company: "",
-        projectType: "",
+        // projectType: "",
         message: "",
       });
       setIsSubmitting(false);
@@ -290,7 +290,7 @@ const Contact = () => {
                   </div>
 
                   {/* Project Type */}
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <Label
                       htmlFor="projectType"
                       className="text-foreground font-medium"
@@ -313,7 +313,7 @@ const Contact = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
 
                   {/* Message */}
                   <div className="space-y-2">
@@ -321,7 +321,7 @@ const Contact = () => {
                       htmlFor="message"
                       className="text-foreground font-medium"
                     >
-                      {t("contact.cnt_form.prj_desc")}
+                      {t("contact.cnt_form.desc_below")}
                     </Label>
                     <Textarea
                       id="message"
