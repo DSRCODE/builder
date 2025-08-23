@@ -10,6 +10,18 @@ export interface UserRole {
   permissions: string[];
 }
 
+
+export interface ActiveSubscription {
+  package_id: number;
+  package_name: string;
+  subscription_type: string;
+  start_date: string;
+  end_date: string;
+  status: string;
+  price: string;
+  users_limit: Number,
+  sites_limit:Number
+}
 // User type definition
 export interface User {
   id: number;
@@ -40,7 +52,8 @@ export interface User {
   documents_back: string | null;
   created_at: string;
   updated_at: string;
-  business_name:string;
+  business_name: string;
+  active_subscription?: ActiveSubscription | null;
 }
 
 // Role hierarchy and permissions

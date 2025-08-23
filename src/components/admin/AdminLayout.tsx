@@ -32,7 +32,7 @@ interface Site {
 }
 
 export function AdminLayout() {
-  const { user, planCheck } = useAuth();
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(true);
   const { toast } = useToast();
 
@@ -119,6 +119,22 @@ export function AdminLayout() {
       setLoading(false);
     }
   };
+
+  const calculateDaysRemaining = (endDate: string) => {
+    const today = new Date();
+    const expiry = new Date(endDate);
+    const diffTime = expiry.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert ms to days
+  };
+
+  const planCheck = user?.active_subscription
+    ? {
+        days_remaining: calculateDaysRemaining(
+          user.active_subscription.end_date
+        ),
+      }
+    : null;
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">

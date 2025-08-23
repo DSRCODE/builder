@@ -570,10 +570,28 @@ function AdminContent() {
       color: "text-indigo-500",
     },
   ];
+
+
   const [searchParams, setSearchParams] = useSearchParams();
-  const { user, planCheck } = useAuth();
-  const check = planCheck?.sites_remaining;
-  const planExpireCheck = planCheck?.days_remaining;
+  const { user } = useAuth();
+  const check = user?.active_subscription?.sites_limit;
+  const checkUser = user?.active_subscription?.users_limit;
+  // const planExpireCheck = planCheck?.days_remaining;
+
+    const calculateDaysRemaining = (endDate: string) => {
+      const today = new Date();
+      const expiry = new Date(endDate);
+      const diffTime = expiry.getTime() - today.getTime();
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert ms to days
+    };
+
+    const planExpireCheck = user?.active_subscription
+      ? {
+          days_remaining: calculateDaysRemaining(
+            user.active_subscription.end_date
+          ),
+        }
+      : null;
 
   // Tabs only visible to super_admin
   const superAdminOnlyTabs = [
@@ -2124,7 +2142,7 @@ function AdminContent() {
                 userFormData={userFormData}
                 handleUserInputChange={handleUserInputChange}
                 addUserMutation={addUserMutation}
-                check={check}
+                check={checkUser}
               />
             ) : selectedOption === "pricing-management" ? (
               <AddPricing
@@ -2302,7 +2320,7 @@ function AdminContent() {
         </h1>
       </div>
 
-      {planExpireCheck === 0 ? (
+      {planExpireCheck?.days_remaining === 0 ? (
         <div className="min-h-96 flex items-center justify-center bg-gray-50 p-4">
           <SubscriptionExpiredCard />
         </div>
