@@ -15,6 +15,7 @@ import { Building, Lock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import QRCode from "react-qr-code";
 import { useAuth } from "@/contexts/authContext";
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -32,7 +33,9 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [mfaToken, setMfaToken] = useState("");
-  const [stage, setStage] = useState<"login" | "mfa">("login");
+  const [stage, setStage] = useState<"login" | "enroll" | "mfa">("login");
+  const [barcodeUri, setBarcodeUri] = useState("");
+  const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -48,6 +51,8 @@ export function Login() {
       localStorage.setItem("auth_id", decoded.sub);
     }
   };
+
+  
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,17 +77,20 @@ export function Login() {
         realm: `Username-Password-Authentication`, // your database connection name
       });
       console.log(res);
-      if (res.data.mfa_required) {
-        setMfaToken(res.data.mfa_token);
-        setStage("mfa");
-      } else {
-        storeTokens(res.data);
-        toast({
-          title: "Login Successful",
-          description: "You have been signed in.",
-        });
-        navigate("/"); // or your protected route
-      }
+      // if (res.data.mfa_required && !res.data.mfa_enrollment_complete) {
+      //   setMfaToken(res.data.mfa_token);
+      //   await handleEnrollMfa(res.data.mfa_token); 
+      // } else if (res.data.mfa_required) {
+      //   setMfaToken(res.data.mfa_token);
+      //   setStage("mfa"); 
+      // } else {
+      //   storeTokens(res.data);
+      //   toast({
+      //     title: "Login Successful",
+      //     description: "You have been signed in.",
+      //   });
+      //   navigate("/");
+      // }
     } catch (err: any) {
       // toast({
       //   title: "Login Failed",
@@ -91,10 +99,34 @@ export function Login() {
       //   variant: "destructive",
       // });
       console.log(err.response?.data?.error_description || err);
-      setMfaToken(err.response?.data?.mfa_token);
-      setStage("mfa");
+      // setMfaToken(err.response?.data?.mfa_token);
+      await handleEnrollMfa(err.response?.data.mfa_token);
+      // setStage("mfa");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEnrollMfa = async (mfaToken:any) => {
+    try {
+      const res = await axios.post(
+        `https://${domain}/mfa/associate`,
+        { authenticator_types: ["otp"] },
+        { headers: { Authorization: `Bearer ${mfaToken}` } }
+      );
+      setBarcodeUri(res.data.barcode_uri);
+      setSecret(res.data.secret);
+      setMfaToken(mfaToken);
+      setStage("enroll");
+    } catch (err) {
+      // toast({
+      //   title: "MFA Enrollment Failed",
+      //   description:
+      //     err.response?.data?.error_description || "Could not enroll MFA.",
+      //   variant: "destructive",
+      // });
+      setMfaToken(mfaToken);
+      setStage("mfa");
     }
   };
 
@@ -126,11 +158,9 @@ export function Login() {
       });
 
       storeTokens(res.data);
-      // Retrieve auth_id from localStorage here
       const Id = localStorage.getItem("auth_id") || "";
       const [provider, auth_id] = Id.split("|") || [];
 
-      // Call your custom login with stored authId
       login(email, password, auth_id);
     } catch (err: any) {
       alert(
@@ -257,6 +287,30 @@ export function Login() {
                 </form>
               )}
 
+              {stage === "enroll" && (
+                <div className="space-y-6">
+                  <h2 className="text-xl text-center font-semibold">
+                    Scan this QR code to enable 2FA
+                  </h2>
+                  {barcodeUri && (
+                    <div className="flex flex-col items-center space-y-2">
+                      <QRCode value={barcodeUri} size={200} />
+
+                      <p className="text-xs break-all">
+                        Or enter manually:{" "}
+                        <span className="font-mono">{secret}</span>
+                      </p>
+                      <Button
+                        className="mt-8 w-full"
+                        onClick={() => setStage("mfa")}
+                      >
+                        Continue
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {stage === "mfa" && (
                 <>
                   <h2 className="text-center text-lg font-semibold mb-4">
@@ -267,7 +321,7 @@ export function Login() {
                     placeholder="6-digit code"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded"
+                    className="w-full text-black bg-white px-4 py-2 border border-gray-300 rounded"
                     disabled={loading}
                   />
                   <div className="mt-4">

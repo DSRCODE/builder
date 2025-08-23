@@ -72,7 +72,7 @@ const Pricing = () => {
       // The backend should respond with { order_id, amount, ... }
       const { order_id, amount, razorpay_key } = response.data;
 
-      console.log(response)
+      // console.log(response)
 
       openRazorpayCheckout({
         amount: amount / 100, // Razorpay returns amount in paise

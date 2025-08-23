@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useOwnerPaymentLogs } from "@/hooks/useOwnerPaymentLogs";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/authContext";
 
 interface WhatsAppReminderModalProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
   siteName,
 }) => {
   const { toast } = useToast();
+  const { user } = useAuth();
   const { t } = useTranslation();
   const [customMessage, setCustomMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -84,7 +86,7 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
       "owner.whatsapp_model.msg"
     )}${totalReceived.toLocaleString("en-IN")}. ${t(
       "owner.whatsapp_model.msg1"
-    )}`;
+    )}${user?.business_name}`;
   };
 
   // Initialize form data when modal opens

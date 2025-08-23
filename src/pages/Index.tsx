@@ -6,8 +6,20 @@ import About from "@/components/About";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollToPricing) {
+      const el = document.getElementById("pricing");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Navigation />
@@ -17,7 +29,7 @@ const Index = () => {
       <About />
       <Pricing />
       <Contact />
-      <Footer />  
+      <Footer />
     </div>
   );
 };
