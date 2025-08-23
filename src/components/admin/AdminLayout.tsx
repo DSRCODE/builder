@@ -164,21 +164,29 @@ export function AdminLayout() {
 
               {/* Subscription Expiry */}
               {user?.user_role !== "super_admin" &&
-                typeof planCheck?.days_remaining === "number" && (
+                user?.active_subscription && (
                   <span
                     className={`mt-0.5 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                      planCheck.days_remaining <= 0
+                      user.active_subscription.package_name === "Free"
+                        ? "bg-blue-100 text-blue-700"
+                        : planCheck?.days_remaining !== undefined &&
+                          planCheck.days_remaining <= 0
                         ? "bg-red-100 text-red-700"
-                        : planCheck.days_remaining <= 3
+                        : planCheck?.days_remaining !== undefined &&
+                          planCheck.days_remaining <= 3
                         ? "bg-red-100 text-red-700"
-                        : planCheck.days_remaining <= 7
+                        : planCheck?.days_remaining !== undefined &&
+                          planCheck.days_remaining <= 7
                         ? "bg-yellow-100 text-yellow-700"
                         : "bg-green-100 text-green-700"
                     }`}
                   >
-                    {planCheck.days_remaining <= 0
+                    {user.active_subscription.package_name === "Free"
+                      ? "You are on Free Plan"
+                      : planCheck?.days_remaining !== undefined &&
+                        planCheck.days_remaining <= 0
                       ? "Subscription expired"
-                      : `Subscription expires in ${planCheck.days_remaining} days`}
+                      : `Subscription expires in ${planCheck?.days_remaining} days`}
                   </span>
                 )}
             </div>
