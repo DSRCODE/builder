@@ -468,7 +468,7 @@ export function OwnerDetails() {
           onClose={handleReminderModalClose}
           owner={selectedOwnerForReminder}
           siteName={
-            getSiteInfo(selectedOwnerForReminder.site_id)?.name ||
+            getSiteInfo(selectedOwnerForReminder.site_id)?.site_name ||
             "Unknown Site"
           }
         />

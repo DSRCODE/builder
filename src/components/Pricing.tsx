@@ -46,7 +46,7 @@ interface PackagesResponse {
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
-    "monthly"
+    "yearly"
   );
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -59,15 +59,15 @@ const Pricing = () => {
       return;
     }
     try {
-       const formData = new FormData();
-       formData.append("package_id", pkg.id.toString());
-       formData.append("type", billingCycle);
+      const formData = new FormData();
+      formData.append("package_id", pkg.id.toString());
+      formData.append("type", billingCycle);
       // Send request to your backend to create a package order
       const response = await api.post("/package/create-order", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-    });
+      });
 
       // The backend should respond with { order_id, amount, ... }
       const { order_id, amount, razorpay_key } = response.data;
@@ -119,7 +119,8 @@ const Pricing = () => {
     const yearly = parseFloat(yearlyPrice);
     const savings = monthly - yearly;
     const percentage = (savings / monthly) * 100;
-    return { savings, percentage };
+    const month_price = yearly / 12;
+    return { savings, percentage, month_price };
   };
 
   const getMostPopularPackage = () => {
@@ -252,7 +253,7 @@ const Pricing = () => {
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span
+            {/* <span
               className={`text-sm ${
                 billingCycle === "monthly"
                   ? "text-primary font-medium"
@@ -260,8 +261,8 @@ const Pricing = () => {
               }`}
             >
               {t("pricing.monthly")}
-            </span>
-            <button
+            </span> */}
+            {/* <button
               onClick={() =>
                 setBillingCycle(
                   billingCycle === "monthly" ? "yearly" : "monthly"
@@ -276,7 +277,7 @@ const Pricing = () => {
                   billingCycle === "yearly" ? "translate-x-6" : "translate-x-1"
                 }`}
               />
-            </button>
+            </button> */}
             <span
               className={`text-sm ${
                 billingCycle === "yearly"
@@ -305,13 +306,14 @@ const Pricing = () => {
         >
           {packages.map((pkg, index) => {
             const isPopular = popularPackage?.id === pkg.id;
-            const { savings, percentage } = calculateYearlySavings(
+            const { savings, percentage, month_price } = calculateYearlySavings(
               pkg.monthly_price,
               pkg.yearly_price
             );
             const currentPrice =
               billingCycle === "monthly" ? pkg.monthly_price : pkg.yearly_price;
             const priceLabel = billingCycle === "monthly" ? "/month" : "/year";
+
             console.log(isPopular);
             return (
               <motion.div
@@ -345,7 +347,10 @@ const Pricing = () => {
                     <div className="mt-4">
                       <div className="flex items-baseline justify-center gap-1">
                         <span className="text-4xl font-bold">
-                          ₹{formatPrice(currentPrice)}
+                          ₹{formatPrice(currentPrice)} <br />
+                          <span className="text-sm font-medium">
+                            {month_price}/month
+                          </span>
                         </span>
                         <span className="text-muted-foreground">
                           {priceLabel}

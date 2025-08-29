@@ -30,6 +30,7 @@ const AddManageSite = ({
   handleSiteInputChange,
   addSiteMutation,
   check,
+  businessesData,
 }) => {
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
   const { t } = useTranslation();
@@ -40,6 +41,9 @@ const AddManageSite = ({
       setIsAddSiteModalOpen(true);
     }
   };
+
+  const businesses_sites = businessesData?.data;
+  console.log(businesses_sites);
 
   return (
     <>
@@ -81,6 +85,30 @@ const AddManageSite = ({
           </DialogHeader>
 
           <form onSubmit={handleAddSiteSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="business_id">
+                {t("admin.addsite.form.n0.t")}
+              </Label>
+              <Select
+                // id="business_id"
+                value={siteFormData.business_id}
+                onValueChange={(value) =>
+                  handleSiteInputChange("business_id", value)
+                }
+                required
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={t("admin.addsite.form.n0.p")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {businesses_sites?.map((site: any) => (
+                    <SelectItem key={site.id} value={site.id.toString()}>
+                      {site.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="site_name">

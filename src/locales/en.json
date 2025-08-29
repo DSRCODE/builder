@@ -1376,6 +1376,10 @@
       "title": "Add New Construction Site",
       "subtitle": " Create a new construction site with all the necessary details",
       "form": {
+        "n0": {
+          "t": "Business Name *",
+          "p": "Select bussiness name"
+        },
         "n1": {
           "t": "Site Name *",
           "p": "Enter site name"

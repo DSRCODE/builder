@@ -9,6 +9,14 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
+
+const HOST = import.meta.env.VITE_EMAIL_HOST;
+const USERNAME = import.meta.env.VITE_EMAIL_USERNAME;
+const PASSWORD = import.meta.env.VITE_EMAIL_PASSWORD;
+const TO = import.meta.env.VITE_EMAIL_TO;
+const FROM = import.meta.env.VITE_EMAIL_FROM;
+declare const Email: any;
+
 const Contact = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
@@ -72,23 +80,44 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      await Email.send({
+        Host: HOST,
+        Username: USERNAME,
+        Password: PASSWORD,
+        To: TO,
+        From: FROM,
+        Subject: "New Contact Form Submission",
+        Body: `
+        Name: ${formData.name} <br/>
+        Email: ${formData.email} <br/>
+        Phone: ${formData.phone} <br/>
+        Company: ${formData.company} <br/>
+        Message: ${formData.message}
+      `,
+      });
+
       toast({
         title: "Message Sent Successfully!",
         description:
           "Thank you for contacting D Buildz. We'll get back to you within 24 hours.",
       });
+
       setFormData({
         name: "",
         email: "",
         phone: "",
         company: "",
-        // projectType: "",
         message: "",
       });
+    } catch (error) {
+      toast({
+        title: "Failed to send message",
+        description: "Please try again later.",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   const isFormValid = formData.name && formData.email && formData.message;

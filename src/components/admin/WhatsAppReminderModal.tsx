@@ -41,6 +41,7 @@ export const WhatsAppReminderModal: React.FC<WhatsAppReminderModalProps> = ({
   owner,
   siteName,
 }) => {
+  console.log(siteName)
   const { toast } = useToast();
   const { user } = useAuth();
   const { t } = useTranslation();

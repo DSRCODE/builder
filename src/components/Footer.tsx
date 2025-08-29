@@ -69,7 +69,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         {/* Main Footer Content */}
         <div className="py-16">
-          <div className="grid lg:grid-cols-4 gap-12">
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* Company Info */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -125,7 +125,7 @@ const Footer = () => {
             </motion.div>
 
             {/* Company Links */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -146,7 +146,7 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </motion.div> */}
 
             {/* Newsletter Signup */}
             <motion.div

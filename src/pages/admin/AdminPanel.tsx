@@ -663,7 +663,7 @@ function AdminContent() {
     null
   );
   const [siteFormData, setSiteFormData] = useState<SiteFormData>({
-    business_id: "1", // Default business ID
+    business_id: "", 
     site_name: "",
     address: "",
     currency: "₹",
@@ -2124,6 +2124,7 @@ function AdminContent() {
                 handleSiteInputChange={handleSiteInputChange}
                 addSiteMutation={addSiteMutation}
                 check={check}
+                businessesData={businessesData}
               />
             ) : selectedOption === "manage-businesses" ? (
               <AddManageBusiness
