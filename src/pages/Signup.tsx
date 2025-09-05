@@ -20,6 +20,7 @@ export function Register() {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [authid, setAuthid] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -94,6 +95,15 @@ export function Register() {
       });
       return;
     }
+    // terms and conditions check
+    if (!acceptedTerms) {
+      toast({
+        title: "Terms Not Accepted",
+        description: "Please accept the terms and conditions to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
     // Password validation
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
     if (!passwordRegex.test(form.password)) {
@@ -105,6 +115,7 @@ export function Register() {
       });
       return;
     }
+
     register(form);
   };
 
@@ -210,6 +221,35 @@ export function Register() {
                 onChange={handleChange}
               />
             </div>
+            <div className="flex items-center space-x-2 pt-2">
+              <input
+                type="checkbox"
+                id="accepted_terms"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+              />
+              <Label
+                htmlFor="accepted_terms"
+                className="cursor-pointer text-sm"
+              >
+                I accept the{" "}
+                <a
+                  href="/terms"
+                  target="_blank"
+                  className="text-primary underline"
+                >
+                  Terms and Conditions
+                </a>{" "}
+                &{" "}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  className="text-primary underline"
+                >
+                  privacy policy
+                </a>
+              </Label>
+            </div>
           </>
         );
       default:
@@ -277,7 +317,7 @@ export function Register() {
                     </Button>
                   )}
                 </div>
-
+                <div></div>
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}

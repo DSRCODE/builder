@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-
+import api from "@/lib/api";
 
 const HOST = import.meta.env.VITE_EMAIL_HOST;
 const USERNAME = import.meta.env.VITE_EMAIL_USERNAME;
@@ -24,7 +24,6 @@ const Contact = () => {
     email: "",
     phone: "",
     company: "",
-    // projectType: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,28 +80,27 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      await Email.send({
-        Host: HOST,
-        Username: USERNAME,
-        Password: PASSWORD,
-        To: TO,
-        From: FROM,
-        Subject: "New Contact Form Submission",
-        Body: `
-        Name: ${formData.name} <br/>
-        Email: ${formData.email} <br/>
-        Phone: ${formData.phone} <br/>
-        Company: ${formData.company} <br/>
-        Message: ${formData.message}
-      `,
-      });
+      // Create FormData instance
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("email", formData.email);
+      fd.append("phone", formData.phone);
+      fd.append("company", formData.company);
+      fd.append("message", formData.message);
 
+      const response = await api.post("/contact-submit", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+console.log(response)
       toast({
         title: "Message Sent Successfully!",
         description:
           "Thank you for contacting D Buildz. We'll get back to you within 24 hours.",
       });
 
+      // Reset form
       setFormData({
         name: "",
         email: "",

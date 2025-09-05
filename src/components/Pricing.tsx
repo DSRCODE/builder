@@ -349,7 +349,7 @@ const Pricing = () => {
                         <span className="text-4xl font-bold">
                           ₹{formatPrice(currentPrice)} <br />
                           <span className="text-sm font-medium">
-                            {month_price}/month
+                            ₹{month_price.toFixed(2)}/month
                           </span>
                         </span>
                         <span className="text-muted-foreground">

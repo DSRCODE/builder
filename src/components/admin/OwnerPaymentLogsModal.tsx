@@ -477,9 +477,9 @@ export const OwnerPaymentLogsModal: React.FC<OwnerPaymentLogsModalProps> = ({
               ) : payments.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <IndianRupee className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>{t("owner.paymnetlog.payment_not_found")}</p>
+                  <p>{t("owner.paymentlog.payment_not_found")}</p>
                   <p className="text-sm">
-                    {t("owner.paymnetlog.add_payment_not_found")}
+                    {t("owner.paymentlog.add_payment_not_found")}
                   </p>
                 </div>
               ) : (
